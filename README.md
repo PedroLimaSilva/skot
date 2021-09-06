@@ -1,0 +1,2 @@
+# meta-ide
+Structural IDE

@@ -23,8 +23,8 @@ export class Input extends React.PureComponent {
     this.ref.current.focus();
   }
 
-  getSnapshotBeforeUpdate(prevProps){
-    if(!prevProps.isFocused && this.props.isFocused){
+  getSnapshotBeforeUpdate(prevProps) {
+    if (!prevProps.isFocused && this.props.isFocused) {
       this.ref.current.focus();
     }
     return null;
@@ -79,13 +79,14 @@ export class Input extends React.PureComponent {
 
   handleKey = (e) => {
     if (this.props.isFocused) {
-      e.stopPropagation();
       const { text, indicatorPosition } = this.state;
 
       if (isCharacter(e)) {
         this.handleCharacter(e);
+        e.stopPropagation();
       } else if (isBackspace(e)) {
         this.handleBackSpace();
+        e.stopPropagation();
       } else if (isHorizontalArrow(e)) {
         const direction = getHorizontalDirection(e);
 
@@ -96,8 +97,10 @@ export class Input extends React.PureComponent {
             text.length
           ),
         });
+        e.stopPropagation();
       } else if (isEnter(e)) {
         this.props.handleEnter();
+        e.stopPropagation();
       }
     }
   };

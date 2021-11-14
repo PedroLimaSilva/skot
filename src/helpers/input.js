@@ -10,13 +10,24 @@ export function isHorizontalArrow(event) {
   return event.code === 'ArrowLeft' || event.code === 'ArrowRight';
 }
 
-export function isEnter(event){
-  return event.code === "Enter";
+export function isVerticalArrow(event) {
+  return event.code === 'ArrowUp' || event.code === 'ArrowDown';
+}
+
+export function isEnter(event) {
+  return event.code === 'Enter';
 }
 
 export function getHorizontalDirection(event) {
   if (isHorizontalArrow(event)) {
     return event.code === 'ArrowLeft' ? -1 : 1;
+  }
+  return 0;
+}
+
+export function getVerticalDirection(event) {
+  if (isVerticalArrow(event)) {
+    return event.code === 'ArrowUp' ? -1 : 1;
   }
   return 0;
 }

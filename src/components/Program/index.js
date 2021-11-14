@@ -1,4 +1,5 @@
 import React from 'react';
+import { getVerticalDirection, isVerticalArrow } from '../../helpers/input';
 
 import { clamp } from '../../helpers/math';
 
@@ -49,6 +50,19 @@ class Program extends React.PureComponent {
     });
   }
 
+  handleKey(event) {
+    const direction = getVerticalDirection(event);
+    if (direction) {
+      this.setState({
+        focusedStatement: clamp(
+          this.state.focusedStatement + direction,
+          0,
+          this.state.statements.length
+        ),
+      });
+    }
+  }
+
   handleClick(index) {
     this.setState({
       focusedStatement: index,
@@ -76,7 +90,12 @@ class Program extends React.PureComponent {
   };
 
   render() {
-    return <div className='Program'>{this.renderStatements()}</div>;
+    console.log(this.state);
+    return (
+      <div className='Program' onKeyDown={(e) => this.handleKey(e)}>
+        {this.renderStatements()}
+      </div>
+    );
   }
 }
 

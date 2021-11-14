@@ -1,0 +1,21 @@
+.Input {
+  position: relative;
+  &-cursor {
+    position: absolute;
+    display: inline-block;
+    color: blue;
+    font-size: 1.2em;
+    animation: blink-cursor infinite 0.5s alternate;
+    margin-left: -5px;
+    margin-top: -4px;
+  }
+}
+
+@keyframes blink-cursor {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

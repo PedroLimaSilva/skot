@@ -10,6 +10,10 @@ export function isHorizontalArrow(event) {
   return event.code === 'ArrowLeft' || event.code === 'ArrowRight';
 }
 
+export function isEnter(event){
+  return event.code === "Enter";
+}
+
 export function getHorizontalDirection(event) {
   if (isHorizontalArrow(event)) {
     return event.code === 'ArrowLeft' ? -1 : 1;
@@ -20,7 +24,7 @@ export function getHorizontalDirection(event) {
 export function getSelection() {
   const selection = document.getSelection();
 
-  const text = selection.focusNode.textContent.substring(
+  const text = selection?.focusNode?.textContent.substring(
     selection.baseOffset,
     selection.extentOffset
   );

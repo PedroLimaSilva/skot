@@ -1,13 +1,15 @@
-import { Input } from './components/Input';
-
 import './App.scss';
+import React from 'react';
+import Program from './components/Program';
 
-function App() {
-  return (
-    <div className='App'>
-      <Input />
-    </div>
-  );
+class App extends React.PureComponent {
+  render() {
+    return (
+      <div className='App'>
+        <Program />
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,0 +1,83 @@
+import React from 'react';
+
+import { clamp } from '../../helpers/math';
+
+import { Input } from '../Input';
+
+class Program extends React.PureComponent {
+  state = {
+    statements: [
+      { type: 'Input', key: new Date().getTime() },
+      { type: 'Input', key: new Date().getTime() + 1 },
+    ],
+    focusedStatement: 0,
+  };
+
+  componentDidMount() {
+    this.setState({ focusedStatement: this.state.statements.length - 1 });
+  }
+
+  removeStatement(key) {
+    const { statements } = this.state;
+
+    const newStatements = [...statements];
+    const index = newStatements.findIndex((e) => e.key === key);
+
+    if (index !== -1) {
+      newStatements.splice(index, 1);
+
+      this.setState({
+        statements: newStatements,
+        focusedStatement: clamp(index, 0, newStatements.length - 1),
+      });
+    }
+  }
+
+  handleEnter(index) {
+    const { statements } = this.state;
+
+    const newStatements = [...statements];
+
+    newStatements.splice(index + 1, 0, {
+      type: 'Input',
+      key: new Date().getTime(),
+    });
+
+    this.setState({
+      statements: newStatements,
+      focusedStatement: index + 1,
+    });
+  }
+
+  handleClick(index) {
+    this.setState({
+      focusedStatement: index,
+    });
+  }
+
+  renderStatements = () => {
+    return this.state.statements.map((statement, index) => {
+      switch (statement.type) {
+        case 'Input': {
+          return (
+            <Input
+              key={`s_${statement.key}`}
+              removeSelf={() => this.removeStatement(statement.key)}
+              handleEnter={() => this.handleEnter(index)}
+              handleClick={() => this.handleClick(index)}
+              isFocused={this.state.focusedStatement === index}
+            />
+          );
+        }
+        default:
+          throw new Error('Unknown statement component', statement);
+      }
+    });
+  };
+
+  render() {
+    return <div className='Program'>{this.renderStatements()}</div>;
+  }
+}
+
+export default Program;

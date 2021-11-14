@@ -1,9 +1,11 @@
+import classNames from 'classnames';
 import React from 'react';
 import {
   getHorizontalDirection,
   getSelection,
   isBackspace,
   isCharacter,
+  isEnter,
   isHorizontalArrow,
 } from '../../helpers/input';
 import { clamp } from '../../helpers/math';
@@ -19,19 +21,22 @@ export class Input extends React.PureComponent {
 
   componentDidMount() {
     this.ref.current.focus();
-    this.ref.current.addEventListener('keydown', this.handleKey.bind(this));
   }
 
-  componentWillUnmount() {
-    this.ref.current.removeEventListener('keydown', this.handleKey.bind(this));
+  getSnapshotBeforeUpdate(prevProps){
+    if(!prevProps.isFocused && this.props.isFocused){
+      this.ref.current.focus();
+    }
+    return null;
   }
-
-  handleClick = (e) => {
-    this.ref.current.focus();
-  };
 
   handleBackSpace() {
     const { text, indicatorPosition } = this.state;
+
+    if (text === '') {
+      this.props.removeSelf();
+    }
+
     const selection = getSelection();
 
     if (selection.text !== '' && text.includes(selection.text)) {
@@ -53,6 +58,7 @@ export class Input extends React.PureComponent {
 
   handleCharacter(e) {
     const { text, indicatorPosition } = this.state;
+
     const selection = getSelection();
 
     if (selection.text !== '' && text.includes(selection.text)) {
@@ -71,31 +77,39 @@ export class Input extends React.PureComponent {
     }
   }
 
-  handleKey(e) {
-    e.preventDefault();
+  handleKey = (e) => {
+    if (this.props.isFocused) {
+      e.stopPropagation();
+      const { text, indicatorPosition } = this.state;
 
-    const { text, indicatorPosition } = this.state;
+      if (isCharacter(e)) {
+        this.handleCharacter(e);
+      } else if (isBackspace(e)) {
+        this.handleBackSpace();
+      } else if (isHorizontalArrow(e)) {
+        const direction = getHorizontalDirection(e);
 
-    if (isCharacter(e)) {
-      this.handleCharacter(e);
-    } else if (isBackspace(e)) {
-      this.handleBackSpace();
-    } else if (isHorizontalArrow(e)) {
-      const direction = getHorizontalDirection(e);
-
-      this.setState({
-        indicatorPosition: clamp(indicatorPosition + direction, 0, text.length),
-      });
+        this.setState({
+          indicatorPosition: clamp(
+            indicatorPosition + direction,
+            0,
+            text.length
+          ),
+        });
+      } else if (isEnter(e)) {
+        this.props.handleEnter();
+      }
     }
-  }
+  };
 
   render() {
     return (
       <div
-        className='Input'
+        className={classNames('Input', { focused: this.props.isFocused })}
         ref={this.ref}
+        onClick={this.props.handleClick}
+        onKeyDown={this.handleKey}
         tabIndex='0'
-        onClick={this.handleClick}
       >
         {this.state.text}
         <div

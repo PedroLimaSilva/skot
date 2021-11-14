@@ -1,13 +1,25 @@
 .Input {
   position: relative;
+  height: 1.8em;
+  padding: 0.2em;
+
   &-cursor {
     position: absolute;
     display: inline-block;
     color: blue;
     font-size: 1.2em;
-    animation: blink-cursor infinite 0.5s alternate;
     margin-left: -5px;
     margin-top: -4px;
+    visibility: hidden;
+  }
+
+  &.focused {
+    background-color: rgba($color: cyan, $alpha: 0.2);
+
+    .Input-cursor {
+      visibility: visible;
+      animation: blink-cursor infinite 0.5s alternate;
+    }
   }
 }
 

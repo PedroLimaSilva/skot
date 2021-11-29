@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getVerticalDirection } from '../../helpers/input';
 import { clamp } from '../../helpers/math';
+import { FunctionBlock } from '../functionBlock';
 
 import { IfClause } from '../IfClause';
 import { Input } from '../Input';
@@ -109,6 +110,18 @@ class Program extends React.PureComponent {
         case 'IfClause': {
           return (
             <IfClause
+              key={`s_${statement.id}`}
+              id={`s_${statement.id}`}
+              removeSelf={() => this.removeStatement(statement.id)}
+              handleClick={(e) => this.handleClick(e, index)}
+              handleEnter={() => this.handleEnter(index)}
+              isFocused={this.props.isFocused && focusedStatement === index}
+            />
+          );
+        }
+        case 'FunctionBlock': {
+          return (
+            <FunctionBlock
               key={`s_${statement.id}`}
               id={`s_${statement.id}`}
               removeSelf={() => this.removeStatement(statement.id)}

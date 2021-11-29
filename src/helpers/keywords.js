@@ -3,6 +3,9 @@ export function getPossibleKeyword(text) {
     case 'if': {
       return 'IfClause';
     }
+    case 'fun': {
+      return 'FunctionBlock';
+    }
     default: {
       return null;
     }

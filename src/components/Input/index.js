@@ -108,7 +108,7 @@ export class Input extends React.PureComponent {
   render() {
     return (
       <div
-        className={classNames('Input', { focused: this.props.isFocused })}
+        className={classNames('Input', { focused: this.props.isFocused }, this.props.className)}
         ref={this.ref}
         onClick={this.props.handleClick}
         onKeyDown={this.handleKey}

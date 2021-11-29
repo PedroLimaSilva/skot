@@ -2,6 +2,7 @@
   position: relative;
   height: 1.8em;
   padding: 0.2em;
+  background-color: rgba($color: cyan, $alpha: 0.2);
 
   &-cursor {
     position: absolute;
@@ -13,8 +14,13 @@
     visibility: hidden;
   }
 
+  &.inline {
+    display: inline-block;
+    min-width: 2em;
+  }
+
   &.focused {
-    background-color: rgba($color: cyan, $alpha: 0.2);
+    background-color: rgba($color: cyan, $alpha: 0.5);
 
     .Input-cursor {
       visibility: visible;

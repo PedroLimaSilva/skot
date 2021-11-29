@@ -1,28 +1,33 @@
 import React from 'react';
-import { getVerticalDirection, isVerticalArrow } from '../../helpers/input';
 
+import { getVerticalDirection } from '../../helpers/input';
 import { clamp } from '../../helpers/math';
 
+import { IfClause } from '../IfClause';
 import { Input } from '../Input';
+
+import './index.scss';
 
 class Program extends React.PureComponent {
   state = {
-    statements: [
-      { type: 'Input', key: new Date().getTime() },
-      { type: 'Input', key: new Date().getTime() + 1 },
-    ],
+    // does a child have the focus
+    isFocused: true,
+    statements: [],
     focusedStatement: 0,
   };
 
   componentDidMount() {
-    this.setState({ focusedStatement: this.state.statements.length - 1 });
+    this.setState({
+      statements: this.props.initialStatements,
+      focusedStatement: this.props.initialStatements?.length - 1 || 0,
+    });
   }
 
-  removeStatement(key) {
+  removeStatement(id) {
     const { statements } = this.state;
 
     const newStatements = [...statements];
-    const index = newStatements.findIndex((e) => e.key === key);
+    const index = newStatements.findIndex((e) => e.id === id);
 
     if (index !== -1) {
       newStatements.splice(index, 1);
@@ -63,23 +68,35 @@ class Program extends React.PureComponent {
     }
   }
 
-  handleClick(index) {
+  handleClick(e, index) {
     this.setState({
       focusedStatement: index,
     });
   }
 
   renderStatements = () => {
-    return this.state.statements.map((statement, index) => {
+    const { statements, focusedStatement } = this.state;
+    return statements?.map((statement, index) => { 
       switch (statement.type) {
         case 'Input': {
           return (
             <Input
-              key={`s_${statement.key}`}
-              removeSelf={() => this.removeStatement(statement.key)}
+              key={`s_${statement.id}`}
+              removeSelf={() => this.removeStatement(statement.id)}
               handleEnter={() => this.handleEnter(index)}
-              handleClick={() => this.handleClick(index)}
-              isFocused={this.state.focusedStatement === index}
+              handleClick={(e) => this.handleClick(e, index)}
+              isFocused={this.props.isFocused && focusedStatement === index}
+            />
+          );
+        }
+        case 'IfClause': {
+          return (
+            <IfClause
+              key={`s_${statement.id}`}
+              id={`s_${statement.id}`}
+              removeSelf={() => this.removeStatement(statement.id)}
+              handleClick={(e) => this.handleClick(e, index)}
+              isFocused={this.props.isFocused && focusedStatement === index}
             />
           );
         }
@@ -90,7 +107,6 @@ class Program extends React.PureComponent {
   };
 
   render() {
-    console.log(this.state);
     return (
       <div className='Program' onKeyDown={(e) => this.handleKey(e)}>
         {this.renderStatements()}

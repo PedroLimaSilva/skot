@@ -6,7 +6,14 @@ class App extends React.PureComponent {
   render() {
     return (
       <div className='App'>
-        <Program />
+        <Program
+          id='FileRootProgram'
+          isFocused={true}
+          initialStatements={[
+            { type: 'Input', id: new Date().getTime() },
+            { type: 'IfClause', id: new Date().getTime() + 1 },
+          ]}
+        />
       </div>
     );
   }

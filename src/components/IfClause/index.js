@@ -23,6 +23,7 @@ export class IfClause extends React.PureComponent {
             removeSelf={this.props.removeSelf}
             className='inline'
             isFocused={this.props.isFocused && focusedIndex === 0}
+            handleEnter={this.props.handleEnter}
             onClick={() => this.handleInputClick(0)}
           />
           <span>) {'{'}</span>
@@ -32,7 +33,7 @@ export class IfClause extends React.PureComponent {
             id={'IfClauseBody_' + this.props.id}
             isFocused={this.props.isFocused && focusedIndex === 1}
             initialStatements={[
-              { type: 'Input', id: this.props.id + new Date().getTime() },
+              { type: 'Input', id: 'IfClauseBody_' + this.props.id + new Date().getTime() },
             ]}
           />
         </div>

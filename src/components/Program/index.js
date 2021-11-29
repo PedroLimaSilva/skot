@@ -46,7 +46,7 @@ class Program extends React.PureComponent {
 
     newStatements.splice(index + 1, 0, {
       type: 'Input',
-      key: new Date().getTime(),
+      id: this.props.id + new Date().getTime(),
     });
 
     this.setState({
@@ -96,6 +96,7 @@ class Program extends React.PureComponent {
               id={`s_${statement.id}`}
               removeSelf={() => this.removeStatement(statement.id)}
               handleClick={(e) => this.handleClick(e, index)}
+              handleEnter={() => this.handleEnter(index)}
               isFocused={this.props.isFocused && focusedStatement === index}
             />
           );

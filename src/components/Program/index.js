@@ -68,6 +68,22 @@ class Program extends React.PureComponent {
     }
   }
 
+  handleKeywordTyped(index, keyword){
+    const { statements } = this.state;
+
+    const newStatements = [...statements];
+
+    newStatements.splice(index, 1, {
+      type: keyword,
+      id: this.props.id + new Date().getTime(),
+    });
+
+    this.setState({
+      statements: newStatements,
+      focusedStatement: index,
+    });
+  }
+
   handleClick(e, index) {
     this.setState({
       focusedStatement: index,
@@ -86,6 +102,7 @@ class Program extends React.PureComponent {
               handleEnter={() => this.handleEnter(index)}
               handleClick={(e) => this.handleClick(e, index)}
               isFocused={this.props.isFocused && focusedStatement === index}
+              onKeywordTyped={(keyword) => this.handleKeywordTyped(index, keyword)}
             />
           );
         }

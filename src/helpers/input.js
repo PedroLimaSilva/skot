@@ -18,6 +18,10 @@ export function isEnter(event) {
   return event.code === 'Enter';
 }
 
+export function isTab(event) {
+  return event.code === 'Tab';
+}
+
 export function getHorizontalDirection(event) {
   if (isHorizontalArrow(event)) {
     return event.code === 'ArrowLeft' ? -1 : 1;

@@ -1,4 +1,8 @@
 import React from 'react';
+
+import { getVerticalDirection } from '../../helpers/input';
+import { clamp } from '../../helpers/math';
+
 import { Input } from '../Input';
 import Program from '../Program';
 
@@ -13,10 +17,29 @@ export class IfClause extends React.PureComponent {
     this.setState({ focusedIndex: index });
   }
 
+  handleKeydown(e) {
+    const direction = getVerticalDirection(e);
+    if (direction) {
+      const newIndex = clamp(this.state.focusedIndex + direction, 0, 1);
+      if (this.state.focusedIndex !== newIndex) {
+        e.stopPropagation();
+      }
+      this.setState({
+        focusedIndex: newIndex,
+      });
+    }
+  }
+
   render() {
     const { focusedIndex } = this.state;
     return (
-      <div className='IfClause' onClick={this.props.handleClick}>
+      <div
+        className='IfClause'
+        onClick={this.props.handleClick}
+        onKeyDown={(e) => {
+          this.handleKeydown(e);
+        }}
+      >
         <div className='header' onClick={() => this.handleInputClick(0)}>
           <span>if (</span>
           <Input
@@ -33,7 +56,10 @@ export class IfClause extends React.PureComponent {
             id={'IfClauseBody_' + this.props.id}
             isFocused={this.props.isFocused && focusedIndex === 1}
             initialStatements={[
-              { type: 'Input', id: 'IfClauseBody_' + this.props.id + new Date().getTime() },
+              {
+                type: 'Input',
+                id: 'IfClauseBody_' + this.props.id + new Date().getTime(),
+              },
             ]}
           />
         </div>

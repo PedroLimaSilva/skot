@@ -7,7 +7,9 @@ import {
   isCharacter,
   isEnter,
   isHorizontalArrow,
+  isTab,
 } from '../../helpers/input';
+import { getPossibleKeyword } from '../../helpers/keywords';
 import { clamp } from '../../helpers/math';
 
 import './index.scss';
@@ -58,7 +60,6 @@ export class Input extends React.PureComponent {
 
   handleCharacter(e) {
     const { text, indicatorPosition } = this.state;
-
     const selection = getSelection();
 
     if (selection.text !== '' && text.includes(selection.text)) {
@@ -78,6 +79,8 @@ export class Input extends React.PureComponent {
   }
 
   handleKey = (e) => {
+    e.preventDefault();
+    console.log(e);
     if (this.props.isFocused) {
       const { text, indicatorPosition } = this.state;
 
@@ -98,9 +101,16 @@ export class Input extends React.PureComponent {
           ),
         });
         e.stopPropagation();
-      } else if (isEnter(e)) {
-        this.props.handleEnter();
-        e.stopPropagation();
+      } else if (isEnter(e) || isTab(e)) {
+        const possibleKeyword = getPossibleKeyword(this.state.text);
+        if (possibleKeyword) {
+          this.props.onKeywordTyped(possibleKeyword);
+        } else {
+          if (isEnter(e)) {
+            this.props.handleEnter();
+            e.stopPropagation();
+          }
+        }
       }
     }
   };
@@ -108,7 +118,11 @@ export class Input extends React.PureComponent {
   render() {
     return (
       <div
-        className={classNames('Input', { focused: this.props.isFocused }, this.props.className)}
+        className={classNames(
+          'Input',
+          { focused: this.props.isFocused },
+          this.props.className
+        )}
         ref={this.ref}
         onClick={this.props.handleClick}
         onKeyDown={this.handleKey}

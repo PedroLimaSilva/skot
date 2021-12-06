@@ -4,7 +4,7 @@ import { getHorizontalDirection, getVerticalDirection } from '../../helpers/inpu
 import { clamp } from '../../helpers/math';
 
 import { Input } from '../Input';
-import Program from '../Program';
+import StatementBlock from '../StatementBlock';
 
 import './index.scss';
 
@@ -61,7 +61,7 @@ export class FunctionBlock extends React.PureComponent {
           <span>) {'{'}</span>
         </div>
         <div onClick={() => this.handleInputClick(2)}>
-          <Program
+          <StatementBlock
             id={'FunctionBlockBody_' + this.props.id}
             isFocused={this.props.isFocused && focusedIndex === 2}
             initialStatements={[

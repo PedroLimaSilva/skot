@@ -9,7 +9,7 @@ import { Input } from '../Input';
 
 import './index.scss';
 
-class Program extends React.PureComponent {
+class StatementBlock extends React.PureComponent {
   state = {
     // does a child have the focus
     isFocused: true,
@@ -33,6 +33,12 @@ class Program extends React.PureComponent {
     if (index !== -1) {
       newStatements.splice(index, 1);
 
+      if (newStatements.length === 0) {
+        newStatements.push({
+          type: 'Input',
+          id: this.props.id + new Date().getTime(),
+        });
+      }
       this.setState({
         statements: newStatements,
         focusedStatement: clamp(index, 0, newStatements.length - 1),
@@ -69,20 +75,35 @@ class Program extends React.PureComponent {
     }
   }
 
-  handleKeywordTyped(index, keyword){
-    const { statements } = this.state;
+  handleKeywordTyped(index, keyword) {
+    const { allowedStatements } = this.props;
 
-    const newStatements = [...statements];
+    if (!allowedStatements || allowedStatements[keyword]) {
+      const { statements } = this.state;
 
-    newStatements.splice(index, 1, {
-      type: keyword,
-      id: this.props.id + new Date().getTime(),
-    });
+      const newStatements = [...statements];
 
-    this.setState({
-      statements: newStatements,
-      focusedStatement: index,
-    });
+      // delete current input
+      newStatements.splice(index, 1, {
+        type: 'Input',
+        id: this.props.id + (new Date().getTime() + 1),
+      });
+      // add typed statement in front of it
+      newStatements.splice(index + 1, 0, {
+        type: keyword,
+        id: this.props.id + (new Date().getTime() + 2),
+      });
+      // add new input in front
+      newStatements.splice(index + 2, 0, {
+        type: 'Input',
+        id: this.props.id + (new Date().getTime() + 3),
+      });
+
+      this.setState({
+        statements: newStatements,
+        focusedStatement: index,
+      });
+    }
   }
 
   handleClick(e, index) {
@@ -93,7 +114,7 @@ class Program extends React.PureComponent {
 
   renderStatements = () => {
     const { statements, focusedStatement } = this.state;
-    return statements?.map((statement, index) => { 
+    return statements?.map((statement, index) => {
       switch (statement.type) {
         case 'Input': {
           return (
@@ -103,7 +124,9 @@ class Program extends React.PureComponent {
               handleEnter={() => this.handleEnter(index)}
               handleClick={(e) => this.handleClick(e, index)}
               isFocused={this.props.isFocused && focusedStatement === index}
-              onKeywordTyped={(keyword) => this.handleKeywordTyped(index, keyword)}
+              onKeywordTyped={(keyword) =>
+                this.handleKeywordTyped(index, keyword)
+              }
             />
           );
         }
@@ -146,4 +169,4 @@ class Program extends React.PureComponent {
   }
 }
 
-export default Program;
+export default StatementBlock;

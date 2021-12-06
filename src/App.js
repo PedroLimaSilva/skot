@@ -1,18 +1,22 @@
 import './App.scss';
 import React from 'react';
-import Program from './components/Program';
+import StatementBlock from './components/StatementBlock';
 
 class App extends React.PureComponent {
   render() {
     return (
       <div className='App'>
-        <Program
+        <StatementBlock
           id='FileRootProgram'
           isFocused={true}
           initialStatements={[
             { type: 'Input', id: new Date().getTime() },
             { type: 'IfClause', id: new Date().getTime() + 1 },
           ]}
+          allowedStatements={{
+            Input: true,
+            FunctionBlock: true,
+          }}
         />
       </div>
     );

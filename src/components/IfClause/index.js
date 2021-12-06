@@ -4,7 +4,7 @@ import { getVerticalDirection } from '../../helpers/input';
 import { clamp } from '../../helpers/math';
 
 import { Input } from '../Input';
-import Program from '../Program';
+import StatementBlock from '../StatementBlock';
 
 import './index.scss';
 
@@ -52,7 +52,7 @@ export class IfClause extends React.PureComponent {
           <span>) {'{'}</span>
         </div>
         <div onClick={() => this.handleInputClick(1)}>
-          <Program
+          <StatementBlock
             id={'IfClauseBody_' + this.props.id}
             isFocused={this.props.isFocused && focusedIndex === 1}
             initialStatements={[
@@ -61,6 +61,10 @@ export class IfClause extends React.PureComponent {
                 id: 'IfClauseBody_' + this.props.id + new Date().getTime(),
               },
             ]}
+            allowedStatements={{
+              FunctionBlock: false,
+              IfStatement: true,
+            }}
           />
         </div>
         <div>

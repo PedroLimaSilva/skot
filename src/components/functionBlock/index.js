@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { getHorizontalDirection, getVerticalDirection } from '../../helpers/input';
+import {
+  getHorizontalDirection,
+  getVerticalDirection,
+} from '../../helpers/input';
 import { clamp } from '../../helpers/math';
 
 import { Input } from '../Input';
@@ -41,24 +44,28 @@ export class FunctionBlock extends React.PureComponent {
           this.handleKeydown(e);
         }}
       >
-        <div className='header' onClick={() => this.handleInputClick(0)}>
-          <span>fun </span>
-          <Input
-            removeSelf={this.props.removeSelf}
-            className='inline'
-            isFocused={this.props.isFocused && focusedIndex === 0}
-            handleEnter={this.props.handleEnter}
-            onClick={() => this.handleInputClick(0)}
-          />
-          <span> (</span>
-          <Input
-            removeSelf={this.props.removeSelf}
-            className='inline'
-            isFocused={this.props.isFocused && focusedIndex === 1}
-            handleEnter={this.props.handleEnter}
-            onClick={() => this.handleInputClick(1)}
-          />
-          <span>) {'{'}</span>
+        <div className='header'>
+          <div onClick={() => this.handleInputClick(0)}>
+            <span>fun </span>
+            <Input
+              id={'FunctionBlockName_' + this.props.id}
+              removeSelf={this.props.removeSelf}
+              className='inline'
+              isFocused={this.props.isFocused && focusedIndex === 0}
+              handleEnter={this.props.handleEnter}
+            />
+          </div>
+          <div onClick={() => this.handleInputClick(1)}>
+            <span> (</span>
+            <Input
+              id={'FunctionBlockArgs_' + this.props.id}
+              removeSelf={this.props.removeSelf}
+              className='inline'
+              isFocused={this.props.isFocused && focusedIndex === 1}
+              handleEnter={this.props.handleEnter}
+            />
+            <span>) {'{'}</span>
+          </div>
         </div>
         <div onClick={() => this.handleInputClick(2)}>
           <StatementBlock

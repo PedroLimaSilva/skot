@@ -2,15 +2,15 @@
   position: relative;
   height: 1.8em;
   padding: 0.2em;
-  background-color: rgba($color: cyan, $alpha: 0.2);
 
   &-cursor {
     position: absolute;
     display: inline-block;
-    color: blue;
+    background-color: rgb(51, 125, 255);
+    height: 1.2em;
+    width: 2px;
+    margin-left: 3px;
     font-size: 1.2em;
-    margin-left: -5px;
-    margin-top: -4px;
     visibility: hidden;
   }
 
@@ -20,11 +20,10 @@
   }
 
   &.focused {
-    background-color: rgba($color: cyan, $alpha: 0.5);
-
     .Input-cursor {
       visibility: visible;
       animation: blink-cursor infinite 0.5s alternate;
+      pointer-events: none;
     }
   }
 }

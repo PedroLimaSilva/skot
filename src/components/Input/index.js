@@ -132,9 +132,7 @@ export class Input extends React.PureComponent {
         <div
           className='Input-cursor'
           style={{ left: `${this.state.indicatorPosition / 2}em` }}
-        >
-          |
-        </div>
+        />
       </div>
     );
   }

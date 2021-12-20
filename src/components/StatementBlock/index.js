@@ -162,7 +162,7 @@ class StatementBlock extends React.PureComponent {
 
   render() {
     return (
-      <div className='Program' onKeyDown={(e) => this.handleKey(e)}>
+      <div className='StatementBlock' onKeyDown={(e) => this.handleKey(e)}>
         {this.renderStatements()}
       </div>
     );

@@ -11,7 +11,7 @@ class App extends React.PureComponent {
           isFocused={true}
           initialStatements={[
             { type: 'Input', id: new Date().getTime() },
-            { type: 'IfClause', id: new Date().getTime() + 1 },
+            { type: 'FunctionBlock', id: new Date().getTime() + 1 },
           ]}
           allowedStatements={{
             Input: true,

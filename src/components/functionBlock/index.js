@@ -11,6 +11,13 @@ import StatementBlock from '../StatementBlock';
 
 import './index.scss';
 
+// eslint-disable-next-line no-useless-escape
+const FUNCTION_NAME_REGEX = /[a-zA-Z_$]+/gm;
+// eslint-disable-next-line no-useless-escape
+const FUNCTION_ARGUMENTS_REGEX =
+  /([a-zA-Z_$]+: ([A-Z][a-zA-Z]*), )|([a-zA-Z_$]+: ([A-Z][a-zA-Z]*))/gm;
+const FUNCTION_TYPE_REGEX = /([A-Z][a-zA-Z]*)/gm;
+
 export class FunctionBlock extends React.PureComponent {
   state = {
     focusedIndex: 0,
@@ -23,7 +30,7 @@ export class FunctionBlock extends React.PureComponent {
   handleKeydown(e) {
     const direction = getVerticalDirection(e) || getHorizontalDirection(e);
     if (direction) {
-      const newIndex = clamp(this.state.focusedIndex + direction, 0, 2);
+      const newIndex = clamp(this.state.focusedIndex + direction, 0, 3);
       if (this.state.focusedIndex !== newIndex) {
         e.stopPropagation();
       }
@@ -51,6 +58,7 @@ export class FunctionBlock extends React.PureComponent {
               id={'FunctionBlockName_' + this.props.id}
               removeSelf={this.props.removeSelf}
               className='inline'
+              regex={FUNCTION_NAME_REGEX}
               isFocused={this.props.isFocused && focusedIndex === 0}
               handleEnter={this.props.handleEnter}
             />
@@ -61,16 +69,28 @@ export class FunctionBlock extends React.PureComponent {
               id={'FunctionBlockArgs_' + this.props.id}
               removeSelf={this.props.removeSelf}
               className='inline'
+              regex={FUNCTION_ARGUMENTS_REGEX}
               isFocused={this.props.isFocused && focusedIndex === 1}
               handleEnter={this.props.handleEnter}
             />
-            <span>) {'{'}</span>
+            <span>): </span>
+          </div>
+          <div onClick={() => this.handleInputClick(2)}>
+            <Input
+              id={'FunctionBlockType_' + this.props.id}
+              removeSelf={this.props.removeSelf}
+              className='inline'
+              regex={FUNCTION_TYPE_REGEX}
+              isFocused={this.props.isFocused && focusedIndex === 2}
+              handleEnter={this.props.handleEnter}
+            />
+            <span>{'{'}</span>
           </div>
         </div>
-        <div onClick={() => this.handleInputClick(2)}>
+        <div onClick={() => this.handleInputClick(3)}>
           <StatementBlock
             id={'FunctionBlockBody_' + this.props.id}
-            isFocused={this.props.isFocused && focusedIndex === 2}
+            isFocused={this.props.isFocused && focusedIndex === 3}
             initialStatements={[
               {
                 type: 'Input',

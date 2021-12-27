@@ -7,6 +7,7 @@ import {
   isCharacter,
   isEnter,
   isHorizontalArrow,
+  isInputValid,
   isTab,
 } from '../../helpers/input';
 import { getPossibleKeyword } from '../../helpers/keywords';
@@ -19,16 +20,30 @@ export class Input extends React.PureComponent {
   state = {
     text: '',
     indicatorPosition: 0,
+    isValid: true,
   };
 
   componentDidMount() {
     this.ref.current.focus();
   }
 
-  getSnapshotBeforeUpdate(prevProps) {
+  getSnapshotBeforeUpdate(prevProps, prevState) {
     if (!prevProps.isFocused && this.props.isFocused) {
       this.ref.current.focus();
     }
+
+    if (
+      this.props.regex &&
+      this.state.text &&
+      prevState.text !== this.state.text
+    ) {
+      if (isInputValid(this.props.regex, this.state.text)) {
+        this.setState({ isValid: true });
+      } else {
+        this.setState({ isValid: false });
+      }
+    }
+
     return null;
   }
 
@@ -116,22 +131,24 @@ export class Input extends React.PureComponent {
   };
 
   render() {
+    const { className, isFocused, handleClick } = this.props;
+    const { text, isValid, indicatorPosition } = this.state;
     return (
       <div
         className={classNames(
           'Input',
-          { focused: this.props.isFocused },
-          this.props.className
+          { focused: isFocused, invalid: !isValid },
+          className
         )}
         ref={this.ref}
-        onClick={this.props.handleClick}
+        onClick={handleClick}
         onKeyDown={this.handleKey}
         tabIndex='0'
       >
-        {this.state.text}
+        {text}
         <div
           className='Input-cursor'
-          style={{ left: `${this.state.indicatorPosition / 2}em` }}
+          style={{ left: `${indicatorPosition / 2}em` }}
         />
       </div>
     );

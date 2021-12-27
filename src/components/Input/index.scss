@@ -26,6 +26,13 @@
       pointer-events: none;
     }
   }
+
+  &.invalid {
+    text-decoration: wavy;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: red;
+  }
 }
 
 @keyframes blink-cursor {

@@ -7,11 +7,11 @@ export function isCharacter(event) {
 }
 
 export function isHorizontalArrow(event) {
-  return event.code === 'ArrowLeft' || event.code === 'ArrowRight';
+  return event.key === 'ArrowLeft' || event.key === 'ArrowRight';
 }
 
 export function isVerticalArrow(event) {
-  return event.code === 'ArrowUp' || event.code === 'ArrowDown';
+  return event.key === 'ArrowUp' || event.key === 'ArrowDown';
 }
 
 export function isEnter(event) {
@@ -39,14 +39,14 @@ export function isInputValid(regex, text) {
 
 export function getHorizontalDirection(event) {
   if (isHorizontalArrow(event)) {
-    return event.code === 'ArrowLeft' ? -1 : 1;
+    return event.key === 'ArrowLeft' ? -1 : 1;
   }
   return 0;
 }
 
 export function getVerticalDirection(event) {
   if (isVerticalArrow(event)) {
-    return event.code === 'ArrowUp' ? -1 : 1;
+    return event.key === 'ArrowUp' ? -1 : 1;
   }
   return 0;
 }

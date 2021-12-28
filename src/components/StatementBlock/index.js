@@ -75,12 +75,17 @@ class StatementBlock extends React.PureComponent {
   handleKey(event) {
     const direction = getVerticalDirection(event);
     if (direction) {
+      const index = clamp(
+        this.state.focusedStatement + direction,
+        0,
+        this.state.statements.length
+      );
+
+      if (index !== this.state.focusedStatement) {
+        event.stopPropagation();
+      }
       this.setState({
-        focusedStatement: clamp(
-          this.state.focusedStatement + direction,
-          0,
-          this.state.statements.length
-        ),
+        focusedStatement: index,
       });
     }
   }
@@ -122,7 +127,7 @@ class StatementBlock extends React.PureComponent {
 
       this.setState({
         statements: newStatements,
-        focusedStatement: index,
+        focusedStatement: index + 1,
       });
     }
   }
@@ -156,7 +161,7 @@ class StatementBlock extends React.PureComponent {
             <Input
               key={`s_${statement.id}`}
               id={`s_${statement.id}`}
-              indent={this.props.indent+1}
+              indent={this.props.indent + 1}
               removeSelf={() => this.removeStatement(statement.id)}
               handleEnter={() => this.handleEnter(index)}
               handleClick={(e) => this.handleClick(e, index)}
@@ -173,7 +178,7 @@ class StatementBlock extends React.PureComponent {
             <IfClause
               key={`s_${statement.id}`}
               id={`s_${statement.id}`}
-              indent={this.props.indent+1}
+              indent={this.props.indent + 1}
               removeSelf={() => this.removeStatement(statement.id)}
               handleClick={(e) => this.handleClick(e, index)}
               handleEnter={() => this.handleEnter(index)}
@@ -187,7 +192,7 @@ class StatementBlock extends React.PureComponent {
             <FunctionBlock
               key={`s_${statement.id}`}
               id={`s_${statement.id}`}
-              indent={this.props.indent+1}
+              indent={this.props.indent + 1}
               removeSelf={() => this.removeStatement(statement.id)}
               handleClick={(e) => this.handleClick(e, index)}
               handleEnter={() => this.handleEnter(index)}

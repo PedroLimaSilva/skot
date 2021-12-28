@@ -22,6 +22,7 @@ class App extends React.PureComponent {
           initialStatements={[
             { type: 'Input', id: new Date().getTime() },
             { type: 'FunctionBlock', id: new Date().getTime() + 1 },
+            { type: 'Input', id: new Date().getTime() + 2 },
           ]}
           allowedStatements={{
             Input: true,

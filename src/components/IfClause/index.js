@@ -22,12 +22,6 @@ export class IfClause extends React.PureComponent {
     this.props.setOnGetCode(this.getCode);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevProps.reloadPrinter && this.props.reloadPrinter) {
-      this.props.setOnGetCode(this.getCode);
-    }
-  }
-
   handleInputClick(index) {
     this.setState({ focusedIndex: index });
   }
@@ -87,7 +81,7 @@ export class IfClause extends React.PureComponent {
             ]}
             allowedStatements={{
               FunctionBlock: false,
-              IfStatement: true,
+              IfClause: true,
             }}
             setOnGetCode={(codePrinter) =>
               (this.codePrinters.body = codePrinter)

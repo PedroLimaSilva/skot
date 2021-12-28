@@ -25,21 +25,13 @@ export class Input extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.ref.current.focus();
     this.props.setOnGetCode(this.getCode);
+    if (this.props.isFocused) {
+      this.focus();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!prevProps.reloadPrinter && this.props.reloadPrinter) {
-      this.props.setOnGetCode(this.getCode);
-    }
-  }
-
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    if (!prevProps.isFocused && this.props.isFocused) {
-      this.ref.current.focus();
-    }
-
     if (
       this.props.regex &&
       this.state.text &&
@@ -51,8 +43,9 @@ export class Input extends React.PureComponent {
         this.setState({ isValid: false });
       }
     }
-
-    return null;
+    if (!prevProps.isFocused && this.props.isFocused) {
+      this.focus();
+    }
   }
 
   handleBackSpace() {
@@ -115,15 +108,17 @@ export class Input extends React.PureComponent {
         e.stopPropagation();
       } else if (isHorizontalArrow(e)) {
         const direction = getHorizontalDirection(e);
-
-        this.setState({
-          indicatorPosition: clamp(
-            indicatorPosition + direction,
-            0,
-            text.length
-          ),
-        });
-        e.stopPropagation();
+        const newPosition = clamp(
+          indicatorPosition + direction,
+          0,
+          text.length
+        );
+        if (indicatorPosition !== newPosition) {
+          this.setState({
+            indicatorPosition: newPosition,
+          });
+          e.stopPropagation();
+        }
       } else if (isEnter(e) || isTab(e)) {
         const possibleKeyword = getPossibleKeyword(this.state.text);
         if (possibleKeyword) {
@@ -136,6 +131,10 @@ export class Input extends React.PureComponent {
         }
       }
     }
+  };
+
+  focus = () => {
+    this.ref.current.focus();
   };
 
   getCode = () => {

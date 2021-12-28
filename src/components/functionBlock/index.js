@@ -19,6 +19,13 @@ const FUNCTION_ARGUMENTS_REGEX =
   /([a-zA-Z_$]+: ([A-Z][a-zA-Z]*), )|([a-zA-Z_$]+: ([A-Z][a-zA-Z]*))/gm;
 const FUNCTION_TYPE_REGEX = /([A-Z][a-zA-Z]*)/gm;
 
+const FOCUSED_MAP = {
+  NAME: 0,
+  ARGS: 1,
+  TYPE: 2,
+  BODY: 3,
+};
+
 export class FunctionBlock extends React.PureComponent {
   codePrinters = {
     name: PRINTER_EMPTY,
@@ -28,17 +35,11 @@ export class FunctionBlock extends React.PureComponent {
   };
 
   state = {
-    focusedIndex: 0,
+    focusedIndex: FOCUSED_MAP.NAME,
   };
 
   componentDidMount() {
     this.props.setOnGetCode(this.getCode);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevProps.reloadPrinter && this.props.reloadPrinter) {
-      this.props.setOnGetCode(this.getCode);
-    }
   }
 
   handleInputClick(index) {
@@ -46,16 +47,67 @@ export class FunctionBlock extends React.PureComponent {
   }
 
   handleKeydown(e) {
-    const direction = getVerticalDirection(e) || getHorizontalDirection(e);
-    if (direction) {
-      const newIndex = clamp(this.state.focusedIndex + direction, 0, 3);
-      if (this.state.focusedIndex !== newIndex) {
+    const { focusedIndex } = this.state;
+    const verticalDirection = getVerticalDirection(e);
+    const horizontalDirection = getHorizontalDirection(e);
+    if (verticalDirection || horizontalDirection) {
+      let newIndex = focusedIndex;
+      switch (focusedIndex) {
+        case FOCUSED_MAP.NAME: {
+          if (verticalDirection > 0) {
+            newIndex = FOCUSED_MAP.BODY;
+            break;
+          }
+          if (horizontalDirection > 0) {
+            newIndex = FOCUSED_MAP.ARGS;
+            break;
+          }
+          break;
+        }
+        case FOCUSED_MAP.ARGS: {
+          if (verticalDirection > 0) {
+            newIndex = FOCUSED_MAP.BODY;
+            break;
+          }
+          if (horizontalDirection > 0) {
+            newIndex = FOCUSED_MAP.TYPE;
+            break;
+          } else if (horizontalDirection < 0) {
+            newIndex = FOCUSED_MAP.NAME;
+            break;
+          }
+          break;
+        }
+        case FOCUSED_MAP.TYPE: {
+          if (verticalDirection > 0 || horizontalDirection > 0) {
+            newIndex = FOCUSED_MAP.BODY;
+            break;
+          }
+          if (horizontalDirection < 0) {
+            newIndex = FOCUSED_MAP.ARGS;
+            break;
+          }
+          break;
+        }
+        case FOCUSED_MAP.BODY: {
+          if (verticalDirection < 0 || horizontalDirection < 0) {
+            newIndex = FOCUSED_MAP.ARGS;
+          }
+          break;
+        }
+        default: {
+        }
+      }
+      if (focusedIndex !== newIndex) {
         e.stopPropagation();
+      } else if (verticalDirection < 0 || horizontalDirection < 0) {
+        newIndex = FOCUSED_MAP.NAME;
+      } else if (verticalDirection > 0 || horizontalDirection > 0) {
+        newIndex = FOCUSED_MAP.BODY;
       }
       this.setState({
         focusedIndex: newIndex,
       });
-      return;
     }
   }
 
@@ -82,7 +134,9 @@ export class FunctionBlock extends React.PureComponent {
               removeSelf={this.props.removeSelf}
               className='inline'
               regex={FUNCTION_NAME_REGEX}
-              isFocused={this.props.isFocused && focusedIndex === 0}
+              isFocused={
+                this.props.isFocused && focusedIndex === FOCUSED_MAP.NAME
+              }
               handleEnter={this.props.handleEnter}
               setOnGetCode={(codePrinter) => {
                 this.codePrinters.name = codePrinter;
@@ -96,7 +150,9 @@ export class FunctionBlock extends React.PureComponent {
               removeSelf={this.props.removeSelf}
               className='inline'
               regex={FUNCTION_ARGUMENTS_REGEX}
-              isFocused={this.props.isFocused && focusedIndex === 1}
+              isFocused={
+                this.props.isFocused && focusedIndex === FOCUSED_MAP.ARGS
+              }
               handleEnter={this.props.handleEnter}
               setOnGetCode={(codePrinter) => {
                 this.codePrinters.args = codePrinter;
@@ -110,7 +166,9 @@ export class FunctionBlock extends React.PureComponent {
               removeSelf={this.props.removeSelf}
               className='inline'
               regex={FUNCTION_TYPE_REGEX}
-              isFocused={this.props.isFocused && focusedIndex === 2}
+              isFocused={
+                this.props.isFocused && focusedIndex === FOCUSED_MAP.TYPE
+              }
               handleEnter={this.props.handleEnter}
               setOnGetCode={(codePrinter) => {
                 this.codePrinters.type = codePrinter;
@@ -123,7 +181,9 @@ export class FunctionBlock extends React.PureComponent {
           <StatementBlock
             id={'FunctionBlockBody_' + this.props.id}
             indent={this.props.indent + 1}
-            isFocused={this.props.isFocused && focusedIndex === 3}
+            isFocused={
+              this.props.isFocused && focusedIndex === FOCUSED_MAP.BODY
+            }
             initialStatements={[
               {
                 type: 'Input',

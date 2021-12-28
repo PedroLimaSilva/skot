@@ -7,7 +7,6 @@ class App extends React.PureComponent {
   codePrinter = PRINTER_EMPTY;
 
   print = () => {
-    console.log(this.codePrinter);
     console.log(this.codePrinter());
   };
 
@@ -18,6 +17,7 @@ class App extends React.PureComponent {
         <StatementBlock
           ref={this.ref}
           id='FileRootProgram'
+          indent={0}
           isFocused={true}
           initialStatements={[
             { type: 'Input', id: new Date().getTime() },

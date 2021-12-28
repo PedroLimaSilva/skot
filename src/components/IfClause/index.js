@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getVerticalDirection } from '../../helpers/input';
 import { clamp } from '../../helpers/math';
-import { PRINTER_EMPTY } from '../../helpers/printer';
+import { getIndent, PRINTER_EMPTY } from '../../helpers/printer';
 
 import { Input } from '../Input';
 import StatementBlock from '../StatementBlock';
@@ -18,12 +18,12 @@ export class IfClause extends React.PureComponent {
     focusedIndex: 0,
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.setOnGetCode(this.getCode);
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(!prevProps.reloadPrinter && this.props.reloadPrinter){
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevProps.reloadPrinter && this.props.reloadPrinter) {
       this.props.setOnGetCode(this.getCode);
     }
   }
@@ -46,9 +46,8 @@ export class IfClause extends React.PureComponent {
   }
 
   getCode = () => {
-    return `if (${this.codePrinters.condition()}) {
-        ${this.codePrinters.body()}
-      }`;
+    const indentation = getIndent(this.props.indent);
+    return `${indentation}if (${this.codePrinters.condition()}) {\n${this.codePrinters.body()}${indentation}}\n`;
   };
 
   render() {
@@ -78,6 +77,7 @@ export class IfClause extends React.PureComponent {
         <div onClick={() => this.handleInputClick(1)}>
           <StatementBlock
             id={'IfClauseBody_' + this.props.id}
+            indent={this.props.indent + 1}
             isFocused={this.props.isFocused && focusedIndex === 1}
             initialStatements={[
               {

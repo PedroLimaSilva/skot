@@ -5,7 +5,7 @@ import {
   getVerticalDirection,
 } from '../../helpers/input';
 import { clamp } from '../../helpers/math';
-import { PRINTER_EMPTY } from '../../helpers/printer';
+import { getIndent, PRINTER_EMPTY } from '../../helpers/printer';
 
 import { Input } from '../Input';
 import StatementBlock from '../StatementBlock';
@@ -60,9 +60,8 @@ export class FunctionBlock extends React.PureComponent {
   }
 
   getCode = () => {
-    return `fun ${this.codePrinters.name()} (${this.codePrinters.args()}): ${this.codePrinters.type()} {
-      ${this.codePrinters.body()}
-    }`;
+    const indent = getIndent(this.props.getIndent);
+    return `${indent}fun ${this.codePrinters.name()} (${this.codePrinters.args()}): ${this.codePrinters.type()} {\n${this.codePrinters.body()}${indent}}`;
   };
 
   render() {
@@ -123,6 +122,7 @@ export class FunctionBlock extends React.PureComponent {
         <div onClick={() => this.handleInputClick(3)}>
           <StatementBlock
             id={'FunctionBlockBody_' + this.props.id}
+            indent={this.props.indent + 1}
             isFocused={this.props.isFocused && focusedIndex === 3}
             initialStatements={[
               {

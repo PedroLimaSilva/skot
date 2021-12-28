@@ -12,6 +12,7 @@ import {
 } from '../../helpers/input';
 import { getPossibleKeyword } from '../../helpers/keywords';
 import { clamp } from '../../helpers/math';
+import { getIndent } from '../../helpers/printer';
 
 import './index.scss';
 
@@ -28,8 +29,8 @@ export class Input extends React.PureComponent {
     this.props.setOnGetCode(this.getCode);
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(!prevProps.reloadPrinter && this.props.reloadPrinter){
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevProps.reloadPrinter && this.props.reloadPrinter) {
       this.props.setOnGetCode(this.getCode);
     }
   }
@@ -138,7 +139,12 @@ export class Input extends React.PureComponent {
   };
 
   getCode = () => {
-    return this.state.text;
+    if (this.state.text === '') {
+      return '';
+    }
+    const isInline = this.props.className?.includes('inline');
+    const indent = getIndent(this.props.indent);
+    return (isInline ? '' : indent) + this.state.text + (isInline ? '' : '\n');
   };
 
   render() {

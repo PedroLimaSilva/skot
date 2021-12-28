@@ -47,7 +47,6 @@ class StatementBlock extends React.PureComponent {
       }
 
       delete this.codePrinters[id];
-      console.log(this.codePrinters);
       this.setState({
         statements: newStatements,
         focusedStatement: clamp(index, 0, newStatements.length - 1),
@@ -136,31 +135,20 @@ class StatementBlock extends React.PureComponent {
 
   getCode = () => {
     let code = '';
-    console.log(
-      'StatementBlock >',
-      this.props.id,
-      '> getCode',
-      this.codePrinters
-    );
     const keys = this.state.statements.map((statement) => statement.id);
-    console.log('> getCode > keys', keys);
     for (let i = 0, len = keys.length; i < len; i++) {
       const statementCode = this.codePrinters[keys[i]]();
-      console.log(i, this.codePrinters[keys[i]], statementCode);
       code += statementCode;
     }
     return code;
   };
 
   setOnGetCode = (id, codePrinter) => {
-    console.log(id, codePrinter);
     this.codePrinters[id] = codePrinter;
-    console.log(this.codePrinters);
   };
 
   renderStatements = () => {
     const { statements, focusedStatement } = this.state;
-    console.log('renderStatements', statements, focusedStatement);
     return statements?.map((statement, index) => {
       switch (statement.type) {
         case 'Input': {
@@ -168,6 +156,7 @@ class StatementBlock extends React.PureComponent {
             <Input
               key={`s_${statement.id}`}
               id={`s_${statement.id}`}
+              indent={this.props.indent+1}
               removeSelf={() => this.removeStatement(statement.id)}
               handleEnter={() => this.handleEnter(index)}
               handleClick={(e) => this.handleClick(e, index)}
@@ -184,6 +173,7 @@ class StatementBlock extends React.PureComponent {
             <IfClause
               key={`s_${statement.id}`}
               id={`s_${statement.id}`}
+              indent={this.props.indent+1}
               removeSelf={() => this.removeStatement(statement.id)}
               handleClick={(e) => this.handleClick(e, index)}
               handleEnter={() => this.handleEnter(index)}
@@ -197,6 +187,7 @@ class StatementBlock extends React.PureComponent {
             <FunctionBlock
               key={`s_${statement.id}`}
               id={`s_${statement.id}`}
+              indent={this.props.indent+1}
               removeSelf={() => this.removeStatement(statement.id)}
               handleClick={(e) => this.handleClick(e, index)}
               handleEnter={() => this.handleEnter(index)}

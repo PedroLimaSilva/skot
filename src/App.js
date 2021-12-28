@@ -1,12 +1,22 @@
 import './App.scss';
 import React from 'react';
 import StatementBlock from './components/StatementBlock';
+import { PRINTER_EMPTY } from './helpers/printer';
 
 class App extends React.PureComponent {
+  codePrinter = PRINTER_EMPTY;
+
+  print = () => {
+    console.log(this.codePrinter);
+    console.log(this.codePrinter());
+  };
+
   render() {
     return (
       <div className='App'>
+        <button onClick={this.print}>Get Code</button>
         <StatementBlock
+          ref={this.ref}
           id='FileRootProgram'
           isFocused={true}
           initialStatements={[
@@ -17,6 +27,7 @@ class App extends React.PureComponent {
             Input: true,
             FunctionBlock: true,
           }}
+          setOnGetCode={(codePrinter) => (this.codePrinter = codePrinter)}
         />
       </div>
     );

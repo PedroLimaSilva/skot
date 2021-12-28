@@ -25,6 +25,13 @@ export class Input extends React.PureComponent {
 
   componentDidMount() {
     this.ref.current.focus();
+    this.props.setOnGetCode(this.getCode);
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(!prevProps.reloadPrinter && this.props.reloadPrinter){
+      this.props.setOnGetCode(this.getCode);
+    }
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
@@ -95,7 +102,7 @@ export class Input extends React.PureComponent {
 
   handleKey = (e) => {
     e.preventDefault();
-    console.log(e);
+    // console.log(e);
     if (this.props.isFocused) {
       const { text, indicatorPosition } = this.state;
 
@@ -128,6 +135,10 @@ export class Input extends React.PureComponent {
         }
       }
     }
+  };
+
+  getCode = () => {
+    return this.state.text;
   };
 
   render() {

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getVerticalDirection } from '../../helpers/input';
 import { clamp } from '../../helpers/math';
+import { PRINTER_EMPTY } from '../../helpers/printer';
 
 import { Input } from '../Input';
 import StatementBlock from '../StatementBlock';
@@ -9,9 +10,23 @@ import StatementBlock from '../StatementBlock';
 import './index.scss';
 
 export class IfClause extends React.PureComponent {
+  codePrinters = {
+    condition: PRINTER_EMPTY,
+    body: PRINTER_EMPTY,
+  };
   state = {
     focusedIndex: 0,
   };
+
+  componentDidMount(){
+    this.props.setOnGetCode(this.getCode);
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(!prevProps.reloadPrinter && this.props.reloadPrinter){
+      this.props.setOnGetCode(this.getCode);
+    }
+  }
 
   handleInputClick(index) {
     this.setState({ focusedIndex: index });
@@ -29,6 +44,12 @@ export class IfClause extends React.PureComponent {
       });
     }
   }
+
+  getCode = () => {
+    return `if (${this.codePrinters.condition()}) {
+        ${this.codePrinters.body()}
+      }`;
+  };
 
   render() {
     const { focusedIndex } = this.state;
@@ -48,6 +69,9 @@ export class IfClause extends React.PureComponent {
             isFocused={this.props.isFocused && focusedIndex === 0}
             handleEnter={this.props.handleEnter}
             onClick={() => this.handleInputClick(0)}
+            setOnGetCode={(codePrinter) =>
+              (this.codePrinters.condition = codePrinter)
+            }
           />
           <span>) {'{'}</span>
         </div>
@@ -65,6 +89,9 @@ export class IfClause extends React.PureComponent {
               FunctionBlock: false,
               IfStatement: true,
             }}
+            setOnGetCode={(codePrinter) =>
+              (this.codePrinters.body = codePrinter)
+            }
           />
         </div>
         <div>

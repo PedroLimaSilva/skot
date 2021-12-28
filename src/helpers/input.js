@@ -59,7 +59,7 @@ export function getSelection() {
     selection.extentOffset
   );
 
-  console.log(text);
+  // console.log(text);
   return {
     text,
     start: selection.baseOffset,

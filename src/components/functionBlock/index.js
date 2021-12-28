@@ -5,6 +5,7 @@ import {
   getVerticalDirection,
 } from '../../helpers/input';
 import { clamp } from '../../helpers/math';
+import { PRINTER_EMPTY } from '../../helpers/printer';
 
 import { Input } from '../Input';
 import StatementBlock from '../StatementBlock';
@@ -19,9 +20,26 @@ const FUNCTION_ARGUMENTS_REGEX =
 const FUNCTION_TYPE_REGEX = /([A-Z][a-zA-Z]*)/gm;
 
 export class FunctionBlock extends React.PureComponent {
+  codePrinters = {
+    name: PRINTER_EMPTY,
+    args: PRINTER_EMPTY,
+    type: PRINTER_EMPTY,
+    body: PRINTER_EMPTY,
+  };
+
   state = {
     focusedIndex: 0,
   };
+
+  componentDidMount() {
+    this.props.setOnGetCode(this.getCode);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevProps.reloadPrinter && this.props.reloadPrinter) {
+      this.props.setOnGetCode(this.getCode);
+    }
+  }
 
   handleInputClick(index) {
     this.setState({ focusedIndex: index });
@@ -40,6 +58,12 @@ export class FunctionBlock extends React.PureComponent {
       return;
     }
   }
+
+  getCode = () => {
+    return `fun ${this.codePrinters.name()} (${this.codePrinters.args()}): ${this.codePrinters.type()} {
+      ${this.codePrinters.body()}
+    }`;
+  };
 
   render() {
     const { focusedIndex } = this.state;
@@ -61,6 +85,9 @@ export class FunctionBlock extends React.PureComponent {
               regex={FUNCTION_NAME_REGEX}
               isFocused={this.props.isFocused && focusedIndex === 0}
               handleEnter={this.props.handleEnter}
+              setOnGetCode={(codePrinter) => {
+                this.codePrinters.name = codePrinter;
+              }}
             />
           </div>
           <div onClick={() => this.handleInputClick(1)}>
@@ -72,6 +99,9 @@ export class FunctionBlock extends React.PureComponent {
               regex={FUNCTION_ARGUMENTS_REGEX}
               isFocused={this.props.isFocused && focusedIndex === 1}
               handleEnter={this.props.handleEnter}
+              setOnGetCode={(codePrinter) => {
+                this.codePrinters.args = codePrinter;
+              }}
             />
             <span>): </span>
           </div>
@@ -83,6 +113,9 @@ export class FunctionBlock extends React.PureComponent {
               regex={FUNCTION_TYPE_REGEX}
               isFocused={this.props.isFocused && focusedIndex === 2}
               handleEnter={this.props.handleEnter}
+              setOnGetCode={(codePrinter) => {
+                this.codePrinters.type = codePrinter;
+              }}
             />
             <span>{'{'}</span>
           </div>
@@ -97,6 +130,9 @@ export class FunctionBlock extends React.PureComponent {
                 id: 'FunctionBlockBody_' + this.props.id + new Date().getTime(),
               },
             ]}
+            setOnGetCode={(codePrinter) => {
+              this.codePrinters.body = codePrinter;
+            }}
           />
         </div>
         <div>

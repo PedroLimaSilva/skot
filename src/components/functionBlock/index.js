@@ -4,7 +4,6 @@ import {
   getHorizontalDirection,
   getVerticalDirection,
 } from '../../helpers/input';
-import { clamp } from '../../helpers/math';
 import { getIndent, PRINTER_EMPTY } from '../../helpers/printer';
 
 import { Input } from '../Input';

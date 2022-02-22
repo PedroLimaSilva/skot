@@ -71,7 +71,7 @@ export class IfClause extends React.PureComponent {
         <div onClick={() => this.handleInputClick(1)}>
           <StatementBlock
             id={'IfClauseBody_' + this.props.id}
-            indent={this.props.indent + 1}
+            indent={this.props.indent}
             isFocused={this.props.isFocused && focusedIndex === 1}
             initialStatements={[
               {

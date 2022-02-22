@@ -1,3 +1,5 @@
+export const INDENT_CHAR = '  ';
+
 export const PRINTER_EMPTY = () => '';
 
 export function getIndent(indentations) {
@@ -6,7 +8,7 @@ export function getIndent(indentations) {
   }
   let indent = '';
   for (let i = 0; i < indentations; i++) {
-    indent += ' ';
+    indent += INDENT_CHAR;
   }
   return indent;
 }

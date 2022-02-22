@@ -179,7 +179,7 @@ export class FunctionBlock extends React.PureComponent {
         <div onClick={() => this.handleInputClick(3)}>
           <StatementBlock
             id={'FunctionBlockBody_' + this.props.id}
-            indent={this.props.indent + 1}
+            indent={this.props.indent}
             isFocused={
               this.props.isFocused && focusedIndex === FOCUSED_MAP.BODY
             }

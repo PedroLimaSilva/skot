@@ -1,22 +1,27 @@
 /* eslint-disable no-extend-native */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
 
-String.prototype.splice = function(index, count, add) {
+import reportWebVitals from './reportWebVitals';
+import store from './store';
+
+import App from './App';
+import './index.scss';
+
+String.prototype.splice = function (index, count, add) {
   if (index < 0) {
-      index += this.length;
-      if (index < 0)
-          index = 0;
+    index += this.length;
+    if (index < 0) index = 0;
   }
-  return this.slice(0, index) + (add || "") + this.slice(index + count);
-}
+  return this.slice(0, index) + (add || '') + this.slice(index + count);
+};
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

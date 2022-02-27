@@ -1,8 +1,7 @@
 import './App.scss';
 import React from 'react';
-import StatementBlock from './components/StatementBlock';
 import { PRINTER_EMPTY } from './helpers/printer';
-import { StatementBlock as StatefulBlock } from './features/statement-block';
+import File from './features/file';
 
 class App extends React.PureComponent {
   codePrinter = PRINTER_EMPTY;
@@ -14,9 +13,9 @@ class App extends React.PureComponent {
   render() {
     return (
       <div className='App'>
-        <button onClick={this.print}>Get Code</button>
-        <StatefulBlock />
-        <StatementBlock
+        {/* <button onClick={this.print}>Get Code</button> */}
+        <File />
+        {/* <StatementBlock
           ref={this.ref}
           id='FileRootProgram'
           indent={0}
@@ -31,7 +30,7 @@ class App extends React.PureComponent {
             FunctionBlock: true,
           }}
           setOnGetCode={(codePrinter) => (this.codePrinter = codePrinter)}
-        />
+        /> */}
       </div>
     );
   }

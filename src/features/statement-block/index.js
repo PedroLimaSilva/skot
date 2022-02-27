@@ -1,20 +1,29 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+
 import { Comment } from '../comment';
+import { Line } from '../line';
 import './index.scss';
-import { STATEMENT_TYPES } from './slice';
 
-const STATEMENT_COMPONENT_MAP = {
-  [STATEMENT_TYPES.COMMENT]: Comment,
-  [STATEMENT_TYPES.LINE]: (statement) => <p>{statement.content}</p>,
-};
+import { STATEMENT_TYPES } from '../../store/reducers/file';
 
-export const StatementBlock = () => {
-  const statements = useSelector((state) => state.module.statements);
-
-  const renderStatements = statements.map((statement) =>
-    STATEMENT_COMPONENT_MAP[statement.type](statement)
-  );
-
-  return <article className='StatementBlock'>{renderStatements}</article>;
-};
+export class StatementBlock extends React.Component {
+  renderStatements() {
+    console.log(this.props);
+    return this.props.statements?.map((statement) => {
+      switch (statement.type) {
+        case STATEMENT_TYPES.COMMENT:
+          return <Comment key={statement.id} statement={statement} />;
+        case STATEMENT_TYPES.LINE:
+          return <Line key={statement.id} statement={statement} />;
+        default:
+          console.warn('Unsupported type', statement);
+          return null;
+      }
+    });
+  }
+  render() {
+    return (
+      <article className='StatementBlock'>{this.renderStatements()}</article>
+    );
+  }
+}

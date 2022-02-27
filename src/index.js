@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import reportWebVitals from './reportWebVitals';
-import store from './store';
+import { Store } from './store';
 
 import App from './App';
 import './index.scss';
@@ -19,7 +19,7 @@ String.prototype.splice = function (index, count, add) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={Store}>
       <App />
     </Provider>
   </React.StrictMode>,

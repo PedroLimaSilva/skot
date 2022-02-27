@@ -1,9 +1,5 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { createStore } from '@reduxjs/toolkit';
 
-import { slice as statementBlockSlice } from '../features/statement-block/slice';
+import {combinedReducers as rootReducer} from './reducers';
 
-export default configureStore({
-  reducer: {
-    module: statementBlockSlice.reducer,
-  },
-});
+export const Store = createStore(rootReducer);

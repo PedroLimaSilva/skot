@@ -5,7 +5,7 @@ export const STATEMENT_TYPES = {
   COMMENT: 'COMMENT',
   LINE: 'LINE',
   IF: 'IF',
-  FUNCTION: 'FUNCTION'
+  FUNCTION: 'FUNCTION',
 };
 
 const initialState = {
@@ -17,10 +17,15 @@ const initialState = {
       id: uuid(),
       type: STATEMENT_TYPES.FUNCTION,
       name: 'functionName',
-      arguments: [],
+      args: [],
       statements: [
         { id: uuid(), type: STATEMENT_TYPES.LINE, content: '' },
-        { id: uuid(), type: STATEMENT_TYPES.COMMENT, content: 'this is a comment' },
+        {
+          id: uuid(),
+          type: STATEMENT_TYPES.COMMENT,
+          content: 'this is a comment',
+        },
+        { id: uuid(), type: STATEMENT_TYPES.LINE, content: '' },
       ],
     },
   ],
@@ -42,7 +47,6 @@ export function fileReducer(state = initialState, action) {
 // eslint-disable-next-line no-unused-vars
 const exampleState = {
   id: uuid(),
-  type: 'Module',
   statements: [
     { id: uuid(), type: 'Line', content: '' },
     { id: uuid(), type: 'Comment', content: 'this is a comment' },
@@ -50,7 +54,8 @@ const exampleState = {
       id: uuid(),
       type: 'Function',
       name: 'functionName',
-      arguments: [],
+      args: [],
+      returnType: 'Unit',
       statements: [
         { id: uuid(), type: 'Line', content: '' },
         { id: uuid(), type: 'Comment', content: 'this is a comment' },

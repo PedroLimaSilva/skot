@@ -14,15 +14,18 @@ export class Input extends React.Component {
   handleChange = (e) => {
     console.log(e);
     this.setState({ value: e.target.value });
+    this.props.onUpdate?.(e.target.value);
     // this.props.updateInput({ content: e.target.value });
   };
 
   handleKeydown = (e) => {
     if (isEnter(e)) {
       console.log('ENTER', this.props.id);
+      this.props.onNewLine?.()
       return true;
     }
     if (isBackspace(e) && this.state.value === '') {
+      this.props.onDelete?.();
       console.log('BACKSPACE', this.props.id);
       return true;
     }

@@ -1,9 +1,15 @@
-import { CREATE_LINE } from './actionTypes';
+import { CREATE_LINE, DELETE_LINE } from './actionTypes';
 
-export const addStatement = ({ parentId, position }) => ({
+export const createLine = ({ path }) => ({
   type: CREATE_LINE,
   payload: {
-    parentId,
-    position,
+    path,
+  },
+});
+
+export const deleteLine = ({ path }) => ({
+  type: DELETE_LINE,
+  payload: {
+    path,
   },
 });

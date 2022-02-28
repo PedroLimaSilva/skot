@@ -4,11 +4,16 @@ import { connect } from 'react-redux';
 import { getFile } from '../../store/selectors';
 import { StatementBlock } from '../statement-block';
 
-class File extends React.Component {
+import { CodeBlock } from '../CodeBlock';
+
+class File extends CodeBlock {
   render() {
     return (
       <section className='File'>
-        <StatementBlock statements={this.props.statements} />
+        <StatementBlock
+          statements={this.props.statements}
+          path={this.state.path}
+        />
       </section>
     );
   }

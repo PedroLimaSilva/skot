@@ -20,8 +20,8 @@ export class Input extends React.Component {
 
   handleKeydown = (e) => {
     if (isEnter(e)) {
-      console.log('ENTER', this.props.id);
-      this.props.onNewLine?.()
+      console.log('ENTER', e.target.selectionStart);
+      this.props.onNewLine?.();
       return true;
     }
     if (isBackspace(e) && this.state.value === '') {
@@ -32,9 +32,10 @@ export class Input extends React.Component {
   };
 
   render() {
-    const { content } = this.props;
+    const { content, id } = this.props;
     return (
       <input
+        id={id}
         className={classNames('Input', { focused: this.state.isFocused })}
         defaultValue={content}
         tabIndex={0}

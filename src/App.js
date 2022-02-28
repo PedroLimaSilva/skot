@@ -14,7 +14,7 @@ class App extends React.PureComponent {
     return (
       <div className='App'>
         {/* <button onClick={this.print}>Get Code</button> */}
-        <File />
+        <File path={[]} stateKeys={[]} />
         {/* <StatementBlock
           ref={this.ref}
           id='FileRootProgram'

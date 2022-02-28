@@ -1,5 +1,10 @@
-import { combineReducers } from 'redux';
+import Immutable from 'immutable';
+import { combineReducers } from 'redux-immutable';
 
 import { fileReducer as file } from './file';
 
-export const combinedReducers = combineReducers({ file });
+const StateRecord = Immutable.Record({
+  file: undefined,
+});
+
+export const combinedReducers = combineReducers({ file }, StateRecord);

@@ -12,10 +12,10 @@ export class Function extends CodeBlock {
     return (
       <section className='Function'>
         <header>
-          <span>fun</span> <Input content={name} /> <span>(</span>
+          <strong>fun</strong> <Input content={name} /> <strong>(</strong>
           <Input content={args.toString()} />
-          <span>): </span>
-          <Input content={returnType} /> <span>{'{'}</span>
+          <strong>): </strong>
+          <Input content={returnType} /> <strong>{'{'}</strong>
         </header>
         <StatementBlock statements={statements} path={this.state.path} />
         {'}'}

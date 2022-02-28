@@ -14,7 +14,7 @@ export class Input extends React.Component {
     }
   }
 
-  handleChange = (e) => {
+  handleInput = (e) => {
     this.props.onUpdate?.(e.target.value);
   };
 
@@ -45,7 +45,7 @@ export class Input extends React.Component {
         defaultValue={content}
         tabIndex={0}
         onKeyDown={this.handleKeydown}
-        onChange={this.handleChange}
+        onInput={this.handleInput}
         onFocus={() => this.setState({ isFocused: true })}
         onBlur={() => this.setState({ isFocused: false })}
       />

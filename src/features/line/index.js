@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { createLine } from '../../store/actions';
+import { createLine, updateContent } from '../../store/actions';
 
 import { CodeBlock } from '../CodeBlock';
 import { Input } from '../input';
@@ -14,9 +14,16 @@ class Line extends CodeBlock {
         <Input
           id={this.props.statement.id}
           content={this.props.statement.content}
-          onNewLine={() =>
+          onNewLine={(cursorPosition) =>
             this.props.createLine({
+              cursorPosition,
               path: this.state.path,
+            })
+          }
+          onUpdate={(value) =>
+            this.props.updateContent({
+              path: this.state.path,
+              value,
             })
           }
         />
@@ -25,4 +32,4 @@ class Line extends CodeBlock {
   }
 }
 
-export default connect(null, { createLine })(Line);
+export default connect(null, { createLine, updateContent })(Line);

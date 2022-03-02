@@ -1,8 +1,25 @@
 import classNames from 'classnames';
 import React from 'react';
-import { isBackspace, isEnter } from '../../helpers/input';
+import {
+  getHorizontalDirection,
+  getVerticalDirection,
+  isBackspace,
+  isEnter,
+  isHorizontalArrow,
+  isVerticalArrow,
+} from '../../helpers/input';
 
 import './index.scss';
+
+export function findFocusIndex(target) {
+  const focusableItems = document.querySelectorAll('input');
+  for (let i = 0, len = focusableItems.length; i < len; i++) {
+    if (focusableItems[i] === target) {
+      return i;
+    }
+  }
+  return -1;
+}
 
 export class Input extends React.Component {
   ref = React.createRef();
@@ -45,6 +62,50 @@ export class Input extends React.Component {
       console.log('BACKSPACE', this.props.id);
       this.props.onDeleteLine?.(this.props.id, e.target.value);
       return true;
+    }
+    if (isHorizontalArrow(e)) {
+      const direction = getHorizontalDirection(e);
+      const currentFocusIndex = findFocusIndex(e.target);
+      const focusableItems = document.querySelectorAll('input');
+
+      if (direction === -1 && cursorPosition === 0 && currentFocusIndex > 0) {
+        const newTarget = focusableItems[currentFocusIndex + direction];
+        newTarget.focus();
+        newTarget.setSelectionRange(
+          newTarget.value.length,
+          newTarget.value.length
+        );
+      } else if (
+        direction === 1 &&
+        cursorPosition === e.target.value.length &&
+        currentFocusIndex < focusableItems.length - 1
+      ) {
+        const newTarget = focusableItems[currentFocusIndex + direction];
+        newTarget.focus();
+        newTarget.setSelectionRange(0, 0);
+      }
+    }
+
+    if (isVerticalArrow(e)) {
+      const direction = getVerticalDirection(e);
+      const currentFocusIndex = findFocusIndex(e.target);
+      const focusableItems = document.querySelectorAll('input');
+
+      if (direction === -1 && currentFocusIndex > 0) {
+        const newTarget = focusableItems[currentFocusIndex + direction];
+        newTarget.focus();
+        newTarget.setSelectionRange(
+          newTarget.value.length,
+          newTarget.value.length
+        );
+      } else if (
+        direction === 1 &&
+        currentFocusIndex < focusableItems.length - 1
+      ) {
+        const newTarget = focusableItems[currentFocusIndex + direction];
+        newTarget.focus();
+        newTarget.setSelectionRange(0, 0);
+      }
     }
   };
 

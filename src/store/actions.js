@@ -22,9 +22,11 @@ export const updateContent = ({ path, value }) => ({
   },
 });
 
-export const deleteLine = ({ path }) => ({
+export const deleteLine = ({ id, path, value }) => ({
   type: DELETE_LINE,
   payload: {
+    id,
     path,
+    value,
   },
 });

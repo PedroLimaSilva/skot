@@ -104,7 +104,10 @@ export class Input extends React.Component {
       ) {
         const newTarget = focusableItems[currentFocusIndex + direction];
         newTarget.focus();
-        newTarget.setSelectionRange(0, 0);
+        newTarget.setSelectionRange(
+          newTarget.value.length,
+          newTarget.value.length
+        );
       }
     }
   };

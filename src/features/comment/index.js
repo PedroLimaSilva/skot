@@ -11,8 +11,9 @@ class Comment extends CodeBlock {
   render() {
     return (
       <p className='Comment'>
-        {'// '}
+        {'/* '}
         <Input
+          inline
           id={this.props.statement.id}
           content={this.props.statement.content}
           onNewLine={(cursorPosition) =>
@@ -35,6 +36,7 @@ class Comment extends CodeBlock {
             })
           }
         />
+        {' */'}
       </p>
     );
   }

@@ -17,7 +17,7 @@ export const createLine = ({ cursorPosition, path }) => ({
 export const updateContent = ({ path, value }) => ({
   type: UPDATE_CONTENT,
   payload: {
-    path: [...path, 'content'],
+    path: [...path],
     value,
   },
 });

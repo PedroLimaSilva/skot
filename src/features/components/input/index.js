@@ -7,7 +7,7 @@ import {
   isEnter,
   isHorizontalArrow,
   isVerticalArrow,
-} from '../../helpers/input';
+} from '../../../helpers/input';
 
 import './index.scss';
 

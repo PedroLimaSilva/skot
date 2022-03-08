@@ -1,21 +1,12 @@
 import { getIn, updateIn } from 'immutable';
 import { v4 as uuid } from 'uuid';
+import { STATEMENT_TYPES } from '../../features/language-support';
 import { CREATE_LINE, DELETE_LINE, UPDATE_CONTENT } from '../actionTypes';
-
-export const STATEMENT_TYPES = {
-  COMMENT: 'COMMENT',
-  LINE: 'LINE',
-  IF: 'IF',
-  FUNCTION: 'FUNCTION',
-};
-
-export const STATEMENT_FACTORY = {
-  [STATEMENT_TYPES.LINE]: (content = '') => ({
-    id: uuid(),
-    type: STATEMENT_TYPES.LINE,
-    content,
-  }),
-};
+import {
+  createLine,
+  focusById,
+  updateLine,
+} from './BlockFactory';
 
 const initialState = {
   id: uuid(),
@@ -26,6 +17,7 @@ const initialState = {
       id: uuid(),
       type: STATEMENT_TYPES.FUNCTION,
       name: 'functionName',
+      returnType: 'Unit',
       args: [],
       statements: [
         { id: uuid(), type: STATEMENT_TYPES.LINE, content: '' },
@@ -41,15 +33,6 @@ const initialState = {
   ],
 };
 
-function focusById(id, focusPosition) {
-  setTimeout(() => {
-    const input = document.getElementById(id);
-    const pos = focusPosition || input.value.length;
-    input.setSelectionRange(pos, pos);
-    input.focus();
-  }, 50);
-}
-
 export function fileReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_LINE: {
@@ -57,9 +40,7 @@ export function fileReducer(state = initialState, action) {
       const { cursorPosition, path } = action.payload;
       const pathToParent = path.slice(0, path.length - 1);
       const indexOfCurrentLine = path[path.length - 1];
-      const newLine = STATEMENT_FACTORY[STATEMENT_TYPES.LINE](
-        getIn(state, path).content.slice(cursorPosition)
-      );
+      const newLine = createLine(state, path, cursorPosition);
 
       focusById(newLine.id);
 
@@ -111,7 +92,17 @@ export function fileReducer(state = initialState, action) {
     }
     case UPDATE_CONTENT: {
       const { path, value } = action.payload;
-      return updateIn(state, path, (current) => value);
+      return updateIn(state, path, (dispatcher) => {
+        switch (dispatcher.type) {
+          case STATEMENT_TYPES.COMMENT:
+            return { ...dispatcher, content: value };
+          case STATEMENT_TYPES.LINE:
+            return updateLine(dispatcher, value);
+          default:
+            console.warn('Unknown statement type, ignoring update');
+            return dispatcher;
+        }
+      });
     }
     default:
       return state;

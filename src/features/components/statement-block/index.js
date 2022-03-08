@@ -5,6 +5,7 @@ import Line from '../line';
 import { Function } from '../function';
 import './index.scss';
 import { STATEMENT_TYPES } from '../../language-support';
+import { IfClause } from '../IfClause';
 
 
 export class StatementBlock extends React.Component {
@@ -23,6 +24,15 @@ export class StatementBlock extends React.Component {
         case STATEMENT_TYPES.LINE:
           return (
             <Line
+              key={statement.id}
+              statement={statement}
+              path={this.props.path}
+              stateKeys={['statements', i]}
+            />
+          );
+          case STATEMENT_TYPES.IF:
+          return (
+            <IfClause
               key={statement.id}
               statement={statement}
               path={this.props.path}

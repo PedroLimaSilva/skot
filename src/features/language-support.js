@@ -22,6 +22,12 @@ export const STATEMENT_FACTORY = {
     args: [],
     statements: [{ id: uuid(), type: STATEMENT_TYPES.LINE, content: '' }],
   }),
+  [STATEMENT_TYPES.IF]: () => ({
+    id: uuid(),
+    type: STATEMENT_TYPES.IF,
+    condition: '',
+    statements: [{ id: uuid(), type: STATEMENT_TYPES.LINE, content: '' }],
+  }),
 };
 
 export const SUPPORTED_LANGUAGES = {

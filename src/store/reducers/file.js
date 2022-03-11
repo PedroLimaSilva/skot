@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { STATEMENT_TYPES } from '../../features/language-support';
 import { CREATE_LINE, DELETE_LINE, UPDATE_CONTENT } from '../actionTypes';
 import {
+  createComment,
   createLine,
   focusById,
   updateLine,
@@ -38,9 +39,15 @@ export function fileReducer(state = initialState, action) {
     case CREATE_LINE: {
       // Create a new Line Statement inside the emitting component
       const { cursorPosition, path } = action.payload;
+
       const pathToParent = path.slice(0, path.length - 1);
       const indexOfCurrentLine = path[path.length - 1];
-      const newLine = createLine(state, path, cursorPosition);
+
+      const dispatcher = getIn(state, path);
+      let newLine =
+        dispatcher.type === STATEMENT_TYPES.COMMENT
+          ? createComment(state, path, cursorPosition)
+          : createLine(state, path, cursorPosition);
 
       focusById(newLine.id);
 
@@ -92,15 +99,27 @@ export function fileReducer(state = initialState, action) {
     }
     case UPDATE_CONTENT: {
       const { path, value } = action.payload;
-      return updateIn(state, path, (dispatcher) => {
+
+      const dispatcher = getIn(state, path);
+      const dispatcherIndex = path[path.length - 1];
+
+      return updateIn(state, path.slice(0, path.length - 1), (parentBlocks) => {
         switch (dispatcher.type) {
           case STATEMENT_TYPES.COMMENT:
-            return { ...dispatcher, content: value };
+            return [
+              ...parentBlocks.slice(0, dispatcherIndex),
+              { ...dispatcher, content: value },
+              ...parentBlocks.slice(dispatcherIndex + 1),
+            ];
           case STATEMENT_TYPES.LINE:
-            return updateLine(dispatcher, value);
+            return [
+              ...parentBlocks.slice(0, dispatcherIndex),
+              ...updateLine(dispatcher, value),
+              ...parentBlocks.slice(dispatcherIndex + 1),
+            ];
           default:
             console.warn('Unknown statement type, ignoring update');
-            return dispatcher;
+            return parentBlocks;
         }
       });
     }

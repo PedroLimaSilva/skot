@@ -14,20 +14,45 @@ export const STATEMENT_FACTORY = {
     type: STATEMENT_TYPES.LINE,
     content,
   }),
-  [STATEMENT_TYPES.FUNCTION]: () => ({
+  [STATEMENT_TYPES.COMMENT]: (content = '') => ({
     id: uuid(),
-    type: STATEMENT_TYPES.FUNCTION,
-    name: 'functionName',
-    returnType: 'Unit',
-    args: [],
-    statements: [{ id: uuid(), type: STATEMENT_TYPES.LINE, content: '' }],
+    type: STATEMENT_TYPES.COMMENT,
+    content,
   }),
-  [STATEMENT_TYPES.IF]: () => ({
-    id: uuid(),
-    type: STATEMENT_TYPES.IF,
-    condition: '',
-    statements: [{ id: uuid(), type: STATEMENT_TYPES.LINE, content: '' }],
-  }),
+  [STATEMENT_TYPES.FUNCTION]: () => {
+    const focusTarget = uuid();
+    return {
+      focusTarget,
+      newBlocks: [
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
+        {
+          id: focusTarget,
+          type: STATEMENT_TYPES.FUNCTION,
+          name: 'functionName',
+          returnType: 'Unit',
+          args: [],
+          statements: [{ id: uuid(), type: STATEMENT_TYPES.LINE, content: '' }],
+        },
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
+      ],
+    };
+  },
+  [STATEMENT_TYPES.IF]: () => {
+    const focusTarget = uuid();
+    return {
+      focusTarget,
+      newBlocks: [
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
+        {
+          id: focusTarget,
+          type: STATEMENT_TYPES.IF,
+          condition: '',
+          statements: [{ id: uuid(), type: STATEMENT_TYPES.LINE, content: '' }],
+        },
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
+      ],
+    };
+  },
 };
 
 export const SUPPORTED_LANGUAGES = {

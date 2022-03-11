@@ -1,18 +1,31 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { removeBlock } from '../../../store/actions';
+
 import { CodeBlock } from '../CodeBlock';
 import { Input } from '../input';
-
 import { StatementBlock } from '../statement-block';
 
 import './index.scss';
 
-export class Function extends CodeBlock {
+class Function extends CodeBlock {
   render() {
     const { id, args, name, returnType, statements } = this.props.statement;
     return (
       <section className='Function'>
         <header>
-          <strong>fun</strong> <Input inline id={id} content={name} />{' '}
+          <strong>fun</strong>{' '}
+          <Input
+            inline
+            id={id}
+            content={name}
+            onDeleteLine={() =>
+              this.props.removeBlock({
+                path: this.state.path,
+              })
+            }
+          />{' '}
           <strong>(</strong>
           <Input inline content={args.toString()} />
           <strong>): </strong>
@@ -24,3 +37,5 @@ export class Function extends CodeBlock {
     );
   }
 }
+
+export default connect(null, { removeBlock })(Function);

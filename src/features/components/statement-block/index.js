@@ -1,12 +1,13 @@
 import React from 'react';
 
+import { STATEMENT_TYPES } from '../../language-support';
+
 import Comment from '../comment';
 import Line from '../line';
-import { Function } from '../function';
-import './index.scss';
-import { STATEMENT_TYPES } from '../../language-support';
-import { IfClause } from '../IfClause';
+import Function from '../function';
+import IfClause from '../IfClause';
 
+import './index.scss';
 
 export class StatementBlock extends React.Component {
   renderStatements() {
@@ -30,7 +31,7 @@ export class StatementBlock extends React.Component {
               stateKeys={['statements', i]}
             />
           );
-          case STATEMENT_TYPES.IF:
+        case STATEMENT_TYPES.IF:
           return (
             <IfClause
               key={statement.id}

@@ -1,12 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { CodeBlock } from '../CodeBlock';
 import { Input } from '../input';
+
+import { removeBlock } from '../../../store/actions';
 
 import { StatementBlock } from '../statement-block';
 
 import './index.scss';
 
-export class IfClause extends CodeBlock {
+class IfClause extends CodeBlock {
   render() {
     const { id, condition, statements } = this.props.statement;
     return (
@@ -14,7 +18,16 @@ export class IfClause extends CodeBlock {
         <header>
           <strong>if</strong>
           <strong>(</strong>
-          <Input inline id={id} content={condition.toString()} />
+          <Input
+            inline
+            id={id}
+            content={condition.toString()}
+            onDeleteLine={() =>
+              this.props.removeBlock({
+                path: this.state.path,
+              })
+            }
+          />
           <strong>) {`{`}</strong>
         </header>
         <StatementBlock statements={statements} path={this.state.path} />
@@ -23,3 +36,5 @@ export class IfClause extends CodeBlock {
     );
   }
 }
+
+export default connect(null, { removeBlock })(IfClause);

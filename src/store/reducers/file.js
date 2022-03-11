@@ -1,7 +1,12 @@
 import { getIn, updateIn } from 'immutable';
 import { v4 as uuid } from 'uuid';
 import { STATEMENT_TYPES } from '../../features/language-support';
-import { CREATE_LINE, DELETE_LINE, UPDATE_CONTENT } from '../actionTypes';
+import {
+  CREATE_LINE,
+  DELETE_LINE,
+  REMOVE_BLOCK,
+  UPDATE_CONTENT,
+} from '../actionTypes';
 import {
   createComment,
   createLine,
@@ -121,6 +126,20 @@ export function fileReducer(state = initialState, action) {
             console.warn('Unknown statement type, ignoring update');
             return parentBlocks;
         }
+      });
+    }
+    case REMOVE_BLOCK: {
+      const { path } = action.payload;
+
+      const dispatcher = getIn(state, path);
+      const dispatcherIndex = path[path.length - 1];
+      
+      return updateIn(state, path.slice(0, path.length - 1), (parentBlocks) => {
+        return [
+          ...parentBlocks.slice(0, dispatcherIndex),
+          ...dispatcher.statements,
+          ...parentBlocks.slice(dispatcherIndex + 1),
+        ];;
       });
     }
     default:

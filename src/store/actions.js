@@ -1,4 +1,9 @@
-import { CREATE_LINE, UPDATE_CONTENT, DELETE_LINE } from './actionTypes';
+import {
+  CREATE_LINE,
+  UPDATE_CONTENT,
+  DELETE_LINE,
+  REMOVE_BLOCK,
+} from './actionTypes';
 
 export const createLine = ({ cursorPosition, path }) => ({
   type: CREATE_LINE,
@@ -17,7 +22,7 @@ export const createLine = ({ cursorPosition, path }) => ({
 export const updateContent = ({ path, value }) => ({
   type: UPDATE_CONTENT,
   payload: {
-    path: [...path],
+    path,
     value,
   },
 });
@@ -28,5 +33,12 @@ export const deleteLine = ({ id, path, value }) => ({
     id,
     path,
     value,
+  },
+});
+
+export const removeBlock = ({ path }) => ({
+  type: REMOVE_BLOCK,
+  payload: {
+    path,
   },
 });

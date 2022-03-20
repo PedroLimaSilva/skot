@@ -12,8 +12,10 @@ import './index.scss';
 // eslint-disable-next-line no-useless-escape
 const FUNCTION_NAME_REGEX = /[a-zA-Z_$]+/gm;
 // eslint-disable-next-line no-useless-escape
+// eslint-disable-next-line no-unused-vars
 const FUNCTION_ARGUMENTS_REGEX =
   /([a-zA-Z_$]+: ([A-Z][a-zA-Z]*), )|([a-zA-Z_$]+: ([A-Z][a-zA-Z]*))/gm;
+// eslint-disable-next-line no-unused-vars
 const FUNCTION_TYPE_REGEX = /([A-Z][a-zA-Z]*)/gm;
 
 class Function extends CodeBlock {

@@ -41,9 +41,10 @@ export class Input extends React.Component {
   }
 
   handleInput = (e) => {
-    this.props.onUpdate?.(e.target.value);
-    if (this.props.inline) {
-      this.setState({ width: `${e.target.value.length * 0.65}em` });
+    const inputValue = e.target.value;
+    if (inputValue) {
+      const match = inputValue.match(this.props.regex);
+      e.target.value = ''.concat(...match);
     }
   };
 
@@ -112,6 +113,13 @@ export class Input extends React.Component {
     }
   };
 
+  handleChange = (e) => {
+    this.props.onUpdate?.(e.target.value);
+    if (this.props.inline) {
+      this.setState({ width: `${e.target.value.length * 0.65}em` });
+    }
+  };
+
   render() {
     const { content, id } = this.props;
     return (
@@ -123,6 +131,7 @@ export class Input extends React.Component {
         defaultValue={content}
         tabIndex={0}
         onKeyDown={this.handleKeydown}
+        onChange={this.handleChange}
         onInput={this.handleInput}
         onFocus={() => this.setState({ isFocused: true })}
         onBlur={() => this.setState({ isFocused: false })}

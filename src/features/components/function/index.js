@@ -9,6 +9,13 @@ import { StatementBlock } from '../statement-block';
 
 import './index.scss';
 
+// eslint-disable-next-line no-useless-escape
+const FUNCTION_NAME_REGEX = /[a-zA-Z_$]+/gm;
+// eslint-disable-next-line no-useless-escape
+const FUNCTION_ARGUMENTS_REGEX =
+  /([a-zA-Z_$]+: ([A-Z][a-zA-Z]*), )|([a-zA-Z_$]+: ([A-Z][a-zA-Z]*))/gm;
+const FUNCTION_TYPE_REGEX = /([A-Z][a-zA-Z]*)/gm;
+
 class Function extends CodeBlock {
   render() {
     const { id, args, name, returnType, statements } = this.props.statement;
@@ -20,6 +27,7 @@ class Function extends CodeBlock {
             inline
             id={id}
             content={name}
+            regex={FUNCTION_NAME_REGEX}
             onDeleteLine={() =>
               this.props.removeBlock({
                 path: this.state.path,

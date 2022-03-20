@@ -1,9 +1,9 @@
-.FunctionBlock {
-  span {
+.Function {
+  strong {
     color: magenta;
     font-weight: bold;
   }
-  .header {
+  header {
     display: flex;
     align-items: center;
     > div {

@@ -42,7 +42,7 @@ export class Input extends React.Component {
 
   handleInput = (e) => {
     const inputValue = e.target.value;
-    if (inputValue) {
+    if (inputValue && this.props.regex) {
       const match = inputValue.match(this.props.regex);
       e.target.value = ''.concat(...match);
     }

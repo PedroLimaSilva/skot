@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { CodeBlock } from '../CodeBlock';
-import { Input } from '../Input';
+import { Input } from '../InputLine';
 
 import { removeBlock } from '../../../store/actions';
 

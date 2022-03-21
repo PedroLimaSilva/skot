@@ -1,7 +1,7 @@
 import './App.scss';
 import React from 'react';
 import { PRINTER_EMPTY } from './helpers/printer';
-import File from './features/components/File';
+import File from './features/components/FileComp';
 
 class App extends React.PureComponent {
   codePrinter = PRINTER_EMPTY;

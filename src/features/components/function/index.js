@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { removeBlock } from '../../../store/actions';
 
 import { CodeBlock } from '../CodeBlock';
-import { Input } from '../input';
-import { StatementBlock } from '../statement-block';
+import { Input } from '../Input';
+import { StatementBlock } from '../StatementBlock';
 
 import './index.scss';
 

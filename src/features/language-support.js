@@ -5,10 +5,11 @@ export const STATEMENT_TYPES = {
   COMMENT: 'COMMENT',
   LINE: 'LINE',
   IF: 'IF',
-  ELSE: "ELSE",
+  ELSE: 'ELSE',
   FUNCTION: 'FUNCTION',
   WHILE: 'WHILE',
   FOR: 'FOR',
+  RETURN: 'RETURN',
 };
 
 export const STATEMENT_FACTORY = {
@@ -40,6 +41,20 @@ export const STATEMENT_FACTORY = {
       ],
     };
   },
+  [STATEMENT_TYPES.RETURN]: () => {
+    const focusTarget = uuid();
+    return {
+      focusTarget,
+      newBlocks: [
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
+        {
+          id: focusTarget,
+          type: STATEMENT_TYPES.RETURN,
+          value: '',
+        },
+      ],
+    };
+  },
   [STATEMENT_TYPES.IF]: () => {
     const focusTarget = uuid();
     return {
@@ -56,6 +71,7 @@ export const STATEMENT_FACTORY = {
       ],
     };
   },
+  /*
   [STATEMENT_TYPES.ELSE]: () => {
     const focusTarget = uuid();
     return {
@@ -103,6 +119,7 @@ export const STATEMENT_FACTORY = {
       ],
     };
   },
+  */
 };
 
 export const SUPPORTED_LANGUAGES = {
@@ -114,13 +131,15 @@ window.__LANGUAGE_SUPPORT = { language: SUPPORTED_LANGUAGES.KOTLIN };
 export const KEYSTROKE_MAP = {
   [SUPPORTED_LANGUAGES.KOTLIN]: {
     ['fun']: STATEMENT_FACTORY[STATEMENT_TYPES.FUNCTION],
+    ['re']: STATEMENT_FACTORY[STATEMENT_TYPES.RETURN],
     ['if ']: STATEMENT_FACTORY[STATEMENT_TYPES.IF],
     ['if(']: STATEMENT_FACTORY[STATEMENT_TYPES.IF],
-    ['while']: STATEMENT_FACTORY[STATEMENT_TYPES.WHILE],
-    ['for']: STATEMENT_FACTORY[STATEMENT_TYPES.FOR],
+    // ['while']: STATEMENT_FACTORY[STATEMENT_TYPES.WHILE],
+    // ['for']: STATEMENT_FACTORY[STATEMENT_TYPES.FOR],
   },
 };
 
+// TODO: check if this is necessary
 export const NESTING_BLACKLIST = {
   [SUPPORTED_LANGUAGES.KOTLIN]: {
     [STATEMENT_TYPES.IF]: [STATEMENT_TYPES.FUNCTION],

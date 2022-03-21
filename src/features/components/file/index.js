@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { getFile } from '../../../store/selectors';
-import { StatementBlock } from '../statement-block';
+import { StatementBlock } from '../StatementBlock';
 
 import { CodeBlock } from '../CodeBlock';
 

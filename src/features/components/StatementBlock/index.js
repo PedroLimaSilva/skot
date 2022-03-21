@@ -2,12 +2,13 @@ import React from 'react';
 
 import { STATEMENT_TYPES } from '../../language-support';
 
-import Comment from '../comment';
-import Line from '../line';
-import Function from '../function';
+import Comment from '../Comment';
+import Line from '../Line';
+import Function from '../Function';
 import IfClause from '../IfClause';
 
 import './index.scss';
+import Return from '../Return';
 
 export class StatementBlock extends React.Component {
   renderStatements() {
@@ -43,6 +44,15 @@ export class StatementBlock extends React.Component {
         case STATEMENT_TYPES.FUNCTION:
           return (
             <Function
+              key={statement.id}
+              statement={statement}
+              path={this.props.path}
+              stateKeys={['statements', i]}
+            />
+          );
+        case STATEMENT_TYPES.RETURN:
+          return (
+            <Return
               key={statement.id}
               statement={statement}
               path={this.props.path}

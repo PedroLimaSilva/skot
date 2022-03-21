@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createLine, deleteLine, updateContent } from '../../../store/actions';
 
 import { CodeBlock } from '../CodeBlock';
-import { Input } from '../input';
+import { Input } from '../Input';
 import './index.scss';
 
 class Comment extends CodeBlock {

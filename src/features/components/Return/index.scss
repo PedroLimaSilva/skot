@@ -1,0 +1,12 @@
+.Return {
+  display: flex;
+  align-items: center;
+
+  :last-child {
+    flex: 1;
+  }
+
+  span {
+    color: magenta;
+  }
+}

@@ -2,9 +2,9 @@ import React from 'react';
 
 import { STATEMENT_TYPES } from '../../language-support';
 
-import Comment from '../CommentComp';
-import Line from '../LineComp';
-import Function from '../FunctionComp';
+import Comment from '../Comment';
+import Line from '../Line';
+import Function from '../Function';
 import IfClause from '../If';
 
 import './index.scss';

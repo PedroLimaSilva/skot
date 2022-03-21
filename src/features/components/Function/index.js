@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { removeBlock } from '../../../store/actions';
 
 import { CodeBlock } from '../CodeBlock';
-import { Input } from '../InputLine';
+import { Input } from '../Input';
 import { StatementBlock } from '../StatementBlock';
 
 import './index.scss';

@@ -4,16 +4,14 @@ import { connect } from 'react-redux';
 import { createLine, deleteLine, updateContent } from '../../../store/actions';
 
 import { CodeBlock } from '../CodeBlock';
-import { Input } from '../InputLine';
+import { Input } from '../Input';
 import './index.scss';
 
-class Comment extends CodeBlock {
+class Line extends CodeBlock {
   render() {
     return (
-      <p className='Comment'>
-        {'/* '}
+      <p className='Line'>
         <Input
-          inline
           id={this.props.statement.id}
           content={this.props.statement.content}
           onNewLine={(cursorPosition) =>
@@ -36,12 +34,9 @@ class Comment extends CodeBlock {
             })
           }
         />
-        {' */'}
       </p>
     );
   }
 }
 
-export default connect(null, { createLine, deleteLine, updateContent })(
-  Comment
-);
+export default connect(null, { createLine, deleteLine, updateContent })(Line);

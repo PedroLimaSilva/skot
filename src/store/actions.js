@@ -3,6 +3,7 @@ import {
   UPDATE_CONTENT,
   DELETE_LINE,
   REMOVE_BLOCK,
+  UPDATE_FUNCTION,
 } from './actionTypes';
 
 export const createLine = ({ cursorPosition, path }) => ({
@@ -40,5 +41,14 @@ export const removeBlock = ({ path }) => ({
   type: REMOVE_BLOCK,
   payload: {
     path,
+  },
+});
+
+export const updateFunction = ({ path, value, focusTarget }) => ({
+  type: UPDATE_FUNCTION,
+  payload: {
+    path,
+    value,
+    focusTarget,
   },
 });

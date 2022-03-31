@@ -27,7 +27,7 @@ export class Input extends React.Component {
 
   componentDidMount() {
     if (this.props.inline) {
-      this.setState({ width: `${this.ref.current?.value.length * 0.65}em` });
+      this.setState({ width: `${this.props.content.length * 0.7}em` });
     }
   }
 
@@ -35,7 +35,7 @@ export class Input extends React.Component {
     if (prevProps.content !== this.props.content) {
       this.ref.current.value = this.props.content;
       if (this.props.inline) {
-        this.setState({ width: `${this.ref.current?.value.length * 0.65}em` });
+        this.setState({ width: `${this.ref.current?.value.length * 0.7}em` });
       }
     }
   }
@@ -86,7 +86,6 @@ export class Input extends React.Component {
         newTarget.setSelectionRange(0, 0);
       }
     }
-
     if (isVerticalArrow(e)) {
       const direction = getVerticalDirection(e);
       const currentFocusIndex = findFocusIndex(e.target);
@@ -121,13 +120,16 @@ export class Input extends React.Component {
   };
 
   render() {
-    const { content, id } = this.props;
+    const { alignRight, content, id } = this.props;
     return (
       <input
         ref={this.ref}
         id={id}
         style={{ width: this.state.width }}
-        className={classNames('Input', { focused: this.state.isFocused })}
+        className={classNames('Input', {
+          focused: this.state.isFocused,
+          alignRight,
+        })}
         defaultValue={content}
         tabIndex={0}
         onKeyDown={this.handleKeydown}

@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { removeBlock } from '../../../store/actions';
+import { removeBlock, updateFunction } from '../../../store/actions';
 
 import { CodeBlock } from '../CodeBlock';
 import { Input } from '../Input';
 import { StatementBlock } from '../StatementBlock';
 
 import './index.scss';
+import { ParameterList } from './ParameterList';
 
 // eslint-disable-next-line no-useless-escape
 const FUNCTION_NAME_REGEX = /[a-zA-Z_$]+/gm;
@@ -30,16 +31,41 @@ class Function extends CodeBlock {
             id={id}
             content={name}
             regex={FUNCTION_NAME_REGEX}
+            onUpdate={(value) =>
+              this.props.updateFunction({
+                path: [...this.state.path, 'name'],
+                value,
+              })
+            }
             onDeleteLine={() =>
               this.props.removeBlock({
                 path: this.state.path,
               })
             }
           />{' '}
-          <strong>(</strong>
-          <Input inline content={args.toString()} />
-          <strong>): </strong>
-          <Input inline content={returnType} /> <strong>{'{'}</strong>
+          <ParameterList
+            list={args}
+            id={id}
+            onUpdate={(index, field, value, focusTarget) =>
+              this.props.updateFunction({
+                path: [...this.state.path, 'args', index, field],
+                value,
+                focusTarget,
+              })
+            }
+          />
+          <Input
+            inline
+            content={returnType}
+            regex={FUNCTION_TYPE_REGEX}
+            onUpdate={(value) =>
+              this.props.updateFunction({
+                path: [...this.state.path, 'returnType'],
+                value,
+              })
+            }
+          />{' '}
+          <strong>{'{'}</strong>
         </header>
         <StatementBlock statements={statements} path={this.state.path} />
         <strong>{'}'}</strong>
@@ -48,4 +74,4 @@ class Function extends CodeBlock {
   }
 }
 
-export default connect(null, { removeBlock })(Function);
+export default connect(null, { removeBlock, updateFunction })(Function);

@@ -6,6 +6,7 @@ import {
   DELETE_LINE,
   REMOVE_BLOCK,
   UPDATE_CONTENT,
+  UPDATE_FUNCTION,
 } from '../actionTypes';
 import {
   createComment,
@@ -24,7 +25,10 @@ const initialState = {
       type: STATEMENT_TYPES.FUNCTION,
       name: 'functionName',
       returnType: 'Unit',
-      args: [],
+      args: [
+        { name: 'a', type: 'Number' },
+        { name: 'b', type: 'Number' },
+      ],
       statements: [
         { id: uuid(), type: STATEMENT_TYPES.LINE, content: '' },
         {
@@ -133,14 +137,40 @@ export function fileReducer(state = initialState, action) {
 
       const dispatcher = getIn(state, path);
       const dispatcherIndex = path[path.length - 1];
-      
+
       return updateIn(state, path.slice(0, path.length - 1), (parentBlocks) => {
         return [
           ...parentBlocks.slice(0, dispatcherIndex),
           ...dispatcher.statements,
           ...parentBlocks.slice(dispatcherIndex + 1),
-        ];;
+        ];
       });
+    }
+    case UPDATE_FUNCTION: {
+      const { path, value, focusTarget } = action.payload;
+      if (
+        path.includes('args') &&
+        path[path.length - 2] >=
+          getIn(state, path.slice(0, path.length - 2)).length
+      ) {
+        focusById(focusTarget);
+        return updateIn(state, path.slice(0, path.length - 2), (args) => {
+          return [
+            ...args,
+            { name: 'name', type: 'Type', [path[path.length - 1]]: value },
+          ];
+        });
+      } else if (path.includes('args') && value === '') {
+        const removedArgIndex = path[path.length - 2]
+        return updateIn(state, path.slice(0, path.length - 2), (args) => {
+          return [
+            ...args.slice(0, removedArgIndex),
+            ...args.slice(removedArgIndex + 1),
+          ];
+        });
+      } else {
+        return updateIn(state, path, () => value);
+      }
     }
     default:
       return state;

@@ -45,14 +45,14 @@ export class ParameterList extends React.Component {
             this.handleTypeChange(e, i, `${this.props.id}_param_${i}_type`)
           }
         />
-        {list ? ', ' : ''}
+        {list && i < list.length - 1 ? ', ' : ''}
       </span>
     );
   };
 
   render() {
     const { list = [] } = this.props;
-    const newArg = { name: 'name', type: 'Type' };
+    const newArg = { name: '', type: '' };
 
     return (
       <span className='ParameterList'>

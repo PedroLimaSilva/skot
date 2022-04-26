@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 /* eslint-disable no-useless-computed-key */
 export const STATEMENT_TYPES = {
   COMMENT: 'COMMENT',
+  DECLARATION: 'DECLARATION',
   LINE: 'LINE',
   IF: 'IF',
   ELSE: 'ELSE',
@@ -50,7 +51,7 @@ export const STATEMENT_FACTORY = {
         {
           id: focusTarget,
           type: STATEMENT_TYPES.RETURN,
-          value: '',
+          content: '',
         },
       ],
     };

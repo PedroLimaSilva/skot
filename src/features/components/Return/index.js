@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { deleteLine, updateContent } from '../../../store/actions';
 
 import { CodeBlock } from '../CodeBlock';
-import { Input } from '../Input';
+import { Expression } from '../Expression';
 import './index.scss';
 
 class Return extends CodeBlock {
@@ -12,7 +12,7 @@ class Return extends CodeBlock {
     return (
       <p className='Return'>
         <span>{'return '}</span>
-        <Input
+        <Expression
           id={this.props.statement.id}
           inline
           content={this.props.statement.content}

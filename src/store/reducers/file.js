@@ -33,6 +33,12 @@ const initialState = {
         { id: uuid(), type: STATEMENT_TYPES.LINE, content: '' },
         {
           id: uuid(),
+          type: STATEMENT_TYPES.DECLARATION,
+          name: '',
+          content: '', //  { id: uuid(), type: STATEMENT_TYPES.EXPRESSION, content: [] },
+        },
+        {
+          id: uuid(),
           type: STATEMENT_TYPES.COMMENT,
           content: 'this is a comment',
         },
@@ -161,7 +167,7 @@ export function fileReducer(state = initialState, action) {
           ];
         });
       } else if (path.includes('args') && value === '') {
-        const removedArgIndex = path[path.length - 2]
+        const removedArgIndex = path[path.length - 2];
         return updateIn(state, path.slice(0, path.length - 2), (args) => {
           return [
             ...args.slice(0, removedArgIndex),

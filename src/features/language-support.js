@@ -72,6 +72,20 @@ export const STATEMENT_FACTORY = {
       ],
     };
   },
+  [STATEMENT_TYPES.DECLARATION]: () => {
+    const focusTarget = uuid();
+    return {
+      focusTarget,
+      newBlocks: [
+        {
+          id: focusTarget,
+          type: STATEMENT_TYPES.DECLARATION,
+          name: '',
+          content: '',
+        },
+      ],
+    };
+  },
   /*
   [STATEMENT_TYPES.ELSE]: () => {
     const focusTarget = uuid();
@@ -135,6 +149,7 @@ export const KEYSTROKE_MAP = {
     ['re']: STATEMENT_FACTORY[STATEMENT_TYPES.RETURN],
     ['if ']: STATEMENT_FACTORY[STATEMENT_TYPES.IF],
     ['if(']: STATEMENT_FACTORY[STATEMENT_TYPES.IF],
+    ['var']: STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION],
     // ['while']: STATEMENT_FACTORY[STATEMENT_TYPES.WHILE],
     // ['for']: STATEMENT_FACTORY[STATEMENT_TYPES.FOR],
   },

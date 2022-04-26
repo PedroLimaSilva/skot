@@ -30,7 +30,7 @@ class Declaration extends CodeBlock {
             this.props.deleteLine({
               id,
               path: this.state.path,
-              content,
+              value: content,
             })
           }
         />

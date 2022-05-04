@@ -6,14 +6,24 @@ import { CodeBlock } from '../CodeBlock';
 import { Expression } from '../Expression';
 import { Input } from '../Input';
 
+import './index.scss';
+
 // eslint-disable-next-line no-useless-escape
 const VAR_NAME_REGEX = /[a-zA-Z_$]+/gm;
 
 class Declaration extends CodeBlock {
+  handleEnter = (e) => {
+    if (e.code === 'Enter')
+      this.props.createLine({
+        cursorPosition: Number.MAX_VALUE,
+        path: this.state.path,
+      });
+  };
+
   render() {
     const { id, name, content } = this.props.statement;
     return (
-      <div className='Declaration'>
+      <div className='Declaration' onKeyPress={this.handleEnter}>
         <strong>{'var '}</strong>
         <Input
           inline
@@ -34,19 +44,8 @@ class Declaration extends CodeBlock {
             })
           }
         />
-        {' = '}
-        <Expression
-          inline
-          id={id}
-          content={content}
-          regex={VAR_NAME_REGEX}
-          onNewLine={(cursorPosition) =>
-            this.props.createLine({
-              cursorPosition,
-              path: this.state.path,
-            })
-          }
-        />
+        <strong>{' = '}</strong>
+        <Expression className='right-side' content={content} />
       </div>
     );
   }

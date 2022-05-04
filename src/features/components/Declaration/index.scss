@@ -1,0 +1,7 @@
+.Declaration {
+  display: flex;
+  align-items: center;
+  :last-of-type(.right-side) {
+    flex: 1;
+  }
+}

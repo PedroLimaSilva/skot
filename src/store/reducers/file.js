@@ -34,8 +34,8 @@ const initialState = {
         {
           id: uuid(),
           type: STATEMENT_TYPES.DECLARATION,
-          name: '',
-          content: '', //  { id: uuid(), type: STATEMENT_TYPES.EXPRESSION, content: [] },
+          name: 'variable',
+          content: '10', //  { id: uuid(), type: STATEMENT_TYPES.EXPRESSION, content: [] },
         },
         {
           id: uuid(),

@@ -3,11 +3,12 @@
   border: none;
   position: relative;
   height: 1.8em;
-  padding: 0.2em;
+  padding: 0 0.5em;
   min-width: 2em;
   color: inherit;
   font: inherit;
   background: transparent;
+  box-sizing: content-box;
 
   &.invalid {
     text-decoration: wavy;

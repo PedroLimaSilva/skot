@@ -45,7 +45,7 @@ class Declaration extends CodeBlock {
           }
         />
         <strong>{' = '}</strong>
-        <Expression className='right-side' content={content} />
+        <Expression className='right-side' expression={content} />
       </div>
     );
   }

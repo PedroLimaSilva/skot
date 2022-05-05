@@ -80,8 +80,12 @@ export const STATEMENT_FACTORY = {
         {
           _id: focusTarget,
           _type: STATEMENT_TYPES.DECLARATION,
-          content: '',
-          name: '',
+          content: {
+            _id: uuid(),
+            _type: STATEMENT_TYPES.EXPRESSION,
+            content: 'value',
+          },
+          name: 'name',
         },
       ],
     };

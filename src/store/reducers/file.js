@@ -21,7 +21,7 @@ const initialState = {
     { id: uuid(), type: STATEMENT_TYPES.LINE, content: 'this is a line' },
     { id: uuid(), type: STATEMENT_TYPES.COMMENT, content: 'this is a comment' },
     {
-      id: uuid(),
+      id: 'init_function',
       type: STATEMENT_TYPES.FUNCTION,
       name: 'functionName',
       returnType: 'Unit',
@@ -32,10 +32,42 @@ const initialState = {
       statements: [
         { id: uuid(), type: STATEMENT_TYPES.LINE, content: '' },
         {
-          id: uuid(),
+          id: 'init_declaration',
           type: STATEMENT_TYPES.DECLARATION,
           name: 'variable',
-          content: '10', //  { id: uuid(), type: STATEMENT_TYPES.EXPRESSION, content: [] },
+          content: {
+            id: uuid(),
+            type: STATEMENT_TYPES.EXPRESSION,
+            content: '10',
+          },
+        },
+        {
+          id: 'init_declaration',
+          type: STATEMENT_TYPES.DECLARATION,
+          name: 'variable',
+          content: {
+            id: uuid(),
+            type: STATEMENT_TYPES.COMPOSITE_EXPRESSION,
+            content: [
+              {
+                id: uuid(),
+                type: STATEMENT_TYPES.BINARY_EXPRESSION,
+                content: [
+                  {
+                    id: uuid(),
+                    type: STATEMENT_TYPES.EXPRESSION,
+                    content: '10',
+                  },
+                  {
+                    id: uuid(),
+                    type: STATEMENT_TYPES.EXPRESSION,
+                    content: '500',
+                  },
+                ],
+                operator: '-',
+              },
+            ],
+          },
         },
         {
           id: uuid(),

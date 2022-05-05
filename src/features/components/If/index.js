@@ -12,7 +12,7 @@ import './index.scss';
 
 class IfClause extends CodeBlock {
   render() {
-    const { id, condition, statements } = this.props.statement;
+    const { _id, condition, statements } = this.props.statement;
     return (
       <section className='Function'>
         <header>
@@ -20,7 +20,7 @@ class IfClause extends CodeBlock {
           <strong>(</strong>
           <Input
             inline
-            id={id}
+            id={_id}
             content={condition.toString()}
             onDeleteLine={() =>
               this.props.removeBlock({

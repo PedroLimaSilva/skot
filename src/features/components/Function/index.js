@@ -48,9 +48,9 @@ class Function extends CodeBlock {
             id={id}
             onUpdate={(index, field, value, focusTarget) =>
               this.props.updateFunction({
+                focusTarget,
                 path: [...this.state.path, 'args', index, field],
                 value,
-                focusTarget,
               })
             }
           />

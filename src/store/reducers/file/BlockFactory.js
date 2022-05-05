@@ -3,14 +3,19 @@ import {
   KEYSTROKE_MAP,
   STATEMENT_FACTORY,
   STATEMENT_TYPES,
-} from '../../features/language-support';
+} from '../../../features/language-support';
 
 export function focusById(id, focusPosition, timeout = 0) {
+  // TODO: Allow to select whole content
   setTimeout(() => {
-    const input = document.getElementById(id);
-    const pos = focusPosition || input.value.length;
-    input.setSelectionRange(pos, pos);
-    input.focus();
+    try {
+      const input = document.getElementById(id);
+      const pos = focusPosition || input.value.length;
+      input.setSelectionRange(pos, pos);
+      input.focus();
+    } catch (e) {
+      console.error(e, id);
+    }
   }, timeout);
 }
 
@@ -21,6 +26,7 @@ export function createComment(state, path, cursorPosition) {
 }
 
 export function createLine(state, path, cursorPosition) {
+  console.log(getIn(state, path));
   return STATEMENT_FACTORY[STATEMENT_TYPES.LINE](
     getIn(state, path).content.slice(cursorPosition)
   );

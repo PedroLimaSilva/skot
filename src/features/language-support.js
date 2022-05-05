@@ -4,24 +4,24 @@ import { v4 as uuid } from 'uuid';
 export const STATEMENT_TYPES = {
   COMMENT: 'COMMENT',
   DECLARATION: 'DECLARATION',
-  LINE: 'LINE',
-  IF: 'IF',
   ELSE: 'ELSE',
-  FUNCTION: 'FUNCTION',
-  WHILE: 'WHILE',
   FOR: 'FOR',
+  FUNCTION: 'FUNCTION',
+  IF: 'IF',
+  LINE: 'LINE',
   RETURN: 'RETURN',
+  WHILE: 'WHILE',
 };
 
 export const STATEMENT_FACTORY = {
   [STATEMENT_TYPES.LINE]: (content = '') => ({
-    id: uuid(),
-    type: STATEMENT_TYPES.LINE,
+    _id: uuid(),
+    _type: STATEMENT_TYPES.LINE,
     content,
   }),
   [STATEMENT_TYPES.COMMENT]: (content = '') => ({
-    id: uuid(),
-    type: STATEMENT_TYPES.COMMENT,
+    _id: uuid(),
+    _type: STATEMENT_TYPES.COMMENT,
     content,
   }),
   [STATEMENT_TYPES.FUNCTION]: () => {
@@ -31,12 +31,12 @@ export const STATEMENT_FACTORY = {
       newBlocks: [
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
-          id: focusTarget,
-          type: STATEMENT_TYPES.FUNCTION,
+          _id: focusTarget,
+          _type: STATEMENT_TYPES.FUNCTION,
+          args: [],
           name: 'functionName',
           returnType: 'Unit',
-          args: [],
-          statements: [{ id: uuid(), type: STATEMENT_TYPES.LINE, content: '' }],
+          statements: STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
       ],
@@ -49,8 +49,8 @@ export const STATEMENT_FACTORY = {
       newBlocks: [
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
-          id: focusTarget,
-          type: STATEMENT_TYPES.RETURN,
+          _id: focusTarget,
+          _type: STATEMENT_TYPES.RETURN,
           content: '',
         },
       ],
@@ -63,10 +63,10 @@ export const STATEMENT_FACTORY = {
       newBlocks: [
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
-          id: focusTarget,
-          type: STATEMENT_TYPES.IF,
+          _id: focusTarget,
+          _type: STATEMENT_TYPES.IF,
           condition: '',
-          statements: [{ id: uuid(), type: STATEMENT_TYPES.LINE, content: '' }],
+          statements: [STATEMENT_FACTORY[STATEMENT_TYPES.LINE]()],
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
       ],
@@ -78,10 +78,10 @@ export const STATEMENT_FACTORY = {
       focusTarget,
       newBlocks: [
         {
-          id: focusTarget,
-          type: STATEMENT_TYPES.DECLARATION,
-          name: '',
+          _id: focusTarget,
+          _type: STATEMENT_TYPES.DECLARATION,
           content: '',
+          name: '',
         },
       ],
     };
@@ -94,9 +94,9 @@ export const STATEMENT_FACTORY = {
       newBlocks: [
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
-          id: uuid(),
-          type: STATEMENT_TYPES.ELSE,
-          statements: [{ id: focusTarget, type: STATEMENT_TYPES.LINE, content: '' }],
+          _id: uuid(),
+          _type: STATEMENT_TYPES.ELSE,
+          statements: [{ _id: focusTarget, _type: STATEMENT_TYPES.LINE, content: '' }],
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
       ],
@@ -109,10 +109,10 @@ export const STATEMENT_FACTORY = {
       newBlocks: [
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
-          id: focusTarget,
-          type: STATEMENT_TYPES.WHILE,
+          _id: focusTarget,
+          _type: STATEMENT_TYPES.WHILE,
           condition: '',
-          statements: [{ id: uuid(), type: STATEMENT_TYPES.LINE, content: '' }],
+          statements: [{ _id: uuid(), _type: STATEMENT_TYPES.LINE, content: '' }],
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
       ],
@@ -125,10 +125,10 @@ export const STATEMENT_FACTORY = {
       newBlocks: [
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
-          id: focusTarget,
-          type: STATEMENT_TYPES.FOR,
+          _id: focusTarget,
+          _type: STATEMENT_TYPES.FOR,
           condition: 'item in array',
-          statements: [{ id: uuid(), type: STATEMENT_TYPES.LINE, content: '' }],
+          statements: [{ _id: uuid(), _type: STATEMENT_TYPES.LINE, content: '' }],
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
       ],
@@ -146,10 +146,10 @@ window.__LANGUAGE_SUPPORT = { language: SUPPORTED_LANGUAGES.KOTLIN };
 export const KEYSTROKE_MAP = {
   [SUPPORTED_LANGUAGES.KOTLIN]: {
     ['fun']: STATEMENT_FACTORY[STATEMENT_TYPES.FUNCTION],
-    ['re']: STATEMENT_FACTORY[STATEMENT_TYPES.RETURN],
     ['if ']: STATEMENT_FACTORY[STATEMENT_TYPES.IF],
     ['if(']: STATEMENT_FACTORY[STATEMENT_TYPES.IF],
-    ['var']: STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION],
+    ['re']: STATEMENT_FACTORY[STATEMENT_TYPES.RETURN],
+    ['var ']: STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION],
     // ['while']: STATEMENT_FACTORY[STATEMENT_TYPES.WHILE],
     // ['for']: STATEMENT_FACTORY[STATEMENT_TYPES.FOR],
   },

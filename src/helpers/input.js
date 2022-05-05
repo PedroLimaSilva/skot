@@ -61,8 +61,8 @@ export function getSelection() {
 
   // console.log(text);
   return {
-    text,
-    start: selection.baseOffset,
     end: selection.extentOffset,
+    start: selection.baseOffset,
+    text,
   };
 }

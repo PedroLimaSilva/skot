@@ -1,85 +1,19 @@
 import { getIn, updateIn } from 'immutable';
-import { v4 as uuid } from 'uuid';
-import { STATEMENT_TYPES } from '../../features/language-support';
+import { STATEMENT_TYPES } from '../../../features/language-support';
 import {
   CREATE_LINE,
   DELETE_LINE,
   REMOVE_BLOCK,
   UPDATE_CONTENT,
   UPDATE_FUNCTION,
-} from '../actionTypes';
+} from '../../actionTypes';
 import {
   createComment,
   createLine,
   focusById,
   updateLine,
 } from './BlockFactory';
-
-const initialState = {
-  id: uuid(),
-  statements: [
-    { id: uuid(), type: STATEMENT_TYPES.LINE, content: 'this is a line' },
-    { id: uuid(), type: STATEMENT_TYPES.COMMENT, content: 'this is a comment' },
-    {
-      id: 'init_function',
-      type: STATEMENT_TYPES.FUNCTION,
-      name: 'functionName',
-      returnType: 'Unit',
-      args: [
-        { name: 'a', type: 'Number' },
-        { name: 'b', type: 'Number' },
-      ],
-      statements: [
-        { id: uuid(), type: STATEMENT_TYPES.LINE, content: '' },
-        {
-          id: 'init_declaration',
-          type: STATEMENT_TYPES.DECLARATION,
-          name: 'variable',
-          content: {
-            id: uuid(),
-            type: STATEMENT_TYPES.EXPRESSION,
-            content: '10',
-          },
-        },
-        {
-          id: 'init_declaration',
-          type: STATEMENT_TYPES.DECLARATION,
-          name: 'variable',
-          content: {
-            id: uuid(),
-            type: STATEMENT_TYPES.COMPOSITE_EXPRESSION,
-            content: [
-              {
-                id: uuid(),
-                type: STATEMENT_TYPES.BINARY_EXPRESSION,
-                content: [
-                  {
-                    id: uuid(),
-                    type: STATEMENT_TYPES.EXPRESSION,
-                    content: '10',
-                  },
-                  {
-                    id: uuid(),
-                    type: STATEMENT_TYPES.EXPRESSION,
-                    content: '500',
-                  },
-                ],
-                operator: '-',
-              },
-            ],
-          },
-        },
-        {
-          id: uuid(),
-          type: STATEMENT_TYPES.COMMENT,
-          content: 'this is a comment',
-        },
-        { id: uuid(), type: STATEMENT_TYPES.LINE, content: '' },
-      ],
-    },
-    { id: uuid(), type: STATEMENT_TYPES.LINE, content: '' },
-  ],
-};
+import { initialState } from './initialState';
 
 export function fileReducer(state = initialState, action) {
   switch (action.type) {
@@ -96,7 +30,7 @@ export function fileReducer(state = initialState, action) {
           ? createComment(state, path, cursorPosition)
           : createLine(state, path, cursorPosition);
 
-      focusById(newLine.id);
+      focusById(newLine._id);
 
       return updateIn(state, pathToParent, (value) => [
         ...value.slice(0, indexOfCurrentLine + 1),
@@ -134,12 +68,12 @@ export function fileReducer(state = initialState, action) {
         (content) => content + value
       );
 
-      focusById(blockToFocus.id, blockToFocus.content.length);
+      focusById(blockToFocus._id, blockToFocus.content.length);
 
       const removedDispatcher = updateIn(
         updatedSibling,
         pathToParent,
-        (statements) => statements.filter((e) => e.id !== id)
+        (statements) => statements.filter((e) => e._id !== id)
       );
 
       return removedDispatcher;
@@ -151,7 +85,7 @@ export function fileReducer(state = initialState, action) {
       const dispatcherIndex = path[path.length - 1];
 
       return updateIn(state, path.slice(0, path.length - 1), (parentBlocks) => {
-        switch (dispatcher.type) {
+        switch (dispatcher._type) {
           case STATEMENT_TYPES.COMMENT:
             return [
               ...parentBlocks.slice(0, dispatcherIndex),

@@ -7,11 +7,11 @@ import {
 } from './actionTypes';
 
 export const createLine = ({ cursorPosition, path }) => ({
-  type: CREATE_LINE,
   payload: {
     cursorPosition,
     path,
   },
+  type: CREATE_LINE,
 });
 
 /**
@@ -21,34 +21,34 @@ export const createLine = ({ cursorPosition, path }) => ({
  * @returns
  */
 export const updateContent = ({ path, value }) => ({
-  type: UPDATE_CONTENT,
   payload: {
     path,
     value,
   },
+  type: UPDATE_CONTENT,
 });
 
 export const deleteLine = ({ id, path, value }) => ({
-  type: DELETE_LINE,
   payload: {
     id,
     path,
     value,
   },
+  type: DELETE_LINE,
 });
 
 export const removeBlock = ({ path }) => ({
-  type: REMOVE_BLOCK,
   payload: {
     path,
   },
+  type: REMOVE_BLOCK,
 });
 
 export const updateFunction = ({ path, value, focusTarget }) => ({
-  type: UPDATE_FUNCTION,
   payload: {
+    focusTarget,
     path,
     value,
-    focusTarget,
   },
+  type: UPDATE_FUNCTION,
 });

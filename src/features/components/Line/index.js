@@ -8,11 +8,12 @@ import { Input } from '../Input';
 import './index.scss';
 
 class Line extends CodeBlock {
+  // TODO: P3 - Consider turning lines that are blured with content into comments
   render() {
     return (
       <p className='Line'>
         <Input
-          id={this.props.statement.id}
+          id={this.props.statement._id}
           content={this.props.statement.content}
           onNewLine={(cursorPosition) =>
             this.props.createLine({

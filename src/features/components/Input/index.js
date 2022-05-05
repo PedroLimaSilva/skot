@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import {
   getHorizontalDirection,
   getVerticalDirection,
@@ -22,6 +24,8 @@ export function findFocusIndex(target) {
 }
 
 export class Input extends React.Component {
+  // TODO: On blur, if the value is '', then fill the input with a defaultValue given by the parent;
+
   ref = React.createRef();
   state = { isFocused: false, width: '100%' };
 
@@ -60,7 +64,6 @@ export class Input extends React.Component {
     }
     if (isBackspace(e) && cursorPosition === 0) {
       this.props.onDelete?.();
-      console.log('BACKSPACE', this.props.id);
       this.props.onDeleteLine?.(this.props.id, e.target.value);
       return true;
     }
@@ -127,8 +130,8 @@ export class Input extends React.Component {
         id={id}
         style={{ width: this.state.width }}
         className={classNames('Input', {
-          focused: this.state.isFocused,
           alignRight,
+          focused: this.state.isFocused,
         })}
         defaultValue={content}
         tabIndex={0}
@@ -141,3 +144,13 @@ export class Input extends React.Component {
     );
   }
 }
+
+Input.propTypes = {
+  alignRight: PropTypes.bool,
+  content: PropTypes.string,
+  id: PropTypes.string,
+  inline: PropTypes.bool,
+  onNewLine: PropTypes.func,
+  onUpdate: PropTypes.func,
+  regex: PropTypes.instanceOf(RegExp),
+};

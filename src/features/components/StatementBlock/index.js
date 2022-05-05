@@ -14,11 +14,11 @@ import './index.scss';
 export class StatementBlock extends React.Component {
   renderStatements() {
     return this.props.statements?.map((statement, i) => {
-      switch (statement.type) {
+      switch (statement._type) {
         case STATEMENT_TYPES.COMMENT:
           return (
             <Comment
-              key={statement.id}
+              key={statement._id}
               statement={statement}
               path={this.props.path}
               stateKeys={['statements', i]}
@@ -27,7 +27,7 @@ export class StatementBlock extends React.Component {
         case STATEMENT_TYPES.LINE:
           return (
             <Line
-              key={statement.id}
+              key={statement._id}
               statement={statement}
               path={this.props.path}
               stateKeys={['statements', i]}
@@ -36,7 +36,7 @@ export class StatementBlock extends React.Component {
         case STATEMENT_TYPES.IF:
           return (
             <IfClause
-              key={statement.id}
+              key={statement._id}
               statement={statement}
               path={this.props.path}
               stateKeys={['statements', i]}
@@ -45,7 +45,7 @@ export class StatementBlock extends React.Component {
         case STATEMENT_TYPES.FUNCTION:
           return (
             <Function
-              key={statement.id}
+              key={statement._id}
               statement={statement}
               path={this.props.path}
               stateKeys={['statements', i]}
@@ -54,7 +54,7 @@ export class StatementBlock extends React.Component {
         case STATEMENT_TYPES.RETURN:
           return (
             <Return
-              key={statement.id}
+              key={statement._id}
               statement={statement}
               path={this.props.path}
               stateKeys={['statements', i]}
@@ -63,7 +63,7 @@ export class StatementBlock extends React.Component {
         case STATEMENT_TYPES.DECLARATION:
           return (
             <Declaration
-              key={statement.id}
+              key={statement._id}
               statement={statement}
               path={this.props.path}
               stateKeys={['statements', i]}

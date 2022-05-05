@@ -21,13 +21,13 @@ class Declaration extends CodeBlock {
   };
 
   render() {
-    const { id, name, content } = this.props.statement;
+    const { _id, name, content } = this.props.statement;
     return (
       <div className='Declaration' onKeyPress={this.handleEnter}>
         <strong>{'var '}</strong>
         <Input
           inline
-          id={id}
+          id={_id}
           content={name}
           regex={VAR_NAME_REGEX}
           // onUpdate={(value) =>
@@ -38,7 +38,7 @@ class Declaration extends CodeBlock {
           // }
           onDeleteLine={() =>
             this.props.deleteLine({
-              id,
+              id: _id,
               path: this.state.path,
               value: content,
             })

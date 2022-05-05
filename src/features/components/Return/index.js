@@ -13,7 +13,7 @@ class Return extends CodeBlock {
       <p className='Return'>
         <span>{'return '}</span>
         <Expression
-          id={this.props.statement.id}
+          id={this.props.statement._id}
           inline
           content={this.props.statement.content}
           onDeleteLine={(id, value) =>

@@ -4,5 +4,5 @@ export const getFile = (store) => {
 };
 
 // export const getStatementById = (store, id) =>
-//   getStatements(store).find((statement) => statement.id === id) ||
+//   getStatements(store).find((statement) => statement._id === id) ||
 //   getStatementById(getStatements(store), id);

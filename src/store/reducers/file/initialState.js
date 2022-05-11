@@ -55,7 +55,25 @@ export const initialState = {
                 ],
                 operator: '-',
               },
+              {
+                _id: uuid(),
+                _type: STATEMENT_TYPES.BINARY_EXPRESSION,
+                content: [
+                  {
+                    _id: uuid(),
+                    _type: STATEMENT_TYPES.EXPRESSION,
+                    content: '3',
+                  },
+                  {
+                    _id: uuid(),
+                    _type: STATEMENT_TYPES.EXPRESSION,
+                    content: '5',
+                  },
+                ],
+                operator: '/',
+              },
             ],
+            operator: '+'
           },
           name: 'variable',
         },

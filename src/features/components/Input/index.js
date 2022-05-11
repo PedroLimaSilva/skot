@@ -75,9 +75,8 @@ export class Input extends React.Component {
       if (direction === -1 && cursorPosition === 0 && currentFocusIndex > 0) {
         const newTarget = focusableItems[currentFocusIndex + direction];
         newTarget.focus();
-        newTarget.setSelectionRange(
-          newTarget.value.length,
-          newTarget.value.length
+        setTimeout(() =>
+          newTarget.setSelectionRange(0, newTarget.value.length, 'backward')
         );
       } else if (
         direction === 1 &&
@@ -86,7 +85,9 @@ export class Input extends React.Component {
       ) {
         const newTarget = focusableItems[currentFocusIndex + direction];
         newTarget.focus();
-        newTarget.setSelectionRange(0, 0);
+        setTimeout(() =>
+          newTarget.setSelectionRange(0, newTarget.value.length, 'forward')
+        );
       }
     }
     if (isVerticalArrow(e)) {
@@ -97,9 +98,8 @@ export class Input extends React.Component {
       if (direction === -1 && currentFocusIndex > 0) {
         const newTarget = focusableItems[currentFocusIndex + direction];
         newTarget.focus();
-        newTarget.setSelectionRange(
-          newTarget.value.length,
-          newTarget.value.length
+        setTimeout(() =>
+          newTarget.setSelectionRange(0, newTarget.value.length, 'backward')
         );
       } else if (
         direction === 1 &&
@@ -107,9 +107,8 @@ export class Input extends React.Component {
       ) {
         const newTarget = focusableItems[currentFocusIndex + direction];
         newTarget.focus();
-        newTarget.setSelectionRange(
-          newTarget.value.length,
-          newTarget.value.length
+        setTimeout(() =>
+          newTarget.setSelectionRange(0, newTarget.value.length, 'forward')
         );
       }
     }

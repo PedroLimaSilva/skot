@@ -68,7 +68,7 @@ export function fileReducer(state = initialState, action) {
         (content) => content + value
       );
 
-      focusById(blockToFocus._id, blockToFocus.content.length);
+      focusById(blockToFocus._id);
 
       const removedDispatcher = updateIn(
         updatedSibling,

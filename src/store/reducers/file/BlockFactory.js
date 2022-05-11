@@ -5,14 +5,13 @@ import {
   STATEMENT_TYPES,
 } from '../../../features/language-support';
 
-export function focusById(id, focusPosition, timeout = 0) {
+export function focusById(id, focusPosition = 0, focusSpan, timeout = 0) {
   // TODO: Allow to select whole content
   setTimeout(() => {
     try {
       const input = document.getElementById(id);
-      const pos = focusPosition || input.value.length;
-      input.setSelectionRange(pos, pos);
       input.focus();
+      input.setSelectionRange(0, input.value.length, 'forward');
     } catch (e) {
       console.error(e, id);
     }

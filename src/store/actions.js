@@ -3,6 +3,7 @@ import {
   UPDATE_CONTENT,
   DELETE_LINE,
   REMOVE_BLOCK,
+  UPDATE_DECLARATION,
   UPDATE_FUNCTION,
 } from './actionTypes';
 
@@ -51,4 +52,13 @@ export const updateFunction = ({ path, value, focusTarget }) => ({
     value,
   },
   type: UPDATE_FUNCTION,
+});
+
+export const updateDeclaration = ({ path, value, focusTarget }) => ({
+  payload: {
+    focusTarget,
+    path,
+    value,
+  },
+  type: UPDATE_DECLARATION,
 });

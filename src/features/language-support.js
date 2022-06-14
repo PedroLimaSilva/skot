@@ -51,7 +51,11 @@ export const STATEMENT_FACTORY = {
         {
           _id: focusTarget,
           _type: STATEMENT_TYPES.RETURN,
-          content: '',
+          content: {
+            _id: uuid(),
+            _type: STATEMENT_TYPES.EXPRESSION,
+            content: 'value',
+          },
         },
       ],
     };
@@ -77,6 +81,7 @@ export const STATEMENT_FACTORY = {
     return {
       focusTarget,
       newBlocks: [
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
           _id: focusTarget,
           _type: STATEMENT_TYPES.DECLARATION,
@@ -87,6 +92,7 @@ export const STATEMENT_FACTORY = {
           },
           name: 'name',
         },
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
       ],
     };
   },

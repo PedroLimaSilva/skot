@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { createLine, deleteLine } from '../../../store/actions';
+import { createLine, deleteLine, updateDeclaration } from '../../../store/actions';
 import { CodeBlock } from '../CodeBlock';
 
 import { Expression } from '../Expression';
@@ -30,12 +30,12 @@ class Declaration extends CodeBlock {
           id={_id}
           content={name}
           regex={VAR_NAME_REGEX}
-          // onUpdate={(value) =>
-          //   this.props.updateFunction({
-          //     path: [...this.state.path, 'name'],
-          //     value,
-          //   })
-          // }
+          onUpdate={(value) =>
+            this.props.updateDeclaration({
+              path: [...this.state.path, 'name'],
+              value,
+            })
+          }
           onDeleteLine={() =>
             this.props.deleteLine({
               id: _id,
@@ -51,4 +51,4 @@ class Declaration extends CodeBlock {
   }
 }
 
-export default connect(null, { createLine, deleteLine })(Declaration);
+export default connect(null, { createLine, deleteLine, updateDeclaration })(Declaration);

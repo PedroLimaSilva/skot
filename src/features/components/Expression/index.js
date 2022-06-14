@@ -3,10 +3,16 @@ import { Input } from '../Input';
 
 import './index.scss';
 
+const EXPRESSION_REGEX = /[a-zA-Z1-9()_$]+/gm;
+
 /**
  * TO DO use this in return statements, if, right side of attributions, either side of *+-/
  */
 export class Expression extends Component {
+  handleInput = (e) => {
+    console.log('Expression', e);
+  };
+
   render() {
     const { expression } = this.props;
     if (Array.isArray(expression.content)) {
@@ -20,7 +26,11 @@ export class Expression extends Component {
         </div>
       );
     } else {
-      return <Input content={expression.content} inline />;
+      return (
+        <div className='Expression' onInput={this.handleInput}>
+          <Input content={expression.content} inline regex={EXPRESSION_REGEX} />
+        </div>
+      );
     }
   }
 }

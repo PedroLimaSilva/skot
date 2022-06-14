@@ -48,7 +48,14 @@ export class Input extends React.Component {
     const inputValue = e.target.value;
     if (inputValue && this.props.regex) {
       const match = inputValue.match(this.props.regex) || '';
-      e.target.value = ''.concat(...match);
+      const newValue = ''.concat(...match);
+      e.target.value = newValue;
+      if (inputValue === newValue) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    } else {
+      e.stopPropagation();
     }
   };
 
@@ -112,6 +119,7 @@ export class Input extends React.Component {
         );
       }
     }
+    return true;
   };
 
   handleChange = (e) => {

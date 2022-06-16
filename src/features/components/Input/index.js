@@ -14,7 +14,7 @@ import {
 import './index.scss';
 
 export function findFocusIndex(target) {
-  const focusableItems = document.querySelectorAll('input');
+  const focusableItems = document.querySelectorAll('input, select');
   for (let i = 0, len = focusableItems.length; i < len; i++) {
     if (focusableItems[i] === target) {
       return i;
@@ -77,13 +77,13 @@ export class Input extends React.Component {
     if (isHorizontalArrow(e)) {
       const direction = getHorizontalDirection(e);
       const currentFocusIndex = findFocusIndex(e.target);
-      const focusableItems = document.querySelectorAll('input');
+      const focusableItems = document.querySelectorAll('input, select');
 
       if (direction === -1 && cursorPosition === 0 && currentFocusIndex > 0) {
         const newTarget = focusableItems[currentFocusIndex + direction];
         newTarget.focus();
         setTimeout(() =>
-          newTarget.setSelectionRange(0, newTarget.value.length, 'backward')
+          newTarget.setSelectionRange?.(0, newTarget.value.length, 'backward')
         );
       } else if (
         direction === 1 &&
@@ -93,20 +93,20 @@ export class Input extends React.Component {
         const newTarget = focusableItems[currentFocusIndex + direction];
         newTarget.focus();
         setTimeout(() =>
-          newTarget.setSelectionRange(0, newTarget.value.length, 'forward')
+          newTarget.setSelectionRange?.(0, newTarget.value.length, 'forward')
         );
       }
     }
     if (isVerticalArrow(e)) {
       const direction = getVerticalDirection(e);
       const currentFocusIndex = findFocusIndex(e.target);
-      const focusableItems = document.querySelectorAll('input');
+      const focusableItems = document.querySelectorAll('input, select');
 
       if (direction === -1 && currentFocusIndex > 0) {
         const newTarget = focusableItems[currentFocusIndex + direction];
         newTarget.focus();
         setTimeout(() =>
-          newTarget.setSelectionRange(0, newTarget.value.length, 'backward')
+          newTarget.setSelectionRange?.(0, newTarget.value.length, 'backward')
         );
       } else if (
         direction === 1 &&
@@ -115,7 +115,7 @@ export class Input extends React.Component {
         const newTarget = focusableItems[currentFocusIndex + direction];
         newTarget.focus();
         setTimeout(() =>
-          newTarget.setSelectionRange(0, newTarget.value.length, 'forward')
+          newTarget.setSelectionRange?.(0, newTarget.value.length, 'forward')
         );
       }
     }

@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 
-import { createLine, deleteLine, updateDeclaration } from '../../../store/actions';
+import {
+  createLine,
+  deleteLine,
+  updateDeclaration,
+} from '../../../store/actions';
 import { CodeBlock } from '../CodeBlock';
 
 import { Expression } from '../Expression';
@@ -45,10 +49,17 @@ class Declaration extends CodeBlock {
           }
         />
         <strong>{' = '}</strong>
-        <Expression className='right-side' expression={content} />
+        <Expression
+          className='right-side'
+          expression={content}
+          path={this.state.path}
+          stateKeys={['content']}
+        />
       </div>
     );
   }
 }
 
-export default connect(null, { createLine, deleteLine, updateDeclaration })(Declaration);
+export default connect(null, { createLine, deleteLine, updateDeclaration })(
+  Declaration
+);

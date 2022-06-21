@@ -6,6 +6,7 @@ import {
   REMOVE_BLOCK,
   UPDATE_CONTENT,
   UPDATE_DECLARATION,
+  UPDATE_EXPRESSION,
   UPDATE_FUNCTION,
 } from '../../actionTypes';
 import {
@@ -146,6 +147,10 @@ export function fileReducer(state = initialState, action) {
       }
     }
     case UPDATE_DECLARATION: {
+      const { path, value } = action.payload;
+      return updateIn(state, path, () => value);
+    }
+    case UPDATE_EXPRESSION: {
       const { path, value } = action.payload;
       return updateIn(state, path, () => value);
     }

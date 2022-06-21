@@ -10,12 +10,12 @@ import './index.scss';
 class Return extends CodeBlock {
   render() {
     return (
-      <p className='Return'>
+      <div className='Return'>
         <span>{'return '}</span>
         <Expression
           id={this.props.statement._id}
           inline
-          content={this.props.statement.content}
+          expression={this.props.statement.content}
           onDeleteLine={(id, value) =>
             this.props.deleteLine({
               id,
@@ -23,14 +23,10 @@ class Return extends CodeBlock {
               value,
             })
           }
-          // onUpdate={(value) =>
-          //   this.props.updateContent({
-          //     path: this.state.path,
-          //     value,
-          //   })
-          // }
+          path={this.state.path}
+          stateKeys={['content']}
         />
-      </p>
+      </div>
     );
   }
 }

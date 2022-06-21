@@ -140,6 +140,7 @@ export class Input extends React.Component {
           alignRight,
           focused: this.state.isFocused,
         })}
+        autoComplete={"off"}
         defaultValue={content}
         tabIndex={0}
         onKeyDown={this.handleKeydown}

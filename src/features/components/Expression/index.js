@@ -1,4 +1,8 @@
-import { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { updateExpression } from '../../../store/actions';
+
+import { CodeBlock } from '../CodeBlock';
 import { Input } from '../Input';
 
 import './index.scss';
@@ -10,7 +14,7 @@ const OPERATORS = ['+', '-', '*', '/', '%'];
 /**
  * TO DO use this in return statements, if, right side of attributions, either side of *+-/
  */
-export class Expression extends Component {
+export class ExpressionComponent extends CodeBlock {
   isSpliting = false;
 
   OPERATOR_MAP = {
@@ -40,7 +44,7 @@ export class Expression extends Component {
   };
 
   handleInputUpdate = (e) => {
-    console.log('Update Expression with', e);
+    this.props.updateExpression({ path: [...this.state.path, 'content'], value: e });
   };
 
   render() {
@@ -49,7 +53,11 @@ export class Expression extends Component {
       return (
         <div className='Expression'>
           {expression.content[1] && (
-            <Expression expression={expression.content[0]} />
+            <Expression
+              expression={expression.content[0]}
+              path={this.state.path}
+              stateKeys={['content', 0]}
+            />
           )}
           {/* TODO: Create operator component to handle focusing next expression */}
           <select name='operators' defaultValue={expression.operator}>
@@ -59,7 +67,11 @@ export class Expression extends Component {
               </option>
             ))}
           </select>
-          <Expression expression={expression.content[1]} />
+          <Expression
+            expression={expression.content[1]}
+            path={this.state.path}
+            stateKeys={['content', 1]}
+          />
         </div>
       );
     } else {
@@ -76,3 +88,7 @@ export class Expression extends Component {
     }
   }
 }
+
+export const Expression = connect(null, { updateExpression })(
+  ExpressionComponent
+);

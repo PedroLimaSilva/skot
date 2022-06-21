@@ -3,6 +3,8 @@ import {
   UPDATE_CONTENT,
   DELETE_LINE,
   REMOVE_BLOCK,
+  UPGRADE_EXPRESSION_TO_BINARY,
+  UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
   UPDATE_DECLARATION,
   UPDATE_EXPRESSION,
   UPDATE_FUNCTION,
@@ -56,6 +58,7 @@ export const updateFunction = ({ path, value, focusTarget }) => ({
 });
 
 export const updateDeclaration = ({ path, value }) => ({
+  // TODO: Merge with updateExpression
   payload: {
     path,
     value,
@@ -64,9 +67,32 @@ export const updateDeclaration = ({ path, value }) => ({
 });
 
 export const updateExpression = ({ path, value }) => ({
+  // TODO: Merge with updateDeclaration
   payload: {
     path,
     value,
   },
   type: UPDATE_EXPRESSION,
+});
+
+export const upgradeExpressionToBinary = ({ path, value, focusTarget }) => ({
+  payload: {
+    focusTarget,
+    path,
+    value,
+  },
+  type: UPGRADE_EXPRESSION_TO_BINARY,
+});
+
+export const upgradeExpressionWithUnaryOperator = ({
+  path,
+  value,
+  focusTarget,
+}) => ({
+  payload: {
+    focusTarget,
+    path,
+    value,
+  },
+  type: UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
 });

@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 
-import { updateExpression } from '../../../store/actions';
+import {
+  updateExpression,
+  upgradeExpressionToBinary,
+  upgradeExpressionWithUnaryOperator,
+} from '../../../store/actions';
 
 import { CodeBlock } from '../CodeBlock';
 import { Input } from '../Input';
@@ -9,28 +13,29 @@ import './index.scss';
 
 const EXPRESSION_REGEX = /[a-zA-Z0-9()_$]+/gm;
 
-const OPERATORS = ['+', '-', '*', '/', '%'];
+const UNARY_OPERATORS = ['!', '++', '--'];
+const BINARY_OPERATORS = ['+', '-', '*', '/', '%'];
 
 /**
  * TO DO use this in return statements, if, right side of attributions, either side of *+-/
  */
 export class ExpressionComponent extends CodeBlock {
-  isSpliting = false;
+  mutating = false;
 
   OPERATOR_MAP = {
     ' ': {
-      effect: () => (this.isSpliting = true),
+      effect: (value) => this.handleIncomingOperator(value, ' '),
       pre: (value) =>
         value.replace(/\s+/g, '').length > 0 && value.charAt(0) !== '"',
     },
     '!': {
-      effect: (value) => {}, // TODO: Set operator
+      effect: (value) => this.handleIncomingOperator(value, '!'),
       pre: (value) => value === '',
     },
-    '+': {
-      effect: (value) => {}, // TODO: Set operator
-      pre: (value) => this.isSpliting,
-    },
+    // '+': {
+    //   effect: (value) => this.handleIncomingOperator(value, '++'),
+    //   pre: (value) => value.charAt(value.length-1)===@,
+    // },
   };
 
   handleInput = (e) => {
@@ -38,13 +43,33 @@ export class ExpressionComponent extends CodeBlock {
     if (trigger) {
       const currentValue = e.target.value;
       if (trigger.pre(e.target.value) || !trigger.pre) {
-        console.log(currentValue);
+        trigger.effect(currentValue);
+        this.mutating = true;
       }
     }
   };
 
+  handleIncomingOperator = (value, operator) => {
+    console.log('triggered operator possibility', value, operator);
+    if (operator === ' ') {
+      this.props.upgradeExpressionToBinary({
+        focusTarget: this.props.expression._id,
+        path: this.state.path,
+        value,
+      });
+    } else {
+      this.props.upgradeExpressionWithUnaryOperator(operator);
+    }
+    this.mutating = false;
+  };
+
   handleInputUpdate = (e) => {
-    this.props.updateExpression({ path: [...this.state.path, 'content'], value: e });
+    if (!this.mutating) {
+      this.props.updateExpression({
+        path: [...this.state.path, 'content'],
+        value: e,
+      });
+    }
   };
 
   render() {
@@ -61,11 +86,18 @@ export class ExpressionComponent extends CodeBlock {
           )}
           {/* TODO: Create operator component to handle focusing next expression */}
           <select name='operators' defaultValue={expression.operator}>
-            {OPERATORS.map((op) => (
-              <option key={`option_${op}`} value={op}>
-                {op}
-              </option>
-            ))}
+            {expression.content[1] !== undefined &&
+              BINARY_OPERATORS.map((op) => (
+                <option key={`option_${op}`} value={op}>
+                  {op}
+                </option>
+              ))}
+            {expression.content[1] === undefined &&
+              UNARY_OPERATORS.map((op) => (
+                <option key={`option_${op}`} value={op}>
+                  {op}
+                </option>
+              ))}
           </select>
           <Expression
             expression={expression.content[1]}
@@ -78,6 +110,7 @@ export class ExpressionComponent extends CodeBlock {
       return (
         <div className='Expression' onInput={this.handleInput}>
           <Input
+            id={expression._id}
             content={expression.content}
             inline
             regex={EXPRESSION_REGEX}
@@ -89,6 +122,8 @@ export class ExpressionComponent extends CodeBlock {
   }
 }
 
-export const Expression = connect(null, { updateExpression })(
-  ExpressionComponent
-);
+export const Expression = connect(null, {
+  updateExpression,
+  upgradeExpressionToBinary,
+  upgradeExpressionWithUnaryOperator,
+})(ExpressionComponent);

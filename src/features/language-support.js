@@ -2,9 +2,11 @@ import { v4 as uuid } from 'uuid';
 
 /* eslint-disable no-useless-computed-key */
 export const STATEMENT_TYPES = {
+  BINARY_EXPRESSION: 'BINARY_EXPRESSION',
   COMMENT: 'COMMENT',
   DECLARATION: 'DECLARATION',
   ELSE: 'ELSE',
+  EXPRESSION: 'EXPRESSION',
   FOR: 'FOR',
   FUNCTION: 'FUNCTION',
   IF: 'IF',

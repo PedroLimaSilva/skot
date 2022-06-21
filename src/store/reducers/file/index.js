@@ -1,4 +1,5 @@
 import { getIn, updateIn } from 'immutable';
+import { v4 as uuid } from 'uuid';
 import { STATEMENT_TYPES } from '../../../features/language-support';
 import {
   CREATE_LINE,
@@ -8,6 +9,8 @@ import {
   UPDATE_DECLARATION,
   UPDATE_EXPRESSION,
   UPDATE_FUNCTION,
+  UPGRADE_EXPRESSION_TO_BINARY,
+  UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
 } from '../../actionTypes';
 import {
   createComment,
@@ -153,6 +156,31 @@ export function fileReducer(state = initialState, action) {
     case UPDATE_EXPRESSION: {
       const { path, value } = action.payload;
       return updateIn(state, path, () => value);
+    }
+    case UPGRADE_EXPRESSION_TO_BINARY: {
+      const { path, value, focusTarget } = action.payload;
+      return updateIn(state, path, (e) => {
+        return {
+          _id: uuid(),
+          _type: STATEMENT_TYPES.BINARY_EXPRESSION,
+          content: [
+            {
+              _id: focusTarget, // TODO: should focus the operator
+              _type: STATEMENT_TYPES.EXPRESSION,
+              content: value,
+            },
+            {
+              _id: uuid(),
+              _type: STATEMENT_TYPES.EXPRESSION,
+              content: '0',
+            },
+          ],
+          operator: '+',
+        };
+      });
+    }
+    case UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR: {
+      return state;
     }
     default:
       return state;

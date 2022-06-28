@@ -69,9 +69,13 @@ export const STATEMENT_FACTORY = {
       newBlocks: [
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
-          _id: focusTarget,
+          _id: uuid(),
           _type: STATEMENT_TYPES.IF,
-          condition: '',
+          condition: {
+            _id: focusTarget,
+            _type: STATEMENT_TYPES.EXPRESSION,
+            content: 'true',
+          },
           statements: [STATEMENT_FACTORY[STATEMENT_TYPES.LINE]()],
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),

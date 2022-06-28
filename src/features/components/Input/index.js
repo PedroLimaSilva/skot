@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  getElementTextWidth,
   getHorizontalDirection,
   getVerticalDirection,
   isBackspace,
@@ -31,7 +32,7 @@ export class Input extends React.Component {
 
   componentDidMount() {
     if (this.props.inline) {
-      this.setState({ width: `${this.props.content.length * 0.7}em` });
+      this.setState({ width: `${getElementTextWidth(this.ref.current)}px` });
     }
   }
 
@@ -39,7 +40,7 @@ export class Input extends React.Component {
     if (prevProps.content !== this.props.content) {
       this.ref.current.value = this.props.content;
       if (this.props.inline) {
-        this.setState({ width: `${this.ref.current?.value.length * 0.7}em` });
+        this.setState({ width: `${getElementTextWidth(this.ref.current)}px` });
       }
     }
   }
@@ -140,7 +141,7 @@ export class Input extends React.Component {
           alignRight,
           focused: this.state.isFocused,
         })}
-        autoComplete={"off"}
+        autoComplete={'off'}
         defaultValue={content}
         tabIndex={0}
         onKeyDown={this.handleKeydown}

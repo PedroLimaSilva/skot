@@ -32,13 +32,14 @@ export const STATEMENT_FACTORY = {
       focusTarget,
       newBlocks: [
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
+
         {
           _id: focusTarget,
           _type: STATEMENT_TYPES.FUNCTION,
           args: [],
           name: 'functionName',
           returnType: 'Unit',
-          statements: STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
+          statements: [STATEMENT_FACTORY[STATEMENT_TYPES.LINE]()],
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
       ],
@@ -161,10 +162,10 @@ window.__LANGUAGE_SUPPORT = { language: SUPPORTED_LANGUAGES.KOTLIN };
 
 export const KEYSTROKE_MAP = {
   [SUPPORTED_LANGUAGES.KOTLIN]: {
-    ['fun']: STATEMENT_FACTORY[STATEMENT_TYPES.FUNCTION],
+    ['fun ']: STATEMENT_FACTORY[STATEMENT_TYPES.FUNCTION],
     ['if ']: STATEMENT_FACTORY[STATEMENT_TYPES.IF],
     ['if(']: STATEMENT_FACTORY[STATEMENT_TYPES.IF],
-    ['re']: STATEMENT_FACTORY[STATEMENT_TYPES.RETURN],
+    ['return ']: STATEMENT_FACTORY[STATEMENT_TYPES.RETURN],
     ['var ']: STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION],
     // ['while']: STATEMENT_FACTORY[STATEMENT_TYPES.WHILE],
     // ['for']: STATEMENT_FACTORY[STATEMENT_TYPES.FOR],

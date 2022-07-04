@@ -15,7 +15,20 @@ import './index.scss';
 const EXPRESSION_REGEX = /[a-zA-Z0-9()_$]+/gm;
 
 // const UNARY_OPERATORS = ['!', '++', '--'];
-const BINARY_OPERATORS = ['+', '-', '*', '/', '%'];
+const BINARY_OPERATORS = [
+  '+',
+  '-',
+  '*',
+  '/',
+  '%',
+  '>',
+  '<',
+  '>=',
+  '<=',
+  '===',
+  '||',
+  '&&',
+];
 
 /**
  * TO DO use this in return statements, if, right side of attributions, either side of *+-/

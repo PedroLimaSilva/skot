@@ -1,0 +1,51 @@
+import { findFocusIndex, Input } from '.';
+import {
+  getHorizontalDirection,
+  isHorizontalArrow,
+} from '../../../helpers/input';
+
+import './select.scss';
+
+export class Select extends Input {
+  handleKeydown = (e) => {
+    if (isHorizontalArrow(e)) {
+      const direction = getHorizontalDirection(e);
+      const currentFocusIndex = findFocusIndex(e.target);
+      const focusableItems = document.querySelectorAll('input, select');
+
+      if (direction === -1 && currentFocusIndex > 0) {
+        const newTarget = focusableItems[currentFocusIndex + direction];
+        newTarget.focus();
+        setTimeout(() =>
+          newTarget.setSelectionRange?.(0, newTarget.value.length, 'backward')
+        );
+      } else if (
+        direction === 1 &&
+        currentFocusIndex < focusableItems.length - 1
+      ) {
+        const newTarget = focusableItems[currentFocusIndex + direction];
+        newTarget.focus();
+        setTimeout(() =>
+          newTarget.setSelectionRange?.(0, newTarget.value.length, 'forward')
+        );
+      }
+    }
+  };
+
+  render() {
+    const { defaultValue, options } = this.props;
+    return (
+      <select
+        className='Select'
+        defaultValue={defaultValue}
+        onKeyDown={this.handleKeydown}
+      >
+        {options.map((op) => (
+          <option key={`option_${op}`} value={op}>
+            {op}
+          </option>
+        ))}
+      </select>
+    );
+  }
+}

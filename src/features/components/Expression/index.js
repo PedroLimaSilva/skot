@@ -8,12 +8,13 @@ import {
 
 import { CodeBlock } from '../CodeBlock';
 import { Input } from '../Input';
+import { Select } from '../Input/select';
 
 import './index.scss';
 
 const EXPRESSION_REGEX = /[a-zA-Z0-9()_$]+/gm;
 
-const UNARY_OPERATORS = ['!', '++', '--'];
+// const UNARY_OPERATORS = ['!', '++', '--'];
 const BINARY_OPERATORS = ['+', '-', '*', '/', '%'];
 
 /**
@@ -85,20 +86,7 @@ export class ExpressionComponent extends CodeBlock {
             />
           )}
           {/* TODO: Create operator component to handle focusing next expression */}
-          <select name='operators' defaultValue={expression.operator}>
-            {expression.content[1] !== undefined &&
-              BINARY_OPERATORS.map((op) => (
-                <option key={`option_${op}`} value={op}>
-                  {op}
-                </option>
-              ))}
-            {expression.content[1] === undefined &&
-              UNARY_OPERATORS.map((op) => (
-                <option key={`option_${op}`} value={op}>
-                  {op}
-                </option>
-              ))}
-          </select>
+          <Select defaultValue={expression.operator} options={BINARY_OPERATORS}/>
           <Expression
             expression={expression.content[1]}
             path={this.state.path}

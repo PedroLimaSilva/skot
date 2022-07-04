@@ -1,6 +1,7 @@
 import {
   CREATE_LINE,
   UPDATE_CONTENT,
+  DELETE_DECLARATION,
   DELETE_LINE,
   REMOVE_BLOCK,
   UPGRADE_EXPRESSION_TO_BINARY,
@@ -95,4 +96,13 @@ export const upgradeExpressionWithUnaryOperator = ({
     value,
   },
   type: UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
+});
+
+export const deleteDeclaration = ({ id, path, value }) => ({
+  payload: {
+    id,
+    path,
+    value,
+  },
+  type: DELETE_DECLARATION,
 });

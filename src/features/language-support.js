@@ -32,7 +32,6 @@ export const STATEMENT_FACTORY = {
       focusTarget,
       newBlocks: [
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
-
         {
           _id: focusTarget,
           _type: STATEMENT_TYPES.FUNCTION,
@@ -83,7 +82,7 @@ export const STATEMENT_FACTORY = {
       ],
     };
   },
-  [STATEMENT_TYPES.DECLARATION]: () => {
+  [STATEMENT_TYPES.DECLARATION]: (isVariable) => {
     const focusTarget = uuid();
     return {
       focusTarget,
@@ -97,6 +96,7 @@ export const STATEMENT_FACTORY = {
             _type: STATEMENT_TYPES.EXPRESSION,
             content: 'value',
           },
+          isVariable,
           name: 'name',
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
@@ -166,7 +166,9 @@ export const KEYSTROKE_MAP = {
     ['if ']: STATEMENT_FACTORY[STATEMENT_TYPES.IF],
     ['if(']: STATEMENT_FACTORY[STATEMENT_TYPES.IF],
     ['return ']: STATEMENT_FACTORY[STATEMENT_TYPES.RETURN],
-    ['var ']: STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION],
+    ['val ']: STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION],
+    ['var ']: () => STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION](true),
+    // ['// ']: STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION],
     // ['while']: STATEMENT_FACTORY[STATEMENT_TYPES.WHILE],
     // ['for']: STATEMENT_FACTORY[STATEMENT_TYPES.FOR],
   },

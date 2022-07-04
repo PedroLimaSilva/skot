@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import {
   createLine,
-  deleteLine,
+  deleteDeclaration,
   updateDeclaration,
 } from '../../../store/actions';
 import { CodeBlock } from '../CodeBlock';
@@ -25,10 +25,19 @@ class Declaration extends CodeBlock {
   };
 
   render() {
-    const { _id, name, content } = this.props.statement;
+    const { _id, name, content, isVariable } = this.props.statement;
     return (
       <div className='Declaration' onKeyPress={this.handleEnter}>
-        <strong>{'var '}</strong>
+        <strong
+          onClick={() =>
+            this.props.updateDeclaration({
+              path: [...this.state.path, 'isVariable'],
+              value: !isVariable,
+            })
+          }
+        >
+          {isVariable ? 'var ' : 'val '}
+        </strong>
         <Input
           inline
           id={_id}
@@ -41,7 +50,7 @@ class Declaration extends CodeBlock {
             })
           }
           onDeleteLine={() =>
-            this.props.deleteLine({
+            this.props.deleteDeclaration({
               id: _id,
               path: this.state.path,
               value: content,
@@ -60,6 +69,8 @@ class Declaration extends CodeBlock {
   }
 }
 
-export default connect(null, { createLine, deleteLine, updateDeclaration })(
-  Declaration
-);
+export default connect(null, {
+  createLine,
+  deleteDeclaration,
+  updateDeclaration,
+})(Declaration);

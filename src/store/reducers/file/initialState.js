@@ -29,6 +29,7 @@ export const initialState = {
             _type: STATEMENT_TYPES.EXPRESSION,
             content: '10',
           },
+          isVariable: true,
           name: 'variable',
         },
         {
@@ -73,9 +74,10 @@ export const initialState = {
                 operator: '/',
               },
             ],
-            operator: '+'
+            operator: '+',
           },
-          name: 'variable',
+          isVariable: false,
+          name: 'value',
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.COMMENT]('this is a comment'),
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),

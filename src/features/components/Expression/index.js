@@ -115,6 +115,7 @@ export class ExpressionComponent extends CodeBlock {
             inline
             regex={EXPRESSION_REGEX}
             onUpdate={this.handleInputUpdate}
+            onDelete={() => this.props.onDelete?.()}
           />
         </div>
       );

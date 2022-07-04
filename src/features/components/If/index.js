@@ -12,8 +12,7 @@ import { Expression } from '../Expression';
 
 class IfClause extends CodeBlock {
   render() {
-    const { _id, condition, statements } = this.props.statement;
-    console.log(condition);
+    const { condition, statements } = this.props.statement;
     return (
       <section className='Function'>
         <header>
@@ -23,7 +22,7 @@ class IfClause extends CodeBlock {
             expression={condition}
             path={this.state.path}
             stateKeys={['condition']}
-            onDeleteLine={() =>
+            onDelete={() =>
               this.props.removeBlock({
                 path: this.state.path,
               })

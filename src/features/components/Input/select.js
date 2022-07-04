@@ -33,9 +33,10 @@ export class Select extends Input {
   };
 
   render() {
-    const { defaultValue, options } = this.props;
+    const { id, defaultValue, options } = this.props;
     return (
       <select
+        id={id}
         className='Select'
         defaultValue={defaultValue}
         onKeyDown={this.handleKeydown}

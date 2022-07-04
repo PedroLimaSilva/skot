@@ -76,9 +76,15 @@ export const updateExpression = ({ path, value }) => ({
   type: UPDATE_EXPRESSION,
 });
 
-export const upgradeExpressionToBinary = ({ path, value, focusTarget }) => ({
+export const upgradeExpressionToBinary = ({
+  focusTarget,
+  operator,
+  path,
+  value,
+}) => ({
   payload: {
     focusTarget,
+    operator,
     path,
     value,
   },

@@ -25,7 +25,7 @@ export class ExpressionComponent extends CodeBlock {
 
   OPERATOR_MAP = {
     ' ': {
-      effect: (value) => this.handleIncomingOperator(value, ' '),
+      effect: (value) => this.handleIncomingOperator(value, 'PENDING'),
       pre: (value) =>
         value.replace(/\s+/g, '').length > 0 && value.charAt(0) !== '"',
     },
@@ -33,18 +33,22 @@ export class ExpressionComponent extends CodeBlock {
       effect: (value) => this.handleIncomingOperator(value, '!'),
       pre: (value) => value === '',
     },
-    // '+': {
-    //   effect: (value) => this.handleIncomingOperator(value, '++'),
-    //   pre: (value) => value.charAt(value.length-1)===@,
-    // },
+    default: {
+      effect: (value, operator) => this.handleIncomingOperator(value, operator),
+      pre: (value) => value.length > 0,
+    },
   };
 
   handleInput = (e) => {
-    const trigger = this.OPERATOR_MAP[e.nativeEvent.data];
+    const key = e.nativeEvent.data;
+    let trigger = this.OPERATOR_MAP[key];
+    if (!trigger && BINARY_OPERATORS.includes(key)) {
+      trigger = this.OPERATOR_MAP.default;
+    }
     if (trigger) {
       const currentValue = e.target.value;
       if (trigger.pre(e.target.value) || !trigger.pre) {
-        trigger.effect(currentValue);
+        trigger.effect(currentValue, key);
         this.mutating = true;
       }
     }
@@ -52,15 +56,18 @@ export class ExpressionComponent extends CodeBlock {
 
   handleIncomingOperator = (value, operator) => {
     console.log('triggered operator possibility', value, operator);
-    if (operator === ' ') {
+    if (BINARY_OPERATORS.includes(operator) || operator === 'PENDING') {
       this.props.upgradeExpressionToBinary({
-        focusTarget: this.props.expression._id,
+        focusTarget:
+          operator === 'PENDING'
+            ? `operator_${this.props.expression._id}`
+            : `second_${this.props.expression._id}`,
+        operator,
         path: this.state.path,
         value,
       });
-    } else {
-      this.props.upgradeExpressionWithUnaryOperator(operator);
     }
+
     this.mutating = false;
   };
 
@@ -86,8 +93,13 @@ export class ExpressionComponent extends CodeBlock {
             />
           )}
           {/* TODO: Create operator component to handle focusing next expression */}
-          <Select defaultValue={expression.operator} options={BINARY_OPERATORS}/>
+          <Select
+            id={`operator_${expression._id}`}
+            defaultValue={expression.operator}
+            options={BINARY_OPERATORS}
+          />
           <Expression
+            id={`second_${expression._id}`}
             expression={expression.content[1]}
             path={this.state.path}
             stateKeys={['content', 1]}
@@ -98,7 +110,7 @@ export class ExpressionComponent extends CodeBlock {
       return (
         <div className='Expression' onInput={this.handleInput}>
           <Input
-            id={expression._id}
+            id={this.props.id || expression._id}
             content={expression.content}
             inline
             regex={EXPRESSION_REGEX}

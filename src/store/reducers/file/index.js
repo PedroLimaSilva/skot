@@ -158,14 +158,15 @@ export function fileReducer(state = initialState, action) {
       return updateIn(state, path, () => value);
     }
     case UPGRADE_EXPRESSION_TO_BINARY: {
-      const { path, value, focusTarget } = action.payload;
+      const { path, operator, value, focusTarget } = action.payload;
+      focusById(focusTarget);
       return updateIn(state, path, (e) => {
         return {
-          _id: uuid(),
+          _id: e._id,
           _type: STATEMENT_TYPES.BINARY_EXPRESSION,
           content: [
             {
-              _id: focusTarget, // TODO: should focus the operator
+              _id: uuid(),
               _type: STATEMENT_TYPES.EXPRESSION,
               content: value,
             },
@@ -175,7 +176,7 @@ export function fileReducer(state = initialState, action) {
               content: '0',
             },
           ],
-          operator: '+',
+          operator,
         };
       });
     }

@@ -16,18 +16,18 @@ import './index.scss';
 const VAR_NAME_REGEX = /[a-zA-Z_$]+/gm;
 
 class Declaration extends CodeBlock {
-  handleEnter = (e) => {
-    if (e.code === 'Enter')
-      this.props.createLine({
-        cursorPosition: Number.MAX_VALUE,
-        path: this.state.path,
-      });
-  };
+  // handleEnter = (e) => {
+  //   if (e.code === 'Enter')
+  //     this.props.createLine({
+  //       cursorPosition: Number.MAX_VALUE,
+  //       path: this.state.path,
+  //     });
+  // };
 
   render() {
     const { _id, name, content, isVariable } = this.props.statement;
     return (
-      <div className='Declaration' onKeyPress={this.handleEnter}>
+      <div className='Declaration'>
         <strong
           onClick={() =>
             this.props.updateDeclaration({

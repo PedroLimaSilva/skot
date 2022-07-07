@@ -25,7 +25,6 @@ export function createComment(state, path, cursorPosition) {
 }
 
 export function createLine(state, path, cursorPosition) {
-  console.log(getIn(state, path));
   return STATEMENT_FACTORY[STATEMENT_TYPES.LINE](
     getIn(state, path).content.slice(cursorPosition)
   );

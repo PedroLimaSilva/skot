@@ -6,8 +6,8 @@ import {
   REMOVE_BLOCK,
   UPGRADE_EXPRESSION_TO_BINARY,
   UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
-  UPDATE_DECLARATION,
-  UPDATE_EXPRESSION,
+  UPGRADE_LINE_TO_ASSIGNMENT,
+  UPDATE_VALUE_AT_PATH,
   UPDATE_FUNCTION,
 } from './actionTypes';
 
@@ -58,22 +58,21 @@ export const updateFunction = ({ path, value, focusTarget }) => ({
   type: UPDATE_FUNCTION,
 });
 
-export const updateDeclaration = ({ path, value }) => ({
+export const updateValueAtPath = ({ path, value }) => ({
   // TODO: Merge with updateExpression
   payload: {
     path,
     value,
   },
-  type: UPDATE_DECLARATION,
+  type: UPDATE_VALUE_AT_PATH,
 });
 
-export const updateExpression = ({ path, value }) => ({
-  // TODO: Merge with updateDeclaration
+export const upgradeLineToAssignment = ({ path, value }) => ({
   payload: {
     path,
     value,
   },
-  type: UPDATE_EXPRESSION,
+  type: UPGRADE_LINE_TO_ASSIGNMENT,
 });
 
 export const upgradeExpressionToBinary = ({

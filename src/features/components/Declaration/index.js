@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   createLine,
   deleteDeclaration,
-  updateDeclaration,
+  updateValueAtPath,
 } from '../../../store/actions';
 import { CodeBlock } from '../CodeBlock';
 
@@ -30,7 +30,7 @@ class Declaration extends CodeBlock {
       <div className='Declaration'>
         <strong
           onClick={() =>
-            this.props.updateDeclaration({
+            this.props.updateValueAtPath({
               path: [...this.state.path, 'isVariable'],
               value: !isVariable,
             })
@@ -44,7 +44,7 @@ class Declaration extends CodeBlock {
           content={name}
           regex={VAR_NAME_REGEX}
           onUpdate={(value) =>
-            this.props.updateDeclaration({
+            this.props.updateValueAtPath({
               path: [...this.state.path, 'name'],
               value,
             })
@@ -72,5 +72,5 @@ class Declaration extends CodeBlock {
 export default connect(null, {
   createLine,
   deleteDeclaration,
-  updateDeclaration,
+  updateValueAtPath,
 })(Declaration);

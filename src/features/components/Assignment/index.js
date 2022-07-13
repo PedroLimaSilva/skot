@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   createLine,
   deleteDeclaration,
-  updateDeclaration,
+  updateValueAtPath,
 } from '../../../store/actions';
 import { CodeBlock } from '../CodeBlock';
 
@@ -26,7 +26,7 @@ class Assignment extends CodeBlock {
           content={referenceTo}
           regex={VAR_NAME_REGEX}
           onUpdate={(value) =>
-            this.props.updateDeclaration({
+            this.props.updateValueAtPath({
               path: [...this.state.path, 'referenceTo'],
               value,
             })
@@ -47,5 +47,5 @@ class Assignment extends CodeBlock {
 export default connect(null, {
   createLine,
   deleteDeclaration,
-  updateDeclaration,
+  updateValueAtPath,
 })(Assignment);

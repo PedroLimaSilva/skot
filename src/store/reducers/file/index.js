@@ -6,11 +6,11 @@ import {
   DELETE_LINE,
   REMOVE_BLOCK,
   UPDATE_CONTENT,
-  UPDATE_DECLARATION,
-  UPDATE_EXPRESSION,
+  UPDATE_VALUE_AT_PATH,
   UPDATE_FUNCTION,
   UPGRADE_EXPRESSION_TO_BINARY,
   UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
+  UPGRADE_LINE_TO_ASSIGNMENT,
 } from '../../actionTypes';
 import {
   createComment,
@@ -150,11 +150,7 @@ export function fileReducer(state = initialState, action) {
         return updateIn(state, path, () => value);
       }
     }
-    case UPDATE_DECLARATION: {
-      const { path, value } = action.payload;
-      return updateIn(state, path, () => value);
-    }
-    case UPDATE_EXPRESSION: {
+    case UPDATE_VALUE_AT_PATH: {
       const { path, value } = action.payload;
       return updateIn(state, path, () => value);
     }
@@ -183,6 +179,21 @@ export function fileReducer(state = initialState, action) {
     }
     case UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR: {
       return state;
+    }
+    case UPGRADE_LINE_TO_ASSIGNMENT: {
+      const { path, value } = action.payload;
+      const focusTarget = uuid();
+      focusById(focusTarget);
+      return updateIn(state, path, (line) => ({
+        _id: line._id,
+        _type: STATEMENT_TYPES.ASSIGNMENT,
+        content: {
+          _id: focusTarget,
+          _type: STATEMENT_TYPES.EXPRESSION,
+          content: '0',
+        },
+        referenceTo: value.trim(),
+      }));
     }
     default:
       return state;

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import {
-  updateExpression,
+  updateValueAtPath,
   upgradeExpressionToBinary,
   upgradeExpressionWithUnaryOperator,
 } from '../../../store/actions';
@@ -86,7 +86,7 @@ export class ExpressionComponent extends CodeBlock {
 
   handleInputUpdate = (e) => {
     if (!this.mutating) {
-      this.props.updateExpression({
+      this.props.updateValueAtPath({
         path: [...this.state.path, 'content'],
         value: e,
       });
@@ -137,7 +137,7 @@ export class ExpressionComponent extends CodeBlock {
 }
 
 export const Expression = connect(null, {
-  updateExpression,
+  updateValueAtPath,
   upgradeExpressionToBinary,
   upgradeExpressionWithUnaryOperator,
 })(ExpressionComponent);

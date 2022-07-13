@@ -81,6 +81,16 @@ export const initialState = {
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.COMMENT]('this is a comment'),
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
+        {
+          _id: uuid(),
+          _type: STATEMENT_TYPES.ASSIGNMENT,
+          content: {
+            _id: uuid(),
+            _type: STATEMENT_TYPES.EXPRESSION,
+            content: '10',
+          },
+          referenceTo: 'value',
+        },
       ],
     },
     STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),

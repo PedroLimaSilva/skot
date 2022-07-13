@@ -2,6 +2,7 @@ import React from 'react';
 
 import { STATEMENT_TYPES } from '../../language-support';
 
+import Assignment from '../Assignment';
 import Comment from '../Comment';
 import Line from '../Line';
 import Function from '../Function';
@@ -15,6 +16,15 @@ export class StatementBlock extends React.Component {
   renderStatements() {
     return this.props.statements?.map((statement, i) => {
       switch (statement._type) {
+        case STATEMENT_TYPES.ASSIGNMENT:
+          return (
+            <Assignment
+              key={statement._id}
+              statement={statement}
+              path={this.props.path}
+              stateKeys={['statements', i]}
+            />
+          );
         case STATEMENT_TYPES.COMMENT:
           return (
             <Comment

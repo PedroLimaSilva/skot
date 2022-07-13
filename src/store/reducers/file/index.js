@@ -17,7 +17,8 @@ import {
   createLine,
   focusById,
   updateLine,
-} from './BlockFactory';
+} from '../../../features/language-support/BlockFactory.js';
+
 import { initialState } from './initialState';
 
 export function fileReducer(state = initialState, action) {

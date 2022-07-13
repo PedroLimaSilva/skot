@@ -3,7 +3,7 @@ import {
   KEYSTROKE_MAP,
   STATEMENT_FACTORY,
   STATEMENT_TYPES,
-} from '../../../features/language-support';
+} from '.';
 
 export function focusById(id, focusPosition = 0, focusSpan, timeout = 0) {
   // TODO: Allow to select whole content

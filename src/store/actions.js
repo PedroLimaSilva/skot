@@ -4,6 +4,7 @@ import {
   DELETE_DECLARATION,
   DELETE_LINE,
   REMOVE_BLOCK,
+  TURN_EXPRESSION_INTO_FUNCTION_CALL,
   UPGRADE_EXPRESSION_TO_BINARY,
   UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
   UPGRADE_LINE_TO_ASSIGNMENT,
@@ -47,6 +48,14 @@ export const removeBlock = ({ path }) => ({
     path,
   },
   type: REMOVE_BLOCK,
+});
+
+export const turnExpressionIntoFunctionCall = ({ path, value }) => ({
+  payload: {
+    path,
+    value,
+  },
+  type: TURN_EXPRESSION_INTO_FUNCTION_CALL,
 });
 
 export const updateFunction = ({ path, value, focusTarget }) => ({

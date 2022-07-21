@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
 import {
+  turnExpressionIntoFunctionCall,
   updateValueAtPath,
   upgradeExpressionToBinary,
   upgradeExpressionWithUnaryOperator,
@@ -129,6 +130,12 @@ export class ExpressionComponent extends CodeBlock {
             regex={EXPRESSION_REGEX}
             onUpdate={this.handleInputUpdate}
             onDelete={() => this.props.onDelete?.()}
+            onTurnIntoFunctionCall={(value) =>
+              this.props.turnExpressionIntoFunctionCall({
+                path: this.state.path,
+                value,
+              })
+            }
           />
         </div>
       );
@@ -137,6 +144,7 @@ export class ExpressionComponent extends CodeBlock {
 }
 
 export const Expression = connect(null, {
+  turnExpressionIntoFunctionCall,
   updateValueAtPath,
   upgradeExpressionToBinary,
   upgradeExpressionWithUnaryOperator,

@@ -11,6 +11,7 @@ import {
   UPGRADE_EXPRESSION_TO_BINARY,
   UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
   UPGRADE_LINE_TO_ASSIGNMENT,
+  TURN_EXPRESSION_INTO_FUNCTION_CALL,
 } from '../../actionTypes';
 import {
   createComment,
@@ -194,6 +195,11 @@ export function fileReducer(state = initialState, action) {
         },
         referenceTo: value.trim(),
       }));
+    }
+    case TURN_EXPRESSION_INTO_FUNCTION_CALL: {
+      const { path, value } = action.payload;
+      console.log(path, value);
+      return state;
     }
     default:
       return state;

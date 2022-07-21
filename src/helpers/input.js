@@ -22,6 +22,10 @@ export function isTab(event) {
   return event.code === 'Tab';
 }
 
+export function isOpenParenthesis(event) {
+  return event.key === '(';
+}
+
 export function isInputValid(regex, text) {
   if (!regex || !text) {
     return true;

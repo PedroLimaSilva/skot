@@ -91,6 +91,17 @@ export const initialState = {
           },
           referenceTo: 'value',
         },
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
+        {
+          _id: uuid(),
+          _type: STATEMENT_TYPES.FUNCTION_CALL,
+          args: [
+            { name: 'a', type: 'Number' },
+            { name: 'b', type: 'Number' },
+          ],
+          functionName: 'functionName',
+        },
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
       ],
     },
     STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),

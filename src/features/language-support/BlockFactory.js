@@ -1,9 +1,5 @@
 import { getIn } from 'immutable';
-import {
-  KEYSTROKE_MAP,
-  STATEMENT_FACTORY,
-  STATEMENT_TYPES,
-} from '.';
+import { KEYSTROKE_MAP, STATEMENT_FACTORY, STATEMENT_TYPES } from '.';
 
 export function focusById(id, focusPosition = 0, focusSpan, timeout = 0) {
   // TODO: Allow to select whole content

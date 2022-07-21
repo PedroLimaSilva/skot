@@ -10,6 +10,7 @@ import {
   isEnter,
   isHorizontalArrow,
   isVerticalArrow,
+  isOpenParenthesis,
 } from '../../../helpers/input';
 
 import './index.scss';
@@ -63,8 +64,6 @@ export class Input extends React.Component {
   handleKeydown = (e) => {
     const cursorPosition = e.target.selectionStart;
     if (isEnter(e)) {
-      console.log('ENTER', cursorPosition);
-
       this.props.onNewLine?.(cursorPosition);
       this.props.onUpdate?.(this.ref.current.value.slice(0, cursorPosition));
 
@@ -73,6 +72,10 @@ export class Input extends React.Component {
     if (isBackspace(e) && cursorPosition === 0) {
       this.props.onDelete?.();
       this.props.onDeleteLine?.(this.props.id, e.target.value);
+      return true;
+    }
+    if (isOpenParenthesis(e)) {
+      this.props.onTurnIntoFunctionCall?.(e.target.value);
       return true;
     }
     if (isHorizontalArrow(e)) {
@@ -160,6 +163,7 @@ Input.propTypes = {
   id: PropTypes.string,
   inline: PropTypes.bool,
   onNewLine: PropTypes.func,
+  onTurnIntoFunctionCall: PropTypes.func,
   onUpdate: PropTypes.func,
   regex: PropTypes.instanceOf(RegExp),
 };

@@ -21,23 +21,25 @@ class FunctionCall extends CodeBlock {
           id={_id}
           content={functionName}
           regex={VAR_NAME_REGEX}
-          onUpdate={(value) =>
-            this.props.updateValueAtPath({
-              path: [...this.state.path, 'functionName'],
-              value,
-            })
-          }
+          // TODO: Update declaration?
+          // onUpdate={(value) =>
+          //   this.props.updateValueAtPath({
+          //     path: [...this.state.path, 'functionName'],
+          //     value,
+          //   })
+          // }
         />
         <ParameterList
           list={args}
           id={_id}
-          onUpdate={(index, field, value, focusTarget) =>
-            this.props.updateFunction({
-              focusTarget,
-              path: [...this.state.path, 'args', index, field],
-              value,
-            })
-          }
+          // TODO: Update declaration?
+          // onUpdate={(index, field, value, focusTarget) =>
+          //   this.props.updateFunction({
+          //     focusTarget,
+          //     path: [...this.state.path, 'args', index, field],
+          //     value,
+          //   })
+          // }
         />
       </div>
     );

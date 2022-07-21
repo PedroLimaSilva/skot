@@ -19,8 +19,10 @@ function findFunctionInState(state, functionName) {
 
 export function getArgsForFunction(state, functionName) {
   const foundMatch = findFunctionInState(state, functionName);
-  if (foundMatch.args) {
+  if (foundMatch?.args) {
     return foundMatch.args;
   }
+
+  // TODO: Create function if none found
   return DEFAULT_ARGS;
 }

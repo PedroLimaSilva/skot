@@ -4,12 +4,12 @@ import {
   DELETE_DECLARATION,
   DELETE_LINE,
   REMOVE_BLOCK,
-  TURN_EXPRESSION_INTO_FUNCTION_CALL,
   UPGRADE_EXPRESSION_TO_BINARY,
   UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
   UPGRADE_LINE_TO_ASSIGNMENT,
   UPDATE_VALUE_AT_PATH,
   UPDATE_FUNCTION,
+  TURN_INTO_FUNCTION_CALL,
 } from './actionTypes';
 
 export const createLine = ({ cursorPosition, path }) => ({
@@ -50,12 +50,12 @@ export const removeBlock = ({ path }) => ({
   type: REMOVE_BLOCK,
 });
 
-export const turnExpressionIntoFunctionCall = ({ path, value }) => ({
+export const turnIntoFunctionCall = ({ path, value }) => ({
   payload: {
     path,
     value,
   },
-  type: TURN_EXPRESSION_INTO_FUNCTION_CALL,
+  type: TURN_INTO_FUNCTION_CALL,
 });
 
 export const updateFunction = ({ path, value, focusTarget }) => ({

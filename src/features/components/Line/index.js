@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   createLine,
   deleteLine,
+  turnIntoFunctionCall,
   updateContent,
   upgradeLineToAssignment,
 } from '../../../store/actions';
@@ -51,6 +52,12 @@ class Line extends CodeBlock {
               value,
             })
           }
+          onTurnIntoFunctionCall={(value) =>
+            this.props.turnIntoFunctionCall({
+              path: this.state.path,
+              value,
+            })
+          }
           onUpdate={(value) =>
             this.props.updateContent({
               path: this.state.path,
@@ -66,6 +73,7 @@ class Line extends CodeBlock {
 export default connect(null, {
   createLine,
   deleteLine,
+  turnIntoFunctionCall,
   updateContent,
   upgradeLineToAssignment,
 })(Line);

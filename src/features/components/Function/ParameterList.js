@@ -12,13 +12,14 @@ const TYPE_REGEX = /([A-Z][a-zA-Z]*)/gm;
 export class ParameterList extends React.Component {
   handleNameChange(value, i, focusTarget) {
     if (i >= 0) {
-      this.props.onUpdate(i, 'name', value, focusTarget);
+      // TODO: figure out what to do here in a function call
+      this.props.onUpdate?.(i, 'name', value, focusTarget);
     }
   }
 
   handleTypeChange(value, i, focusTarget) {
     if (i >= 0) {
-      this.props.onUpdate(i, 'type', value, focusTarget);
+      this.props?.onUpdate?.(i, 'type', value, focusTarget);
     }
   }
 

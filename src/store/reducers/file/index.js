@@ -21,6 +21,7 @@ import {
 } from '../../../features/language-support/BlockFactory.js';
 
 import { initialState } from './initialState';
+import { getArgsForFunction } from './intelisense';
 
 export function fileReducer(state = initialState, action) {
   switch (action.type) {
@@ -198,8 +199,16 @@ export function fileReducer(state = initialState, action) {
     }
     case TURN_EXPRESSION_INTO_FUNCTION_CALL: {
       const { path, value } = action.payload;
-      console.log(path, value);
-      return state;
+
+      return updateIn(state, path, (dispatcher) => {
+        focusById(`${dispatcher._id}_param_0_name`);
+        return {
+          _id: dispatcher._id,
+          _type: STATEMENT_TYPES.FUNCTION_CALL,
+          args: getArgsForFunction(state, value),
+          functionName: value,
+        };
+      });
     }
     default:
       return state;

@@ -6,10 +6,12 @@ import {
   upgradeExpressionToBinary,
   upgradeExpressionWithUnaryOperator,
 } from '../../../store/actions';
+import { STATEMENT_TYPES } from '../../language-support';
 
 import { CodeBlock } from '../CodeBlock';
 import { Input } from '../Input';
 import { Select } from '../Input/select';
+import FunctionCall from '../Function/Call';
 
 import './index.scss';
 
@@ -121,24 +123,37 @@ export class ExpressionComponent extends CodeBlock {
         </div>
       );
     } else {
-      return (
-        <div className='Expression' onInput={this.handleInput}>
-          <Input
-            id={this.props.id || expression._id}
-            content={expression.content}
-            inline
-            regex={EXPRESSION_REGEX}
-            onUpdate={this.handleInputUpdate}
-            onDelete={() => this.props.onDelete?.()}
-            onTurnIntoFunctionCall={(value) =>
-              this.props.turnExpressionIntoFunctionCall({
-                path: this.state.path,
-                value,
-              })
-            }
-          />
-        </div>
-      );
+      if (this.props.expression._type === STATEMENT_TYPES.EXPRESSION)
+        return (
+          <div className='Expression' onInput={this.handleInput}>
+            <Input
+              id={this.props.id || expression._id}
+              content={expression.content}
+              inline
+              regex={EXPRESSION_REGEX}
+              onUpdate={this.handleInputUpdate}
+              onDelete={() => this.props.onDelete?.()}
+              onTurnIntoFunctionCall={(value) =>
+                this.props.turnExpressionIntoFunctionCall({
+                  path: this.state.path,
+                  value,
+                })
+              }
+            />
+          </div>
+        );
+      else if (this.props.expression._type === STATEMENT_TYPES.FUNCTION_CALL) {
+        return (
+          <div className='Expression' onInput={this.handleInput}>
+            <FunctionCall
+              key={this.props.expression._id}
+              statement={this.props.expression}
+              path={this.props.path}
+              stateKeys={['content']}
+            />
+          </div>
+        );
+      }
     }
   }
 }

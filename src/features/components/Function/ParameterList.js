@@ -67,7 +67,7 @@ export class ParameterList extends React.Component {
             {this.renderParam(newArg, list.length)}
           </span>
         )}
-        <strong>): </strong>
+        <strong>)</strong>
       </span>
     );
   }

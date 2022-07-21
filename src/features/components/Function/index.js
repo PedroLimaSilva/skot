@@ -56,6 +56,7 @@ class Function extends CodeBlock {
               })
             }
           />
+          :
           <Input
             inline
             content={returnType}

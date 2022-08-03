@@ -39,6 +39,8 @@ const BINARY_OPERATORS = [
 export class ExpressionComponent extends CodeBlock {
   mutating = false;
 
+  pendingOperator = '';
+
   OPERATOR_MAP = {
     ' ': {
       effect: (value) => this.handleIncomingOperator(value, 'PENDING'),
@@ -56,15 +58,23 @@ export class ExpressionComponent extends CodeBlock {
   };
 
   handleInput = (e) => {
-    const key = e.nativeEvent.data;
+    let key = e.nativeEvent.data;
     let trigger = this.OPERATOR_MAP[key];
-    if (!trigger && BINARY_OPERATORS.includes(key)) {
-      trigger = this.OPERATOR_MAP.default;
+    if (!trigger) {
+      this.pendingOperator += key;
+      console.log('pending operator', this.pendingOperator);
+      if (
+        BINARY_OPERATORS.includes(key) ||
+        BINARY_OPERATORS.includes(this.pendingOperator)
+      ) {
+        trigger = this.OPERATOR_MAP.default;
+      }
     }
+
     if (trigger) {
       const currentValue = e.target.value;
       if (trigger.pre(e.target.value) || !trigger.pre) {
-        trigger.effect(currentValue, key);
+        trigger.effect(currentValue, this.pendingOperator);
         this.mutating = true;
       }
     }

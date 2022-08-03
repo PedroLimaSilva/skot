@@ -21,14 +21,14 @@ const FUNCTION_TYPE_REGEX = /([A-Z][a-zA-Z]*)/gm;
 
 class Function extends CodeBlock {
   render() {
-    const { id, args, name, returnType, statements } = this.props.statement;
+    const { _id, args, name, returnType, statements } = this.props.statement;
     return (
       <section className='Function'>
         <header>
           <strong>fun</strong>{' '}
           <Input
             inline
-            id={id}
+            id={_id}
             content={name}
             regex={FUNCTION_NAME_REGEX}
             onUpdate={(value) =>
@@ -46,7 +46,7 @@ class Function extends CodeBlock {
           <ParameterList
             list={args}
             showPlaceholder
-            id={id}
+            id={_id}
             onUpdate={(index, field, value, focusTarget) =>
               this.props.updateFunction({
                 focusTarget,

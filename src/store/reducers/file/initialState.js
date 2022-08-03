@@ -8,7 +8,7 @@ export const initialState = {
   _id: uuid(),
   statements: [
     STATEMENT_FACTORY[STATEMENT_TYPES.LINE]('this is a line'),
-    STATEMENT_FACTORY[STATEMENT_TYPES.COMMENT]('this is a comment'),
+    // STATEMENT_FACTORY[STATEMENT_TYPES.COMMENT]('this is a comment'),
     STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
     {
       _id: 'init_function',
@@ -79,7 +79,7 @@ export const initialState = {
           isVariable: false,
           name: 'value',
         },
-        STATEMENT_FACTORY[STATEMENT_TYPES.COMMENT]('this is a comment'),
+        // STATEMENT_FACTORY[STATEMENT_TYPES.COMMENT]('this is a comment'),
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
         {
           _id: uuid(),

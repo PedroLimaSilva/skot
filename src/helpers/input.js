@@ -1,3 +1,8 @@
+import {
+  KEYSTROKE_MAP,
+  SUPPORTED_LANGUAGES,
+} from '../features/language-support';
+
 export function isBackspace(event) {
   return event.code === 'Backspace';
 }
@@ -39,6 +44,12 @@ export function isInputValid(regex, text) {
     matchCoverage += matches[i].length;
   }
   return matchCoverage === text.length;
+}
+
+export function matchesKeyWord(string) {
+  return Object.keys(KEYSTROKE_MAP[SUPPORTED_LANGUAGES.KOTLIN]).includes(
+    string
+  );
 }
 
 export function getHorizontalDirection(event) {

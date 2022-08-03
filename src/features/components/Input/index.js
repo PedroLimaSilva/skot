@@ -11,6 +11,7 @@ import {
   isHorizontalArrow,
   isVerticalArrow,
   isOpenParenthesis,
+  matchesKeyWord,
 } from '../../../helpers/input';
 
 import './index.scss';
@@ -74,7 +75,7 @@ export class Input extends React.Component {
       this.props.onDeleteLine?.(this.props.id, e.target.value);
       return true;
     }
-    if (isOpenParenthesis(e)) {
+    if (isOpenParenthesis(e) & !matchesKeyWord(e.target.value + e.key)) {
       this.props.onTurnIntoFunctionCall?.(e.target.value);
       return true;
     }

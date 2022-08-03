@@ -96,8 +96,16 @@ export const initialState = {
           _id: uuid(),
           _type: STATEMENT_TYPES.FUNCTION_CALL,
           args: [
-            { name: 'a', type: 'Number' },
-            { name: 'b', type: 'Number' },
+            {
+              _id: uuid(),
+              _type: STATEMENT_TYPES.EXPRESSION,
+              content: '10',
+            },
+            {
+              _id: uuid(),
+              _type: STATEMENT_TYPES.EXPRESSION,
+              content: '20',
+            },
           ],
           functionName: 'functionName',
         },

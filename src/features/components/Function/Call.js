@@ -4,7 +4,7 @@ import { updateValueAtPath } from '../../../store/actions';
 import { CodeBlock } from '../CodeBlock';
 
 import { Input } from '../Input';
-import { ParameterList } from './ParameterList';
+import { CallParameterList } from './CallParameterList';
 
 import './index.scss';
 
@@ -21,7 +21,7 @@ class FunctionCall extends CodeBlock {
           id={_id}
           content={functionName}
           regex={VAR_NAME_REGEX}
-          // TODO: Update declaration?
+          // TODO: Update function name
           // onUpdate={(value) =>
           //   this.props.updateValueAtPath({
           //     path: [...this.state.path, 'functionName'],
@@ -29,17 +29,11 @@ class FunctionCall extends CodeBlock {
           //   })
           // }
         />
-        <ParameterList
+        <CallParameterList
           list={args}
+          path={this.state.path}
+          stateKeys={['args']}
           id={_id}
-          // TODO: Update declaration?
-          // onUpdate={(index, field, value, focusTarget) =>
-          //   this.props.updateFunction({
-          //     focusTarget,
-          //     path: [...this.state.path, 'args', index, field],
-          //     value,
-          //   })
-          // }
         />
       </div>
     );

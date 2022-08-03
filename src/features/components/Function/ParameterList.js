@@ -36,20 +36,18 @@ export class ParameterList extends React.Component {
             this.handleNameChange(value, i, `${this.props.id}_param_${i}_name`)
           }
         />
-        {this.props.showTypes && (
-          <span>
-            {': '}
-            <Input
-              inline
-              id={`${this.props.id}_param_${i}_type`}
-              content={type}
-              regex={TYPE_REGEX}
-              onUpdate={(e) =>
-                this.handleTypeChange(e, i, `${this.props.id}_param_${i}_type`)
-              }
-            />
-          </span>
-        )}
+        <span>
+          {': '}
+          <Input
+            inline
+            id={`${this.props.id}_param_${i}_type`}
+            content={type}
+            regex={TYPE_REGEX}
+            onUpdate={(e) =>
+              this.handleTypeChange(e, i, `${this.props.id}_param_${i}_type`)
+            }
+          />
+        </span>
         {list && i < list.length - 1 ? ', ' : ''}
       </span>
     );

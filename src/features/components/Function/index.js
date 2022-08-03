@@ -45,7 +45,6 @@ class Function extends CodeBlock {
           />{' '}
           <ParameterList
             list={args}
-            showTypes
             showPlaceholder
             id={id}
             onUpdate={(index, field, value, focusTarget) =>

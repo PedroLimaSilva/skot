@@ -4,6 +4,7 @@ import { updateValueAtPath } from '../../../store/actions';
 import { CodeBlock } from '../CodeBlock';
 
 import { Input } from '../Input';
+import LineCreator from '../LineCreator';
 import { CallParameterList } from './CallParameterList';
 
 import './index.scss';
@@ -35,6 +36,7 @@ class FunctionCall extends CodeBlock {
           stateKeys={['args']}
           id={_id}
         />
+        <LineCreator path={this.state.path} stateKeys={['lineAfter']} />
       </div>
     );
   }

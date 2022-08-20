@@ -7,7 +7,11 @@ export function focusById(id, focusPosition = 0, focusSpan, timeout = 0) {
     try {
       const input = document.getElementById(id);
       input.focus();
-      input.setSelectionRange?.(0, input.value.length, 'forward');
+      input.setSelectionRange?.(
+        focusPosition,
+        focusPosition + (isNaN(focusSpan) ? input.value.length : focusSpan),
+        'forward'
+      );
     } catch (e) {
       console.error(e, id);
     }

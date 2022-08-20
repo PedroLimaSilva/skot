@@ -12,12 +12,13 @@ import {
   isVerticalArrow,
   isOpenParenthesis,
   matchesKeyWord,
+  FOCUSABLE_ITEMS_QUERY,
 } from '../../../helpers/input';
 
 import './index.scss';
 
 export function findFocusIndex(target) {
-  const focusableItems = document.querySelectorAll('input, select');
+  const focusableItems = document.querySelectorAll(FOCUSABLE_ITEMS_QUERY);
   for (let i = 0, len = focusableItems.length; i < len; i++) {
     if (focusableItems[i] === target) {
       return i;
@@ -82,7 +83,7 @@ export class Input extends React.Component {
     if (isHorizontalArrow(e)) {
       const direction = getHorizontalDirection(e);
       const currentFocusIndex = findFocusIndex(e.target);
-      const focusableItems = document.querySelectorAll('input, select');
+      const focusableItems = document.querySelectorAll(FOCUSABLE_ITEMS_QUERY);
 
       if (direction === -1 && cursorPosition === 0 && currentFocusIndex > 0) {
         const newTarget = focusableItems[currentFocusIndex + direction];
@@ -105,7 +106,7 @@ export class Input extends React.Component {
     if (isVerticalArrow(e)) {
       const direction = getVerticalDirection(e);
       const currentFocusIndex = findFocusIndex(e.target);
-      const focusableItems = document.querySelectorAll('input, select');
+      const focusableItems = document.querySelectorAll(FOCUSABLE_ITEMS_QUERY);
 
       if (direction === -1 && currentFocusIndex > 0) {
         const newTarget = focusableItems[currentFocusIndex + direction];

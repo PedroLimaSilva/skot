@@ -4,6 +4,7 @@
   position: relative;
   height: 1.8em;
   padding: 0 0.5em;
+  padding-left: 0;
   min-width: 0.5em;
   color: inherit;
   font: inherit;
@@ -20,4 +21,16 @@
   &.alignRight {
     text-align: right;
   }
+}
+
+strong + {
+  .Input,
+  .Expression .Input,
+  span > .Expression .Input {
+    padding-left: 0.5em;
+  }
+}
+
+.Select + .Expression .Input {
+  padding-left: 0.5em;
 }

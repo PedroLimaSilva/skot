@@ -5,6 +5,7 @@ import { removeBlock, updateFunction } from '../../../store/actions';
 
 import { CodeBlock } from '../CodeBlock';
 import { Input } from '../Input';
+import LineCreator from '../LineCreator';
 import { StatementBlock } from '../StatementBlock';
 
 import './index.scss';
@@ -70,7 +71,10 @@ class Function extends CodeBlock {
           <strong>{'{'}</strong>
         </header>
         <StatementBlock statements={statements} path={this.state.path} />
-        <strong>{'}'}</strong>
+        <div style={{ display: 'flex' }}>
+          <strong>{'}'}</strong>
+          <LineCreator path={this.state.path} stateKeys={['lineAfter']} />
+        </div>
       </section>
     );
   }

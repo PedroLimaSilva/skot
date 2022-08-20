@@ -3,6 +3,8 @@ import {
   SUPPORTED_LANGUAGES,
 } from '../features/language-support';
 
+export const FOCUSABLE_ITEMS_QUERY = 'input, select, .LineCreator';
+
 export function isBackspace(event) {
   return event.code === 'Backspace';
 }

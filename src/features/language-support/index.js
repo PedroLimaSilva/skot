@@ -78,6 +78,7 @@ export const STATEMENT_FACTORY = {
             _type: STATEMENT_TYPES.EXPRESSION,
             content: 'true',
           },
+          else: [],
           statements: [STATEMENT_FACTORY[STATEMENT_TYPES.LINE]()],
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),

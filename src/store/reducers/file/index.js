@@ -1,6 +1,9 @@
 import { getIn, updateIn } from 'immutable';
 import { v4 as uuid } from 'uuid';
-import { STATEMENT_TYPES } from '../../../features/language-support';
+import {
+  STATEMENT_FACTORY,
+  STATEMENT_TYPES,
+} from '../../../features/language-support';
 import {
   CREATE_LINE,
   DELETE_LINE,
@@ -12,6 +15,7 @@ import {
   UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
   UPGRADE_LINE_TO_ASSIGNMENT,
   TURN_INTO_FUNCTION_CALL,
+  CREATE_LINE_AFTER,
 } from '../../actionTypes';
 import {
   createComment,
@@ -33,7 +37,7 @@ export function fileReducer(state = initialState, action) {
       const indexOfCurrentLine = path[path.length - 1];
 
       const dispatcher = getIn(state, path);
-      let newLine =
+      const newLine =
         dispatcher.type === STATEMENT_TYPES.COMMENT
           ? createComment(state, path, cursorPosition)
           : createLine(state, path, cursorPosition);
@@ -46,8 +50,26 @@ export function fileReducer(state = initialState, action) {
         ...value.slice(indexOfCurrentLine + 1),
       ]);
     }
+    case CREATE_LINE_AFTER: {
+      // Create a new Line Statement inside the emitting component
+      const { path, value } = action.payload;
+
+      const pathToParent = path.slice(0, path.length - 2);
+      const indexOfDispatcherStatement = path[path.length - 2];
+
+      const newLine = STATEMENT_FACTORY.LINE(value);
+      focusById(newLine._id, value.length + 1, 0);
+
+      return updateIn(state, pathToParent, (value) => [
+        ...value.slice(0, indexOfDispatcherStatement + 1),
+        newLine,
+        ...value.slice(indexOfDispatcherStatement + 1),
+      ]);
+    }
     case DELETE_LINE: {
       const { id, path, value } = action.payload;
+
+      console.log({ id, path, value });
 
       const indexOfCurrentLine = path[path.length - 1];
       if (indexOfCurrentLine === 0) {
@@ -56,25 +78,35 @@ export function fileReducer(state = initialState, action) {
 
       const pathToParent = path.slice(0, path.length - 1);
       // checking if sibling is LINE or COMMENT
-      const previousSibling = getIn(state, [
+      const previousSiblingType = getIn(state, [
         ...pathToParent,
         indexOfCurrentLine - 1,
-        'content',
+        '_type',
       ]);
-      if (previousSibling === undefined) {
-        return state;
+
+      let updatedSibling;
+      if (
+        previousSiblingType === STATEMENT_TYPES.COMMENT ||
+        previousSiblingType === STATEMENT_TYPES.LINE
+      ) {
+        updatedSibling = updateIn(
+          state,
+          [...pathToParent, indexOfCurrentLine - 1, 'content'],
+          (content) => content + value
+        );
+      } else {
+        updatedSibling = updateIn(
+          state,
+          [...pathToParent, indexOfCurrentLine - 1],
+          (content) => content // Do nothing
+        );
+        console.log(updatedSibling);
       }
 
       const blockToFocus = getIn(state, [
         ...pathToParent,
         indexOfCurrentLine - 1,
       ]);
-
-      const updatedSibling = updateIn(
-        state,
-        [...pathToParent, indexOfCurrentLine - 1, 'content'],
-        (content) => content + value
-      );
 
       focusById(blockToFocus._id);
 
@@ -205,7 +237,7 @@ export function fileReducer(state = initialState, action) {
         return {
           _id: dispatcher._id,
           _type: STATEMENT_TYPES.FUNCTION_CALL,
-          args: getArgsForFunction(state, value),
+          args: getArgsForFunction(state, value), // TODO: USE EXPRESSIONS AS ARGUMENTS
           functionName: value,
         };
       });

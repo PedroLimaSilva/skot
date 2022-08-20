@@ -9,12 +9,13 @@ import { StatementBlock } from '../StatementBlock';
 
 import './index.scss';
 import { Expression } from '../Expression';
+import LineCreator from '../LineCreator';
 
 class IfClause extends CodeBlock {
   render() {
     const { condition, statements } = this.props.statement;
     return (
-      <section className='Function'>
+      <section className='IfClause'>
         <header>
           <strong>if</strong>
           <strong>(</strong>
@@ -31,7 +32,10 @@ class IfClause extends CodeBlock {
           <strong>) {`{`}</strong>
         </header>
         <StatementBlock statements={statements} path={this.state.path} />
-        <strong>{'}'}</strong>
+        <div style={{ display: 'flex' }}>
+          <strong>{'}'}</strong>
+          <LineCreator path={this.state.path} stateKeys={['lineAfter']} />
+        </div>
       </section>
     );
   }

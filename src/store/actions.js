@@ -1,5 +1,6 @@
 import {
   CREATE_LINE,
+  CREATE_LINE_AFTER,
   UPDATE_CONTENT,
   DELETE_DECLARATION,
   DELETE_LINE,
@@ -119,4 +120,12 @@ export const deleteDeclaration = ({ id, path, value }) => ({
     value,
   },
   type: DELETE_DECLARATION,
+});
+
+export const createLineAfter = ({ path, value }) => ({
+  payload: {
+    path,
+    value,
+  },
+  type: CREATE_LINE_AFTER,
 });

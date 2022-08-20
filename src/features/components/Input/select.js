@@ -1,5 +1,6 @@
 import { findFocusIndex, Input } from '.';
 import {
+  FOCUSABLE_ITEMS_QUERY,
   getHorizontalDirection,
   isHorizontalArrow,
 } from '../../../helpers/input';
@@ -11,7 +12,7 @@ export class Select extends Input {
     if (isHorizontalArrow(e)) {
       const direction = getHorizontalDirection(e);
       const currentFocusIndex = findFocusIndex(e.target);
-      const focusableItems = document.querySelectorAll('input, select');
+      const focusableItems = document.querySelectorAll(FOCUSABLE_ITEMS_QUERY);
 
       if (direction === -1 && currentFocusIndex > 0) {
         const newTarget = focusableItems[currentFocusIndex + direction];

@@ -9,6 +9,7 @@ import { CodeBlock } from '../CodeBlock';
 
 import { Expression } from '../Expression';
 import { Input } from '../Input';
+import LineCreator from '../LineCreator';
 
 import './index.scss';
 
@@ -39,6 +40,7 @@ class Assignment extends CodeBlock {
           path={this.state.path}
           stateKeys={['content']}
         />
+        <LineCreator path={this.state.path} stateKeys={['lineAfter']} />
       </div>
     );
   }

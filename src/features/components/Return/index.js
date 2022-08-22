@@ -11,7 +11,7 @@ class Return extends CodeBlock {
   render() {
     return (
       <div className='Return'>
-        <span>{'return '}</span>
+        <strong>{'return '}</strong>
         <Expression
           id={this.props.statement._id}
           inline

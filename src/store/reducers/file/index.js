@@ -16,6 +16,7 @@ import {
   UPGRADE_LINE_TO_ASSIGNMENT,
   TURN_INTO_FUNCTION_CALL,
   CREATE_LINE_AFTER,
+  DELETE_EXPRESSION,
 } from '../../actionTypes';
 import {
   createComment,
@@ -28,6 +29,7 @@ import { initialState } from './initialState';
 import { getArgsForFunction } from './intelisense';
 
 export function fileReducer(state = initialState, action) {
+  console.warn('Caught action:', action);
   switch (action.type) {
     case CREATE_LINE: {
       // Create a new Line Statement inside the emitting component
@@ -118,6 +120,31 @@ export function fileReducer(state = initialState, action) {
 
       return removedDispatcher;
     }
+    case DELETE_EXPRESSION: {
+      const { id, path } = action.payload;
+      console.log(path);
+      const dispatcher = getIn(state, path);
+      const dispatcherParent = getIn(state, path.slice(0, path.length - 1));
+      console.log(dispatcher, dispatcherParent);
+      if (Array.isArray(dispatcherParent)) {
+        const dispatcherGrandParent = getIn(
+          state,
+          path.slice(0, path.length - 2)
+        );
+        dispatcherParent.splice(path[path.length - 1], 1);
+        console.log('parent', dispatcherParent);
+        console.log('dispatcherGrandParent', dispatcherGrandParent);
+        console.log('focusing on', dispatcherParent[0]);
+        focusById(dispatcherParent[0]._id);
+        return updateIn(
+          state,
+          path.slice(0, path.length - 2),
+          () => dispatcherParent[0]
+        );
+      }
+
+      return state;
+    }
     case UPDATE_CONTENT: {
       const { path, value } = action.payload;
 
@@ -190,7 +217,13 @@ export function fileReducer(state = initialState, action) {
     }
     case UPGRADE_EXPRESSION_TO_BINARY: {
       const { path, operator, value, focusTarget } = action.payload;
-      focusById(focusTarget);
+      const newValueId = uuid();
+      const actualFocusTarget =
+        focusTarget === 'operator'
+          ? `operator_${getIn(state, path)._id}`
+          : newValueId;
+
+      focusById(actualFocusTarget);
       return updateIn(state, path, (e) => {
         return {
           _id: e._id,
@@ -202,7 +235,7 @@ export function fileReducer(state = initialState, action) {
               content: value,
             },
             {
-              _id: uuid(),
+              _id: newValueId,
               _type: STATEMENT_TYPES.EXPRESSION,
               content: '0',
             },
@@ -243,6 +276,7 @@ export function fileReducer(state = initialState, action) {
       });
     }
     default:
+      console.warn('Unprocessed action:', action);
       return state;
   }
 }

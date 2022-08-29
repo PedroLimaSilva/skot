@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
 import {
+  deleteExpression,
   turnIntoFunctionCall,
   updateValueAtPath,
   upgradeExpressionToBinary,
@@ -87,16 +88,14 @@ export class ExpressionComponent extends CodeBlock {
     console.log('triggered operator possibility', value, operator);
     if (BINARY_OPERATORS.includes(operator) || operator === 'PENDING') {
       this.props.upgradeExpressionToBinary({
-        focusTarget:
-          operator === 'PENDING'
-            ? `operator_${this.props.expression._id}`
-            : `second_${this.props.expression._id}`,
+        focusTarget: operator === 'PENDING' ? `operator` : 'second',
         operator,
         path: this.state.path,
         value,
       });
     }
 
+    this.pendingOperator = '';
     this.mutating = false;
   };
 
@@ -116,6 +115,7 @@ export class ExpressionComponent extends CodeBlock {
         <div className='Expression'>
           {expression.content[1] && (
             <Expression
+              id={`${expression.content[0]._id}`}
               expression={expression.content[0]}
               path={this.state.path}
               stateKeys={['content', 0]}
@@ -128,7 +128,7 @@ export class ExpressionComponent extends CodeBlock {
             options={BINARY_OPERATORS}
           />
           <Expression
-            id={`second_${expression._id}`}
+            id={`${expression.content[1]._id}`}
             expression={expression.content[1]}
             path={this.state.path}
             stateKeys={['content', 1]}
@@ -145,7 +145,12 @@ export class ExpressionComponent extends CodeBlock {
               inline
               regex={EXPRESSION_REGEX}
               onUpdate={this.handleInputUpdate}
-              onDelete={() => this.props.onDelete?.()}
+              onDelete={() =>
+                this.props.deleteExpression({
+                  id: this.props.id || expression._id,
+                  path: this.state.path,
+                })
+              }
               onTurnIntoFunctionCall={(value) =>
                 this.props.turnIntoFunctionCall({
                   path: this.state.path,
@@ -172,6 +177,7 @@ export class ExpressionComponent extends CodeBlock {
 }
 
 export const Expression = connect(null, {
+  deleteExpression,
   turnIntoFunctionCall,
   updateValueAtPath,
   upgradeExpressionToBinary,

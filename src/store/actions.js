@@ -11,6 +11,7 @@ import {
   UPDATE_VALUE_AT_PATH,
   UPDATE_FUNCTION,
   TURN_INTO_FUNCTION_CALL,
+  DELETE_EXPRESSION,
 } from './actionTypes';
 
 export const createLine = ({ cursorPosition, path }) => ({
@@ -111,6 +112,14 @@ export const upgradeExpressionWithUnaryOperator = ({
     value,
   },
   type: UPGRADE_EXPRESSION_WITH_UNARY_OPERATOR,
+});
+
+export const deleteExpression = ({ id, path }) => ({
+  payload: {
+    id,
+    path,
+  },
+  type: DELETE_EXPRESSION,
 });
 
 export const deleteDeclaration = ({ id, path, value }) => ({

@@ -2,15 +2,19 @@ import { findFocusIndex, Input } from '.';
 import {
   FOCUSABLE_ITEMS_QUERY,
   getHorizontalDirection,
+  getVerticalDirection,
   isHorizontalArrow,
+  isVerticalArrow,
 } from '../../../helpers/input';
 
 import './select.scss';
 
 export class Select extends Input {
   handleKeydown = (e) => {
-    if (isHorizontalArrow(e)) {
-      const direction = getHorizontalDirection(e);
+
+    if(isHorizontalArrow(e) || isVerticalArrow(e)){
+      e.preventDefault();
+      const direction = isHorizontalArrow(e) ? getHorizontalDirection(e) : getVerticalDirection(e);
       const currentFocusIndex = findFocusIndex(e.target);
       const focusableItems = document.querySelectorAll(FOCUSABLE_ITEMS_QUERY);
 

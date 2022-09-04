@@ -7,7 +7,7 @@ import {
 export const initialState = {
   _id: uuid(),
   statements: [
-    STATEMENT_FACTORY[STATEMENT_TYPES.LINE]('this is a line'),
+    STATEMENT_FACTORY[STATEMENT_TYPES.LINE](`Lines that look gray won't run`),
     // STATEMENT_FACTORY[STATEMENT_TYPES.COMMENT]('this is a comment'),
     STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
     {

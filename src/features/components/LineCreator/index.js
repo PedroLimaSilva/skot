@@ -4,6 +4,7 @@ import {
   FOCUSABLE_ITEMS_QUERY,
   getHorizontalDirection,
   getVerticalDirection,
+  isEnter,
   isHorizontalArrow,
   isVerticalArrow,
 } from '../../../helpers/input';
@@ -15,6 +16,8 @@ import { findFocusIndex } from '../Input';
 import './index.scss';
 
 class LineCreator extends CodeBlock {
+  // TODO: LineCreator before
+
   handleKeydown = (e) => {
     if (isHorizontalArrow(e)) {
       const direction = getHorizontalDirection(e);
@@ -59,9 +62,13 @@ class LineCreator extends CodeBlock {
         );
       }
     }
+    if (isEnter(e)) {
+      this.handleInput(e);
+    }
   };
 
   handleInput = (e) => {
+    // TODO do the same on ENTER
     this.props.createLineAfter({
       path: this.state.path,
       value: e.target.value,
@@ -69,19 +76,10 @@ class LineCreator extends CodeBlock {
     e.target.value = '';
   };
 
-  handleOnClick = () => {
-    const { createLineAfter } = this.props;
-    createLineAfter({
-      path: this.state.path,
-      value: '',
-    });
-  };
-
   render() {
     return (
       <input
         className='LineCreator'
-        onClick={this.handleOnClick}
         onKeyDown={this.handleKeydown}
         onInput={this.handleInput}
         tabIndex={0}

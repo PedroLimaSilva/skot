@@ -121,8 +121,8 @@ export function fileReducer(state = initialState, action) {
       return removedDispatcher;
     }
     case DELETE_EXPRESSION: {
-      const { id, path } = action.payload;
-      console.log(path);
+      const { path } = action.payload;
+      
       const dispatcher = getIn(state, path);
       const dispatcherParent = getIn(state, path.slice(0, path.length - 1));
       console.log(dispatcher, dispatcherParent);

@@ -15,6 +15,7 @@ import { Select } from '../Input/select';
 import FunctionCall from '../Function/Call';
 
 import './index.scss';
+import { Fragment } from 'react';
 
 const EXPRESSION_REGEX = /[a-zA-Z0-9()_$]+/gm;
 
@@ -114,12 +115,15 @@ export class ExpressionComponent extends CodeBlock {
       return (
         <div className='Expression'>
           {expression.content[1] && (
-            <Expression
-              id={`${expression.content[0]._id}`}
-              expression={expression.content[0]}
-              path={this.state.path}
-              stateKeys={['content', 0]}
-            />
+            <Fragment>
+              {'('}
+              <Expression
+                id={`${expression.content[0]._id}`}
+                expression={expression.content[0]}
+                path={this.state.path}
+                stateKeys={['content', 0]}
+              />
+            </Fragment>
           )}
           {/* TODO: Create operator component to handle focusing next expression */}
           <Select
@@ -133,6 +137,7 @@ export class ExpressionComponent extends CodeBlock {
             path={this.state.path}
             stateKeys={['content', 1]}
           />
+          {')'}
         </div>
       );
     } else {

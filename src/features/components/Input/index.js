@@ -76,7 +76,11 @@ export class Input extends React.Component {
       this.props.onDeleteLine?.(this.props.id, e.target.value);
       return true;
     }
-    if (isOpenParenthesis(e) & !matchesKeyWord(e.target.value + e.key)) {
+    if (
+      e.target.value !== '' &&
+      isOpenParenthesis(e) &&
+      !matchesKeyWord(e.target.value + e.key)
+    ) {
       this.props.onTurnIntoFunctionCall?.(e.target.value);
       return true;
     }

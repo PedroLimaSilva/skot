@@ -113,5 +113,41 @@ export const initialState = {
       ],
     },
     STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
+    {
+      _id: 'function2',
+      _type: STATEMENT_TYPES.FUNCTION,
+      args: [{ name: 'a', type: 'String' }],
+      name: 'testIf',
+      returnType: 'Boolean',
+      statements: [
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
+        {
+          _id: 'init_declaration2',
+          _type: STATEMENT_TYPES.DECLARATION,
+          content: {
+            _id: uuid(),
+            _type: STATEMENT_TYPES.EXPRESSION,
+            content: '10',
+          },
+          isVariable: true,
+          name: 'variable',
+        },
+        // STATEMENT_FACTORY[STATEMENT_TYPES.COMMENT]('this is a comment'),
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
+        {
+          _id: uuid(),
+          _type: STATEMENT_TYPES.IF,
+          condition: {
+            _id: uuid(),
+            _type: STATEMENT_TYPES.EXPRESSION,
+            content: 'true',
+          },
+          elseBlock: [STATEMENT_FACTORY[STATEMENT_TYPES.LINE]('')], // [] else statements
+          statements: [STATEMENT_FACTORY[STATEMENT_TYPES.LINE]()],
+        },
+        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
+      ],
+    },
+    STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
   ],
 };

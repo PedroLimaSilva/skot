@@ -1,7 +1,11 @@
 .IfClause {
-  span {
+  strong {
     color: magenta;
     font-weight: bold;
+  }
+  .faded {
+    color: gray;
+    font-weight: normal;
   }
   .header {
     display: flex;

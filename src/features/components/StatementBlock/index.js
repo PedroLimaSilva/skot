@@ -15,6 +15,8 @@ import './index.scss';
 
 export class StatementBlock extends React.Component {
   renderStatements() {
+    const { statementBlockName = 'statements' } = this.props;
+
     return this.props.statements?.map((statement, i) => {
       switch (statement._type) {
         case STATEMENT_TYPES.ASSIGNMENT:
@@ -23,7 +25,7 @@ export class StatementBlock extends React.Component {
               key={statement._id}
               statement={statement}
               path={this.props.path}
-              stateKeys={['statements', i]}
+              stateKeys={[statementBlockName, i]}
             />
           );
         case STATEMENT_TYPES.COMMENT:
@@ -32,7 +34,7 @@ export class StatementBlock extends React.Component {
               key={statement._id}
               statement={statement}
               path={this.props.path}
-              stateKeys={['statements', i]}
+              stateKeys={[statementBlockName, i]}
             />
           );
         case STATEMENT_TYPES.LINE:
@@ -41,7 +43,7 @@ export class StatementBlock extends React.Component {
               key={statement._id}
               statement={statement}
               path={this.props.path}
-              stateKeys={['statements', i]}
+              stateKeys={[statementBlockName, i]}
             />
           );
         case STATEMENT_TYPES.IF:
@@ -50,7 +52,7 @@ export class StatementBlock extends React.Component {
               key={statement._id}
               statement={statement}
               path={this.props.path}
-              stateKeys={['statements', i]}
+              stateKeys={[statementBlockName, i]}
             />
           );
         case STATEMENT_TYPES.FUNCTION:
@@ -59,7 +61,7 @@ export class StatementBlock extends React.Component {
               key={statement._id}
               statement={statement}
               path={this.props.path}
-              stateKeys={['statements', i]}
+              stateKeys={[statementBlockName, i]}
             />
           );
         case STATEMENT_TYPES.RETURN:
@@ -68,7 +70,7 @@ export class StatementBlock extends React.Component {
               key={statement._id}
               statement={statement}
               path={this.props.path}
-              stateKeys={['statements', i]}
+              stateKeys={[statementBlockName, i]}
             />
           );
         case STATEMENT_TYPES.DECLARATION:
@@ -77,7 +79,7 @@ export class StatementBlock extends React.Component {
               key={statement._id}
               statement={statement}
               path={this.props.path}
-              stateKeys={['statements', i]}
+              stateKeys={[statementBlockName, i]}
             />
           );
         case STATEMENT_TYPES.FUNCTION_CALL:
@@ -86,7 +88,7 @@ export class StatementBlock extends React.Component {
               key={statement._id}
               statement={statement}
               path={this.props.path}
-              stateKeys={['statements', i]}
+              stateKeys={[statementBlockName, i]}
             />
           );
         default:

@@ -106,38 +106,28 @@ export const STATEMENT_FACTORY = {
       ],
     };
   },
-  /*
-  [STATEMENT_TYPES.ELSE]: () => {
-    const focusTarget = uuid();
-    return {
-      focusTarget,
-      newBlocks: [
-        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
-        {
-          _id: uuid(),
-          _type: STATEMENT_TYPES.ELSE,
-          statements: [{ _id: focusTarget, _type: STATEMENT_TYPES.LINE, content: '' }],
-        },
-        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
-      ],
-    };
-  },
   [STATEMENT_TYPES.WHILE]: () => {
     const focusTarget = uuid();
     return {
       focusTarget,
       newBlocks: [
-        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
           _id: focusTarget,
           _type: STATEMENT_TYPES.WHILE,
-          condition: '',
-          statements: [{ _id: uuid(), _type: STATEMENT_TYPES.LINE, content: '' }],
+          condition: {
+            _id: focusTarget,
+            _type: STATEMENT_TYPES.EXPRESSION,
+            content: 'false',
+          },
+          statements: [
+            { _id: uuid(), _type: STATEMENT_TYPES.LINE, content: '' },
+          ],
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
       ],
     };
   },
+  /*
   [STATEMENT_TYPES.FOR]: () => {
     const focusTarget = uuid();
     return {
@@ -172,7 +162,8 @@ export const KEYSTROKE_MAP = {
     ['val ']: STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION],
     ['var ']: () => STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION](true),
     // ['// ']: STATEMENT_FACTORY[STATEMENT_TYPES.DECLARATION],
-    // ['while']: STATEMENT_FACTORY[STATEMENT_TYPES.WHILE],
+    ['while ']: STATEMENT_FACTORY[STATEMENT_TYPES.WHILE],
+    ['while(']: STATEMENT_FACTORY[STATEMENT_TYPES.WHILE],
     // ['for']: STATEMENT_FACTORY[STATEMENT_TYPES.FOR],
   },
 };

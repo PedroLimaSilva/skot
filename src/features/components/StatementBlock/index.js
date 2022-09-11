@@ -10,6 +10,7 @@ import FunctionCall from '../Function/Call';
 import IfClause from '../If';
 import Declaration from '../Declaration';
 import Return from '../Return';
+import WhileClause from '../While';
 
 import './index.scss';
 
@@ -85,6 +86,15 @@ export class StatementBlock extends React.Component {
         case STATEMENT_TYPES.FUNCTION_CALL:
           return (
             <FunctionCall
+              key={statement._id}
+              statement={statement}
+              path={this.props.path}
+              stateKeys={[statementBlockName, i]}
+            />
+          );
+        case STATEMENT_TYPES.WHILE:
+          return (
+            <WhileClause
               key={statement._id}
               statement={statement}
               path={this.props.path}

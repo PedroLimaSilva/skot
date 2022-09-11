@@ -89,7 +89,7 @@ export const initialState = {
             _type: STATEMENT_TYPES.EXPRESSION,
             content: '10',
           },
-          referenceTo: 'value',
+          name: 'value',
         },
         STATEMENT_FACTORY[STATEMENT_TYPES.LINE](''),
         {

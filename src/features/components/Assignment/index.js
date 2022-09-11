@@ -18,17 +18,17 @@ const VAR_NAME_REGEX = /[a-zA-Z_$]+/gm;
 
 class Assignment extends CodeBlock {
   render() {
-    const { _id, referenceTo, content } = this.props.statement;
+    const { _id, name, content } = this.props.statement;
     return (
       <div className='Assignment'>
         <Input
           inline
           id={_id}
-          content={referenceTo}
+          content={name}
           regex={VAR_NAME_REGEX}
           onUpdate={(value) =>
             this.props.updateValueAtPath({
-              path: [...this.state.path, 'referenceTo'],
+              path: [...this.state.path, 'name'],
               value,
             })
           }

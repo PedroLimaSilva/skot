@@ -122,11 +122,12 @@ export function fileReducer(state = initialState, action) {
     }
     case DELETE_EXPRESSION: {
       const { path } = action.payload;
-      
+
       const dispatcher = getIn(state, path);
       const dispatcherParent = getIn(state, path.slice(0, path.length - 1));
       console.log(dispatcher, dispatcherParent);
       if (Array.isArray(dispatcherParent)) {
+        // called from inside a binary expression
         const dispatcherGrandParent = getIn(
           state,
           path.slice(0, path.length - 2)
@@ -141,8 +142,17 @@ export function fileReducer(state = initialState, action) {
           path.slice(0, path.length - 2),
           () => dispatcherParent[0]
         );
+      } else if (
+        dispatcherParent._type === STATEMENT_TYPES.DECLARATION ||
+        dispatcherParent._type === STATEMENT_TYPES.ASSIGNMENT
+      ) {
+        focusById(dispatcherParent._id, dispatcherParent.name.length, 0);
+        return updateIn(state, path.slice(0, path.length - 1), (parent) => ({
+          _id: parent._id,
+          _type: STATEMENT_TYPES.LINE,
+          content: parent.name,
+        }));
       }
-
       return state;
     }
     case UPDATE_CONTENT: {
@@ -259,7 +269,7 @@ export function fileReducer(state = initialState, action) {
           _type: STATEMENT_TYPES.EXPRESSION,
           content: '0',
         },
-        referenceTo: value.trim(),
+        name: value.trim(),
       }));
     }
     case TURN_INTO_FUNCTION_CALL: {

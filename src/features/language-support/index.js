@@ -33,7 +33,6 @@ export const STATEMENT_FACTORY = {
     return {
       focusTarget,
       newBlocks: [
-        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
           _id: focusTarget,
           _type: STATEMENT_TYPES.FUNCTION,
@@ -51,7 +50,6 @@ export const STATEMENT_FACTORY = {
     return {
       focusTarget,
       newBlocks: [
-        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
           _id: focusTarget,
           _type: STATEMENT_TYPES.RETURN,
@@ -69,7 +67,6 @@ export const STATEMENT_FACTORY = {
     return {
       focusTarget,
       newBlocks: [
-        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
           _id: uuid(),
           _type: STATEMENT_TYPES.IF,
@@ -90,7 +87,6 @@ export const STATEMENT_FACTORY = {
     return {
       focusTarget,
       newBlocks: [
-        STATEMENT_FACTORY[STATEMENT_TYPES.LINE](),
         {
           _id: focusTarget,
           _type: STATEMENT_TYPES.DECLARATION,

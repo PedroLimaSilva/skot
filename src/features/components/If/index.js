@@ -17,7 +17,6 @@ class IfClause extends CodeBlock {
   hasElseBlock(elseBlock) {
     for (let i = 0, len = elseBlock.length; i < len; i++) {
       const statement = elseBlock[i];
-      console.log(STATEMENT_TYPES.Line, statement);
       if (statement._type !== STATEMENT_TYPES.LINE) {
         return true;
       }

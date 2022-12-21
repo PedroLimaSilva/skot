@@ -1,6 +1,6 @@
 Latest live version
 
-https://meta-ide-pedrolimasilva.vercel.app/
+https://skot-ide.vercel.app/
 
 # Getting Started with Create React App
 

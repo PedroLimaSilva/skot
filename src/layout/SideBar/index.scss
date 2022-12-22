@@ -1,0 +1,31 @@
+.SideBar {
+  box-shadow:inset 0px 4px 5px rgba(0, 0, 0, 0.1);
+
+  grid-area: sidebar;
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: 3fr 1fr;
+
+  .Files {
+    > h2, >h1 {
+      margin: 1rem;
+      margin-bottom: 0.5em;
+    }
+    .File {
+      padding: 0.2em 0 0.2em 1em;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      &.open {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .About {
+    display: flex;
+    align-items: flex-end;
+    padding: 1em;
+  }
+}

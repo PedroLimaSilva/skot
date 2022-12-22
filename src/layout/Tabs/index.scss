@@ -1,0 +1,21 @@
+.Tabs {
+  border-bottom: 1px solid lightgray;
+  box-shadow: inset 3px -5px 5px rgba(0, 0, 0, 0.1);;
+  grid-area: tabs;
+  height: 2.5rem;
+  .Tab {
+    background: white;
+    border-right: 1px solid lightgray;
+    border-top: 5px solid lightskyblue;
+    border-bottom: none;
+    height: calc(100% + 1px);
+    max-width: 9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 3px -5px 5px rgba(0, 0, 0, 0.1);
+  }
+}

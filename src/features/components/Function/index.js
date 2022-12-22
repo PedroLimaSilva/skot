@@ -12,7 +12,7 @@ import './index.scss';
 import { ParameterList } from './ParameterList';
 
 // eslint-disable-next-line no-useless-escape
-const FUNCTION_NAME_REGEX = /[a-zA-Z_$]+/gm;
+const FUNCTION_NAME_REGEX = /[a-zA-Z_$]+[0-9a-zA-Z_$]*/gm;
 // eslint-disable-next-line no-useless-escape
 // eslint-disable-next-line no-unused-vars
 const FUNCTION_ARGUMENTS_REGEX =

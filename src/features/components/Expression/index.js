@@ -17,7 +17,7 @@ import FunctionCall from '../Function/Call';
 import './index.scss';
 import { Fragment } from 'react';
 
-const EXPRESSION_REGEX = /[a-zA-Z0-9()_$[\].]+/gm;
+const EXPRESSION_REGEX = /[a-zA-Z_$]+[a-zA-Z0-9()_$[\].]*/gm;
 
 // const UNARY_OPERATORS = ['!', '++', '--'];
 const BINARY_OPERATORS = [
